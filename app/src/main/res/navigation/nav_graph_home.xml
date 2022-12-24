@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_home"
+    app:startDestination="@id/weatherStatusFragment">
+
+    <fragment
+        android:id="@+id/weatherStatusFragment"
+        android:name="com.example.sportapp.WeatherStatusFragment"
+        android:label="fragment_weather_status"
+        tools:layout="@layout/fragment_weather_status" />
+    <fragment
+        android:id="@+id/allReviewsFragment"
+        android:name="com.example.sportapp.AllReviewsFragment"
+        android:label="fragment_all_reviews"
+        tools:layout="@layout/fragment_all_reviews" >
+        <action
+            android:id="@+id/action_allReviewsFragment_to_reviewDetailsFragment"
+            app:destination="@id/reviewDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myReviewsFragment"
+        android:name="com.example.sportapp.MyReviewsFragment"
+        android:label="fragment_my_reviews"
+        tools:layout="@layout/fragment_my_reviews" />
+    <fragment
+        android:id="@+id/editUserFragment"
+        android:name="com.example.sportapp.EditUserFragment"
+        android:label="fragment_edit_user"
+        tools:layout="@layout/fragment_edit_user" >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/newReviewFragment"
+        android:name="com.example.sportapp.newReviewFragment"
+        android:label="fragment_new_review"
+        tools:layout="@layout/fragment_new_review" >
+        <argument android:name="userEmail" />
+    </fragment>
+    <action android:id="@+id/action_global_editUserFragment" app:destination="@id/editUserFragment" />
+    <action android:id="@+id/action_global_newReviewFragment" app:destination="@id/newReviewFragment" />
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.example.sportapp.AddReviewFragment"
+        android:label="fragment_add_review"
+        tools:layout="@layout/fragment_add_review" >
+        <argument android:name="userEmail"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_addReviewFragment" app:destination="@id/addReviewFragment" />
+    <fragment
+        android:id="@+id/reviewDetailsFragment"
+        android:name="com.example.sportapp.ReviewDetailsFragment"
+        android:label="fragment_review_details"
+        tools:layout="@layout/fragment_review_details" >
+        <argument
+            android:name="pos"
+            app:argType="integer" />
+    </fragment>
+</navigation>

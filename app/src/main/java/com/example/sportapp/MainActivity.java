@@ -1,12 +1,17 @@
 package com.example.sportapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,20 +29,26 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         NavigationUI.setupActionBarWithNavController(this,navController);
 
-
-//        signIn=findViewById(R.id.mainAc_SignIn_btn);
-//        signUp=findViewById(R.id.mainAc_SignUp_btn);
-//
-//
-//        signIn.setOnClickListener((view -> {
-//            Intent signInIntent= new Intent(this, SignInActivity.class);
-//            startActivity(signInIntent);
-//        }));
-//
-//        signUp.setOnClickListener((view -> {
-//            Intent signUpIntent= new Intent(this, SignUpActivity.class);
-//            startActivity(signUpIntent);
-//        }));
-
     }
+
+    int fragmentMenuId = 0;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_menu_main_act,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home){
+            navController.popBackStack();
+        }else{
+            return NavigationUI.onNavDestinationSelected(item,navController);
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
