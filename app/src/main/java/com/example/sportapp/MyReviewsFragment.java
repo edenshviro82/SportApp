@@ -1,64 +1,149 @@
 package com.example.sportapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MyReviewsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.sportapp.model.Model;
+import com.example.sportapp.model.Review;
+
+import java.util.List;
+
+
 public class MyReviewsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    List<Review> data;
+    RecyclerView list;
+    MyReviewsFragment.ReviewRecyclerAdapter adapter;
+    Button add;
+    String email;
 
-    public MyReviewsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MyReviewsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MyReviewsFragment newInstance(String param1, String param2) {
-        MyReviewsFragment fragment = new MyReviewsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            this.email = "bundle.getString";
         }
     }
-
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_reviews, container, false);
+        super.onCreate(savedInstanceState);
+//
+       View view = inflater.inflate(R.layout.fragment_my_reviews, container, false);
+       email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
+       Log.d("TAG",email);
+        data = Model.instance().getMyReviews(email);
+        list = view.findViewById(R.id.myReviews_recycler);
+        list.setHasFixedSize(true);
+
+        list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
+        adapter = new MyReviewsFragment.ReviewRecyclerAdapter();
+        list.setAdapter(adapter);
+
+
+        adapter.setOnItemClickListener((int pos)-> {
+
+//
+//                    Log.d("TAG", "Row was clicked " + pos);
+//                    Review re = data.get(pos);
+//                    AllReviewsFragmentDirections.ActionAllReviewsFragmentToReviewDetailsFragment action = AllReviewsFragmentDirections.actionAllReviewsFragmentToReviewDetailsFragment(pos);
+//                    Navigation.findNavController(view).navigate(action);
+
+                }
+        );
+
+        return view;
+
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.notifyDataSetChanged();
+        //list.setAdapter(adapter);
+
+    }
+
+
+    //--------------------- view holder ---------------------------
+    class MyReviewsViewHolder extends RecyclerView.ViewHolder{
+        TextView cityTV;
+        TextView sportTV;
+        TextView descriptionTV;
+
+        public MyReviewsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+            super(itemView);
+            cityTV = itemView.findViewById(R.id.allReviewsRow_city);
+            sportTV = itemView.findViewById(R.id.allReviewsRow_sport_tv);
+            descriptionTV = itemView.findViewById(R.id.allReviewsRow_description_tv);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    listener.onItemClick(pos);
+                }
+            });
+        }
+
+        public void bind(Review re, int pos) {
+            cityTV.setText(re.getCity());
+            sportTV.setText(re.getSport());
+            descriptionTV.setText(re.getDescription());
+        }
+    }
+
+
+    //---------------------OnItemClickListener ---------------------------
+    public interface OnItemClickListener{
+        void onItemClick(int pos);
+    }
+
+
+
+    //---------------------Recycler adapter ---------------------------
+    class ReviewRecyclerAdapter extends RecyclerView.Adapter<MyReviewsViewHolder>{
+        OnItemClickListener listener;
+        void setOnItemClickListener(OnItemClickListener listener){
+            this.listener = listener;
+        }
+        @NonNull
+        @Override
+        public MyReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = getLayoutInflater().inflate(R.layout.all_reviews_row,parent,false);
+            return new MyReviewsViewHolder(view,listener);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyReviewsViewHolder holder, int position) {
+            Review re = data.get(position);
+            holder.bind(re,position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+   }
+
 }

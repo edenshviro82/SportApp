@@ -9,7 +9,11 @@
         android:id="@+id/weatherStatusFragment"
         android:name="com.example.sportapp.WeatherStatusFragment"
         android:label="fragment_weather_status"
-        tools:layout="@layout/fragment_weather_status" />
+        tools:layout="@layout/fragment_weather_status" >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/allReviewsFragment"
         android:name="com.example.sportapp.AllReviewsFragment"
@@ -23,7 +27,10 @@
         android:id="@+id/myReviewsFragment"
         android:name="com.example.sportapp.MyReviewsFragment"
         android:label="fragment_my_reviews"
-        tools:layout="@layout/fragment_my_reviews" />
+        tools:layout="@layout/fragment_my_reviews" >
+        <argument android:name="userEmail"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/editUserFragment"
         android:name="com.example.sportapp.EditUserFragment"
@@ -60,4 +67,7 @@
             android:name="pos"
             app:argType="integer" />
     </fragment>
+    <action android:id="@+id/action_global_myReviewsFragment" app:destination="@id/myReviewsFragment" />
+    <action android:id="@+id/action_global_allReviewsFragment" app:destination="@id/allReviewsFragment" />
+    <action android:id="@+id/action_global_weatherStatusFragment" app:destination="@id/weatherStatusFragment" />
 </navigation>

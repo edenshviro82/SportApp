@@ -31,7 +31,7 @@ import java.util.List;
 public class AllReviewsFragment extends Fragment {
 
 
-   List<Review> data;
+    List<Review> data;
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
     Button add;
@@ -59,11 +59,7 @@ public class AllReviewsFragment extends Fragment {
                     Review re = data.get(pos);
                     AllReviewsFragmentDirections.ActionAllReviewsFragmentToReviewDetailsFragment action = AllReviewsFragmentDirections.actionAllReviewsFragmentToReviewDetailsFragment(pos);
                     Navigation.findNavController(view).navigate(action);
-//                    //Log.d("TAG", "Row was clicked " + pos);
-//                    Intent intent = new Intent(this,StudentDetailsActivity.class);
-//                    intent.putExtra("pos",pos);
-//
-//                    startActivity(intent);
+
                 }
         );
 

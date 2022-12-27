@@ -38,6 +38,19 @@ public class Model {
     public List<Review> getAllReviews(){
         return allReviews;
     }
+    public List<Review> getMyReviews(String email){
+
+        List<Review> myReviews=new LinkedList<>();
+
+        for(Review r: allReviews)
+        {
+            if(r.getEmailOfOwner().equals(email))
+            {
+                myReviews.add(r);
+            }
+        }
+        return myReviews;
+    }
 
 
 
