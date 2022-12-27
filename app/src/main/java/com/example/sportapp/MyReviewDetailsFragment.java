@@ -26,26 +26,28 @@ public class MyReviewDetailsFragment extends Fragment {
     TextView cityTV, sportTV, descriptionTV, emailTV;
     Button backBtn,editBtn;
     Review re;
-    List<Review> data= Model.instance().getAllReviews();
+    String email;
+    List<Review> data;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_review_details, container, false);
         pos = MyReviewDetailsFragmentArgs.fromBundle(getArguments()).getPos();
+        email = MyReviewDetailsFragmentArgs.fromBundle(getArguments()).getUserEmail();
 
         cityTV = view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_city);
         sportTV = view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_sport);
         descriptionTV=view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_description);
         emailTV= view.findViewById(R.id.MyReviewDetailsFragment_details_tv_edit_mail);
-
+        data=Model.instance().getMyReviews(email);
         editBtn=view.findViewById(R.id.MyReviewDetailsFragment_edit_btn);
 
         re=data.get(pos);
         this.bind(re,pos);
 
         editBtn.setOnClickListener(view1 ->{
-            MyReviewDetailsFragmentDirections.ActionMyReviewDetailsFragmentToEditMyReviewFragment action = MyReviewDetailsFragmentDirections.actionMyReviewDetailsFragmentToEditMyReviewFragment(pos);
+            MyReviewDetailsFragmentDirections.ActionMyReviewDetailsFragmentToEditMyReviewFragment action = MyReviewDetailsFragmentDirections.actionMyReviewDetailsFragmentToEditMyReviewFragment(pos,email);
             Navigation.findNavController(view).navigate(action);
         } );
         return view;

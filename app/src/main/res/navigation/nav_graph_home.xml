@@ -84,6 +84,9 @@
         <action
             android:id="@+id/action_myReviewDetailsFragment_to_editMyReviewFragment"
             app:destination="@id/editMyReviewFragment" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editMyReviewFragment"
@@ -93,5 +96,7 @@
         <argument
             android:name="pos"
             app:argType="integer" />
+        <argument android:name="userEmail"
+            app:argType="string" />
     </fragment>
 </navigation>

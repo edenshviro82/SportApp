@@ -23,6 +23,7 @@ public class Model {
 
     List<Review> allReviews = new LinkedList<>();
     HashMap<String,User> userMap = new HashMap<>();
+    List<Review> myReviews=new LinkedList<>();
 
 
 
@@ -40,7 +41,7 @@ public class Model {
     }
     public List<Review> getMyReviews(String email){
 
-        List<Review> myReviews=new LinkedList<>();
+
 
         for(Review r: allReviews)
         {
@@ -53,7 +54,7 @@ public class Model {
     }
 
 
-
-
-
+    public void deleteMyReview(int pos) {
+        myReviews.remove(pos);
+    }
 }
