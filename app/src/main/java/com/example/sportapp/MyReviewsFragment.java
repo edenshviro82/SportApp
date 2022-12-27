@@ -62,13 +62,10 @@ public class MyReviewsFragment extends Fragment {
 
 
         adapter.setOnItemClickListener((int pos)-> {
-
-//
-//                    Log.d("TAG", "Row was clicked " + pos);
-//                    Review re = data.get(pos);
-//                    AllReviewsFragmentDirections.ActionAllReviewsFragmentToReviewDetailsFragment action = AllReviewsFragmentDirections.actionAllReviewsFragmentToReviewDetailsFragment(pos);
-//                    Navigation.findNavController(view).navigate(action);
-
+                    Log.d("TAG", "Row was clicked " + pos);
+                    Review re = data.get(pos);
+                    MyReviewsFragmentDirections.ActionMyReviewsFragmentToMyReviewDetailsFragment action = MyReviewsFragmentDirections.actionMyReviewsFragmentToMyReviewDetailsFragment(pos);
+                    Navigation.findNavController(view).navigate(action);
                 }
         );
 

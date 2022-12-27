@@ -30,6 +30,9 @@
         tools:layout="@layout/fragment_my_reviews" >
         <argument android:name="userEmail"
             app:argType="string" />
+        <action
+            android:id="@+id/action_myReviewsFragment_to_myReviewDetailsFragment"
+            app:destination="@id/myReviewDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editUserFragment"
@@ -70,4 +73,25 @@
     <action android:id="@+id/action_global_myReviewsFragment" app:destination="@id/myReviewsFragment" />
     <action android:id="@+id/action_global_allReviewsFragment" app:destination="@id/allReviewsFragment" />
     <action android:id="@+id/action_global_weatherStatusFragment" app:destination="@id/weatherStatusFragment" />
+    <fragment
+        android:id="@+id/myReviewDetailsFragment"
+        android:name="com.example.sportapp.MyReviewDetailsFragment"
+        android:label="fragment_my_review_details"
+        tools:layout="@layout/fragment_my_review_details" >
+        <argument
+            android:name="pos"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_myReviewDetailsFragment_to_editMyReviewFragment"
+            app:destination="@id/editMyReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editMyReviewFragment"
+        android:name="com.example.sportapp.EditMyReviewFragment"
+        android:label="fragment_edit_my_review"
+        tools:layout="@layout/fragment_edit_my_review" >
+        <argument
+            android:name="pos"
+            app:argType="integer" />
+    </fragment>
 </navigation>
