@@ -56,16 +56,21 @@ public class EditMyReviewFragment extends Fragment {
         save.setOnClickListener(view1 -> {
             this.bindBack(pos);
             Navigation.findNavController(view1).popBackStack();
+
+
         });
 
         delete.setOnClickListener(view1->{
             Model.instance().deleteReview(re.getId());
             Navigation.findNavController(view1).popBackStack();
+            Navigation.findNavController(view1).popBackStack();
+
 
         });
         cancel.setOnClickListener(view1 ->
         {
             Navigation.findNavController(view1).popBackStack();
+
         });
 
 
