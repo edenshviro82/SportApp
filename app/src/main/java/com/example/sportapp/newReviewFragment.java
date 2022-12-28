@@ -72,8 +72,8 @@ public class newReviewFragment extends Fragment {
             String description= binding.newReviewDescriptionInputEt.getText().toString();
 
 
-            Review newR= new Review("0",email,description,city,sport,"");
-            Model.instance().getAllReviews().add(newR);
+//            Review newR= new Review(id,email,description,city,sport,"");
+//            Model.instance().getAllReviews().add(newR);
 
             Log.d("TAG","num of reviews : "+Model.instance().getAllReviews().size());
         }));

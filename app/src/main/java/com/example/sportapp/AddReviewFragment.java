@@ -27,7 +27,7 @@ import com.example.sportapp.model.Review;
 
 
 public class AddReviewFragment extends Fragment {
-
+    int id=0;
     FragmentAddReviewBinding binding;
     Button saveBtn,cancelBtn;
     String email;
@@ -55,7 +55,6 @@ public class AddReviewFragment extends Fragment {
         },this, Lifecycle.State.RESUMED);
 
     }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -70,12 +69,13 @@ public class AddReviewFragment extends Fragment {
             String city = binding.addReviewCitysInputEt.getText().toString();
             String sport = binding.addReviewSportInputEt.getText().toString();
             String description = binding.addReviewDescriptionInputEt.getText().toString();
+            id++;
 
-
-            Review newR = new Review("0", email, description, city, sport, "");
+            Review newR = new Review(id, email, description, city, sport, "");
             Model.instance().getAllReviews().add(newR);
 
             Log.d("TAG", "num of reviews : " + Model.instance().getAllReviews().size());
+            Log.d("TAG", "review id : " + id);
             Navigation.findNavController(view).popBackStack();
         }));
 

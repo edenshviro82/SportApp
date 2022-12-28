@@ -41,8 +41,6 @@ public class Model {
     }
     public List<Review> getMyReviews(String email){
 
-
-
         for(Review r: allReviews)
         {
             if(r.getEmailOfOwner().equals(email))
@@ -52,9 +50,16 @@ public class Model {
         }
         return myReviews;
     }
+    public int getIndexByReviewId(int id)
+    {
+        for(int i=0; i<allReviews.size(); i++)
+            if(allReviews.get(i).getId()==id)
+                return i;
+        return -1;
+    }
 
+    public void deleteReview(int id) {
 
-    public void deleteMyReview(int pos) {
-        myReviews.remove(pos);
+        allReviews.remove(getIndexByReviewId(id));
     }
 }

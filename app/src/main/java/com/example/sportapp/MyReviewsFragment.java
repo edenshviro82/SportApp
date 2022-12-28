@@ -20,29 +20,30 @@ import android.widget.TextView;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class MyReviewsFragment extends Fragment {
 
 
-    List<Review> data;
+    List<Review>  data= new LinkedList<>();
     RecyclerView list;
     MyReviewsFragment.ReviewRecyclerAdapter adapter;
     Button add;
     String email;
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            this.email = "bundle.getString";
-        }
-    }
+//        @Override
+//        public void onCreate(@Nullable Bundle savedInstanceState) {
+//            super.onCreate(savedInstanceState);
+//
+//
+//            Bundle bundle = getArguments();
+//            if (bundle != null) {
+//                this.email = "bundle.getString";
+//            }
+//        }
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +53,8 @@ public class MyReviewsFragment extends Fragment {
        View view = inflater.inflate(R.layout.fragment_my_reviews, container, false);
        email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
        Log.d("TAG",email);
-        data = Model.instance().getMyReviews(email);
+       data=Model.instance().getAllReviews() ;
+        data = this.getMyReviews(email);
         list = view.findViewById(R.id.myReviews_recycler);
         list.setHasFixedSize(true);
 
@@ -76,8 +78,12 @@ public class MyReviewsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        data = this.getMyReviews(email);
         adapter.notifyDataSetChanged();
+
         //list.setAdapter(adapter);
+        Log.d("TAG", "MyReview   was clicked " + data.size());
+
 
     }
 
@@ -135,6 +141,7 @@ public class MyReviewsFragment extends Fragment {
         public void onBindViewHolder(@NonNull MyReviewsViewHolder holder, int position) {
             Review re = data.get(position);
             holder.bind(re,position);
+
         }
 
         @Override
@@ -142,5 +149,18 @@ public class MyReviewsFragment extends Fragment {
             return data.size();
         }
    }
+
+    public List<Review> getMyReviews(String email){
+
+        List<Review> newL = new LinkedList<>();
+        for(Review r: Model.instance().getAllReviews())
+        {
+            if(r.getEmailOfOwner().equals(email))
+            {
+                newL.add(r);
+            }
+        }
+        return newL;
+    }
 
 }

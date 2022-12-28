@@ -96,7 +96,8 @@
         <argument
             android:name="pos"
             app:argType="integer" />
-        <argument android:name="userEmail"
+        <argument
+            android:name="userEmail"
             app:argType="string" />
     </fragment>
 </navigation>

@@ -2,14 +2,14 @@ package com.example.sportapp.model;
 
 public class Review {
 
-    String id;
+    int id;
     String emailOfOwner;
     String city;
     String sport;
     String img;
     String description;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -21,7 +21,7 @@ public class Review {
         this.description = description;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -57,7 +57,7 @@ public class Review {
         this.img = img;
     }
 
-    public Review(String id, String emailOfOwner,String description, String city, String sport, String img) {
+    public Review(int id, String emailOfOwner,String description, String city, String sport, String img) {
         this.id = id;
         this.emailOfOwner = emailOfOwner;
         this.city = city;

@@ -71,9 +71,10 @@ public class AllReviewsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         adapter.notifyDataSetChanged();
-            //list.setAdapter(adapter);
+        //list.setAdapter(adapter);
 
-        }
+
+    }
 
     //--------------------- view holder ---------------------------
     class StudentViewHolder extends RecyclerView.ViewHolder{
