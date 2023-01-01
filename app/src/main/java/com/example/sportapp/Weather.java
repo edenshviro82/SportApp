@@ -18,7 +18,7 @@ import okhttp3.Response;
 public class Weather {
 
         String icon;
-        String description;
+        String description,state;
         double temperature;
 
     public static Weather getWeatherDataForCity(String city) {
@@ -52,9 +52,9 @@ public class Weather {
                         JSONObject json = new JSONObject(responseBody);
 
                         Weather data = new Weather();
-                        data.icon = updateIcon(json.getJSONArray("weather").getJSONObject(0).getInt("main"));
+                        data.icon = updateIcon(json.getJSONArray("weather").getJSONObject(0).getInt("id"));
                         data.description = json.getJSONArray("weather").getJSONObject(0).getString("description");
-                        data.temperature = json.getJSONObject("main").getDouble("temp");
+                        data.temperature = json.getJSONObject("main").getDouble("temp")-273.27;
                         return data;
                     } else {
                         // An error occurred, return null

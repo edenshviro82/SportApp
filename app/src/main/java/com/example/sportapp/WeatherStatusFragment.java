@@ -1,13 +1,10 @@
 package com.example.sportapp;
 
-import android.graphics.drawable.Drawable;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -15,30 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import cz.msebera.android.httpclient.Header;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class WeatherStatusFragment extends Fragment {
 
@@ -46,8 +23,10 @@ public class WeatherStatusFragment extends Fragment {
 
 
 
-    String city,email,temp,icon,type,description;;
-    TextView temperature,state;
+    String email,temp,icon,type,description;;
+    TextView temperature,city,sport;
+    TextView prop1Headline,prop2Headline,prop3Headline,prop4Headline,prop5Headline;
+    TextView prop1,prop2,prop3,prop4,prop5;
     int stateCode;
     ImageView weatherIcon;
     User user;
@@ -56,15 +35,31 @@ public class WeatherStatusFragment extends Fragment {
 
 
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_weather_status, container, false);
 
-        state=view.findViewById(R.id.weather_state_tv);
+        city=view.findViewById(R.id.weather_city_tv);
         temperature=view.findViewById(R.id.weather_degree_tv);
         weatherIcon=view.findViewById(R.id.weather_icon_iv);
+        sport=view.findViewById(R.id.weather_sport_tv);
+
+        prop1Headline=view.findViewById(R.id.weather_prop1_headline_tv);
+        prop2Headline=view.findViewById(R.id.weather_prop2_headline_tv);
+        prop3Headline=view.findViewById(R.id.weather_prop3_headline_tv);
+        prop4Headline=view.findViewById(R.id.weather_prop4_headline_tv);
+        prop5Headline=view.findViewById(R.id.weather_prop5_headline_tv);
+        prop1=view.findViewById(R.id.weather_prop1_tv);
+        prop2=view.findViewById(R.id.weather_prop2_tv);
+        prop3=view.findViewById(R.id.weather_prop3_tv);
+        prop4=view.findViewById(R.id.weather_prop4_tv);
+        prop5=view.findViewById(R.id.weather_prop5_tv);
+
+
+
         email = WeatherStatusFragmentArgs.fromBundle(getArguments()).getUserEmail();
         Log.d("TAG",email);
         user=Model.instance().getAllUsers().get(email);
@@ -77,10 +72,10 @@ public class WeatherStatusFragment extends Fragment {
 
     private void updateUI(Weather data) {
 
-        temperature.setText(" °C");
-        int iconId = getResources().getIdentifier("com.example.sportapp:drawable/" + data.icon, null, null);
-        Drawable icon = ContextCompat.getDrawable(getContext(), iconId);
-        weatherIcon.setImageDrawable(icon);
+          int roundTemp=(int)Math.round(data.temperature);
+          temperature.setText(roundTemp+" °C");
+          int drawableResourceId = getResources().getIdentifier(data.icon, "drawable", getActivity().getPackageName());
+          weatherIcon.setImageResource(drawableResourceId);
 
     }
 
