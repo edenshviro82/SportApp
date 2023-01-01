@@ -41,7 +41,7 @@ public class EditUserFragment extends Fragment {
     Button saveBtn,cancelBtn;
     Spinner sportSpinner;
     String sport;
-    String[] type={"running","swimming"};
+    String[] type=Model.instance().getType();
 
 
 

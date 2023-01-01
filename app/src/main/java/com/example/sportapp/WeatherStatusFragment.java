@@ -64,7 +64,7 @@ public class WeatherStatusFragment extends Fragment {
         Log.d("TAG",email);
         user=Model.instance().getAllUsers().get(email);
         // Get the temperature for a specific city
-        data=Weather.getWeatherDataForCity(user.getCity());
+        data=Weather.getWeatherDataForCity(user.getCity(),user.getSport());
         updateUI(data);
 
         return view;
@@ -76,6 +76,22 @@ public class WeatherStatusFragment extends Fragment {
           temperature.setText(roundTemp+" °C");
           int drawableResourceId = getResources().getIdentifier(data.icon, "drawable", getActivity().getPackageName());
           weatherIcon.setImageResource(drawableResourceId);
+          city.setText(user.getCity());
+          sport.setText("Chosen sport: "+user.getSport());
+
+        prop1Headline.setText("");
+        prop2Headline.setText("");
+        prop3Headline.setText("");
+        prop4Headline.setText("");
+        prop5Headline.setText("");
+        prop1.setText("");
+        prop2.setText("");
+        prop3.setText("");
+        prop4.setText("");
+        prop5.setText("");
+
+
+
 
     }
 
@@ -85,7 +101,7 @@ public class WeatherStatusFragment extends Fragment {
         super.onResume();
         user=Model.instance().getAllUsers().get(email);
         // Get the temperature for a specific city
-        data=Weather.getWeatherDataForCity(user.getCity());
+        data=Weather.getWeatherDataForCity(user.getCity(),user.getSport());
         updateUI(data);
     }
 

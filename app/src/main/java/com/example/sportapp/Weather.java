@@ -1,5 +1,7 @@
 package com.example.sportapp;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,11 +19,12 @@ import okhttp3.Response;
 
 public class Weather {
 
+
         String icon;
         String description,state;
         double temperature;
 
-    public static Weather getWeatherDataForCity(String city) {
+    public static Weather getWeatherDataForCity(String city,String sport) {
 
         String apiKey="f501c3b6c235bca43062ed483367a3d9";
 
@@ -55,6 +58,33 @@ public class Weather {
                         data.icon = updateIcon(json.getJSONArray("weather").getJSONObject(0).getInt("id"));
                         data.description = json.getJSONArray("weather").getJSONObject(0).getString("description");
                         data.temperature = json.getJSONObject("main").getDouble("temp")-273.27;
+                        Log.d("json", String.valueOf(json));
+
+                        switch (sport) {
+                            case "swimming":
+                                break;
+                            case "running":
+                                // do something for running
+                                break;
+                            case "skiing":
+                                // do something for skiing
+                                break;
+                            case "kiting":
+                                // do something for kiting
+                                break;
+                            case "surfing":
+                                // do something for surfing
+                                break;
+                            case "tennis":
+                                // do something for tennis
+                                break;
+                            default:
+                                // do something for any other activity
+                        }
+
+
+
+
                         return data;
                     } else {
                         // An error occurred, return null

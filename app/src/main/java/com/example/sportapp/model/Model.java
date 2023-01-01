@@ -24,8 +24,11 @@ public class Model {
     List<Review> allReviews = new LinkedList<>();
     HashMap<String,User> userMap = new HashMap<>();
     List<Review> myReviews=new LinkedList<>();
+    String[] type={"swimming","running","skiing","kiting","surfing","tennis"};
 
-
+    public String[] getType() {
+        return type;
+    }
 
     public void addUser(User u){userMap.put(u.email,u);}
     public HashMap<String,User> getAllUsers(){

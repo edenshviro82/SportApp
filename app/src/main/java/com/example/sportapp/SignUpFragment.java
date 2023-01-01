@@ -46,7 +46,7 @@ public class SignUpFragment extends Fragment  {
     Spinner sportSpinner;
     private NavDirections action;
     AutoCompleteTextView sportAutoComplete;
-    String[] type={"running","swimming"};
+    String[] type=Model.instance().getType();
     String sport;
 
 

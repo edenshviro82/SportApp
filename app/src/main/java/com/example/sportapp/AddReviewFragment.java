@@ -37,7 +37,7 @@ public class AddReviewFragment extends Fragment {
     Spinner sportSpinner;
     String sport;
     String email;
-    String[] type={"running","swimming"};
+    String[] type=Model.instance().getType();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
