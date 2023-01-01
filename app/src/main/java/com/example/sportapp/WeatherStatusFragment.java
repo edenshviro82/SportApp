@@ -64,7 +64,7 @@ public class WeatherStatusFragment extends Fragment {
         Log.d("TAG",email);
         user=Model.instance().getAllUsers().get(email);
         // Get the temperature for a specific city
-        data=Weather.getWeatherDataForCity(user.getCity(),user.getSport());
+        data=Weather.getWeatherDataForCity(user.getCity());
         updateUI(data);
 
         return view;
@@ -90,7 +90,31 @@ public class WeatherStatusFragment extends Fragment {
         prop4.setText("");
         prop5.setText("");
 
+        switch (user.getSport()) {
+            case "swimming":
+                break;
+            case "running":
+                // do something for running
+                break;
+            case "skiing":
+                // do something for skiing
+                break;
+            case "kiting":
+                prop1Headline.setText("Wind Speed: ");
+                prop1.setText(data.windSpeed);
+                prop2Headline.setText("Wind Degrees: ");
+                prop2.setText(data.windDirection);
 
+                break;
+            case "surfing":
+                // do something for surfing
+                break;
+            case "tennis":
+                // do something for tennis
+                break;
+            default:
+                // do something for any other activity
+        }
 
 
     }
@@ -101,7 +125,7 @@ public class WeatherStatusFragment extends Fragment {
         super.onResume();
         user=Model.instance().getAllUsers().get(email);
         // Get the temperature for a specific city
-        data=Weather.getWeatherDataForCity(user.getCity(),user.getSport());
+        data=Weather.getWeatherDataForCity(user.getCity());
         updateUI(data);
     }
 

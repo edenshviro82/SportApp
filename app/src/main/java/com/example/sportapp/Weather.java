@@ -22,9 +22,10 @@ public class Weather {
 
         String icon;
         String description,state;
+        String windSpeed, windDirection;
         double temperature;
 
-    public static Weather getWeatherDataForCity(String city,String sport) {
+    public static Weather getWeatherDataForCity(String city) {
 
         String apiKey="f501c3b6c235bca43062ed483367a3d9";
 
@@ -58,31 +59,39 @@ public class Weather {
                         data.icon = updateIcon(json.getJSONArray("weather").getJSONObject(0).getInt("id"));
                         data.description = json.getJSONArray("weather").getJSONObject(0).getString("description");
                         data.temperature = json.getJSONObject("main").getDouble("temp")-273.27;
-                        Log.d("json", String.valueOf(json));
-
-                        switch (sport) {
-                            case "swimming":
+                        data.windSpeed=json.getJSONObject("wind").getString("speed"); //meter/sec
+                        double windDegree = json.getJSONObject("wind").getDouble("deg");
+                        switch ((int) (windDegree / 22.5)) {
+                            case 1:
+                                data.windDirection = "north.";
                                 break;
-                            case "running":
-                                // do something for running
+                            case 2:
+                                data.windDirection = "northeast.";
                                 break;
-                            case "skiing":
-                                // do something for skiing
+                            case 3:
+                                data.windDirection = "east.";
                                 break;
-                            case "kiting":
-                                // do something for kiting
+                            case 4:
+                                data.windDirection = "southeast.";
                                 break;
-                            case "surfing":
-                                // do something for surfing
+                            case 5:
+                                data.windDirection = "south.";
                                 break;
-                            case "tennis":
-                                // do something for tennis
+                            case 6:
+                                data.windDirection = "southwest.";
+                                break;
+                            case 7:
+                                data.windDirection = "west.";
+                                break;
+                            case 8:
+                                data.windDirection = "northwest.";
                                 break;
                             default:
-                                // do something for any other activity
+                                data.windDirection = "not recognized.";
                         }
 
 
+                        Log.d("json", String.valueOf(json));
 
 
                         return data;
