@@ -29,16 +29,16 @@ public class HomeActivity extends AppCompatActivity {
     private NavDirections action;
     private  NavDirections action2;
     Activity t;
+    static String s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        s=getPackageName();
         t=this;
         Intent thisI = getIntent();
         userEmail = thisI.getStringExtra("userEmail");
-
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.home_navhost);
         navController = navHostFragment.getNavController();
@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.weatherStatusFragment:
-                        action= WeatherStatusFragmentDirections.actionGlobalAllReviewsFragment();
+                        action= WeatherStatusFragmentDirections.actionGlobalWeatherStatusFragment(userEmail);
                         Navigation.findNavController(t, R.id.home_navhost).navigate(action);
                         return true;
                     default:
@@ -111,9 +111,13 @@ public class HomeActivity extends AppCompatActivity {
 //                Navigation.findNavController(this, R.id.home_navhost).navigate(action);
 //                return true;
 
+
             default:
                 return NavigationUI.onNavDestinationSelected(item,navController);
 
         }
+
     }
+
+    public static String getPackage(){return s;}
 }

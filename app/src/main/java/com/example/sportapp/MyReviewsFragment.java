@@ -34,16 +34,7 @@ public class MyReviewsFragment extends Fragment {
     String email;
 
 
-//        @Override
-//        public void onCreate(@Nullable Bundle savedInstanceState) {
-//            super.onCreate(savedInstanceState);
-//
-//
-//            Bundle bundle = getArguments();
-//            if (bundle != null) {
-//                this.email = "bundle.getString";
-//            }
-//        }
+
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
