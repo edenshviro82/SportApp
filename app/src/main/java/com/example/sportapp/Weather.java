@@ -22,14 +22,14 @@ public class Weather {
 
         String icon;
         String description,state;
-        String windSpeed, windDirection;
+        String windSpeed, windDirection,weatherDescription;
         double temperature;
 
     public static Weather getWeatherDataForCity(String city) {
 
         String apiKey="f501c3b6c235bca43062ed483367a3d9";
 
-        // Create the request URL
+
         String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
         // Create a new OkHttpClient
@@ -61,35 +61,8 @@ public class Weather {
                         data.temperature = json.getJSONObject("main").getDouble("temp")-273.27;
                         data.windSpeed=json.getJSONObject("wind").getString("speed"); //meter/sec
                         double windDegree = json.getJSONObject("wind").getDouble("deg");
-                        switch ((int) (windDegree / 22.5)) {
-                            case 1:
-                                data.windDirection = "north.";
-                                break;
-                            case 2:
-                                data.windDirection = "northeast.";
-                                break;
-                            case 3:
-                                data.windDirection = "east.";
-                                break;
-                            case 4:
-                                data.windDirection = "southeast.";
-                                break;
-                            case 5:
-                                data.windDirection = "south.";
-                                break;
-                            case 6:
-                                data.windDirection = "southwest.";
-                                break;
-                            case 7:
-                                data.windDirection = "west.";
-                                break;
-                            case 8:
-                                data.windDirection = "northwest.";
-                                break;
-                            default:
-                                data.windDirection = "not recognized.";
-                        }
-
+                        data.windDirection= calcWindDirection(windDegree);
+                        data.weatherDescription = json.getJSONArray("weather").getJSONObject(0).getString("description");
 
                         Log.d("json", String.valueOf(json));
 
@@ -114,7 +87,44 @@ public class Weather {
             return null;
         }
     }
-
+    private static String calcWindDirection(double windDegree) {
+        int windDegreeInt = (int) windDegree;
+        if (windDegreeInt >= 348.75 || windDegreeInt < 11.25) {
+            return "North";
+        } else if (windDegreeInt >= 11.25 && windDegreeInt < 33.75) {
+            return "North-Northeast";
+        } else if (windDegreeInt >= 33.75 && windDegreeInt < 56.25) {
+            return "Northeast";
+        } else if (windDegreeInt >= 56.25 && windDegreeInt < 78.75) {
+            return "East-Northeast";
+        } else if (windDegreeInt >= 78.75 && windDegreeInt < 101.25) {
+            return "East";
+        } else if (windDegreeInt >= 101.25 && windDegreeInt < 123.75) {
+            return "East-Southeast";
+        } else if (windDegreeInt >= 123.75 && windDegreeInt < 146.25) {
+            return "Southeast";
+        } else if (windDegreeInt >= 146.25 && windDegreeInt < 168.75) {
+            return "South-Southeast";
+        } else if (windDegreeInt >= 168.75 && windDegreeInt < 191.25) {
+            return "South";
+        } else if (windDegreeInt >= 191.25 && windDegreeInt < 213.75) {
+            return "South-Southwest";
+        } else if (windDegreeInt >= 213.75 && windDegreeInt < 236.25) {
+            return "Southwest";
+        } else if (windDegreeInt >= 236.25 && windDegreeInt < 258.75) {
+            return "West-Southwest";
+        } else if (windDegreeInt >= 258.75 && windDegreeInt < 281.25) {
+            return "West";
+        } else if (windDegreeInt >= 281.25 && windDegreeInt < 303.75) {
+            return "West-Northwest";
+        } else if (windDegreeInt >= 303.75 && windDegreeInt < 326.25) {
+            return "Northwest";
+        } else if (windDegreeInt >= 326.25 && windDegreeInt < 348.75) {
+            return "North-Northwest";
+        } else {
+            return "Unknown";
+        }
+    }
 
     public static String updateIcon(int state) {
         if (state >= 200 && state <= 232) {

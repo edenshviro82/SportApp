@@ -97,13 +97,20 @@ public class WeatherStatusFragment extends Fragment {
                 // do something for running
                 break;
             case "skiing":
-                // do something for skiing
+
                 break;
             case "kiting":
                 prop1Headline.setText("Wind Speed: ");
-                prop1.setText(data.windSpeed);
-                prop2Headline.setText("Wind Degrees: ");
+                prop1.setText(data.windSpeed+" meter/sec");
+                prop2Headline.setText("Wind Direction: ");
                 prop2.setText(data.windDirection);
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+
+                //api call for water sport:
+                OceanWeather oceanData=OceanWeather.getWeatherDataForCity(user.getCity());
+                prop4Headline.setText("rain chance: ");
+                prop4.setText( oceanData.chanceOfRain);
 
                 break;
             case "surfing":
