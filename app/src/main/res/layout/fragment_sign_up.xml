@@ -113,23 +113,52 @@
             android:hint="City" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/SUFrag_sport_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/SUFrag_sport_input_layout"-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/SUFrag_city_input_layout"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <AutoCompleteTextView-->
+<!--            android:id="@+id/SUFrag_sport_input_autocompletetv"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Favorite Sport"-->
+<!--            android:inputType="none">-->
+<!--            -->
+<!--        </AutoCompleteTextView>-->
+
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="choose fav sport"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/SUFrag_sport_spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SUFrag_city_input_layout"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/SUFrag_sport_input_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Favorite Sport" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <Spinner
+        android:id="@+id/SUFrag_sport_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SUFrag_city_input_layout"
+        tools:ignore="MissingConstraints"></Spinner>
+
 
     <Button
         android:id="@+id/SUfrag_SU_btn"
@@ -139,7 +168,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SUFrag_sport_input_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/SUFrag_sport_spinner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

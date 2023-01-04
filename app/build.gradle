@@ -50,4 +50,11 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    implementation 'com.loopj.android:android-async-http:1.4.11'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
 }

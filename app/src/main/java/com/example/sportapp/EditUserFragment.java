@@ -21,7 +21,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sportapp.databinding.FragmentEditUserBinding;
 import com.example.sportapp.databinding.FragmentNewReviewBinding;
@@ -35,6 +39,9 @@ public class EditUserFragment extends Fragment {
     private NavDirections action;
     String email;
     Button saveBtn,cancelBtn;
+    Spinner sportSpinner;
+    String sport;
+    String[] type=Model.instance().getType();
 
 
 
@@ -71,12 +78,24 @@ public class EditUserFragment extends Fragment {
         saveBtn=   binding.getRoot().findViewById(R.id.edit_user_save_btn);
         cancelBtn= binding.getRoot().findViewById(R.id.edit_user_cancel_btn);
         email = EditUserFragmentArgs.fromBundle(getArguments()).getUserEmail();
+        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,type);
+        sportSpinner=binding.getRoot().findViewById(R.id.edit_user_sport_spinner);
+        sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity().getApplicationContext(),type[i],Toast.LENGTH_LONG).show();
+                sport=type[i];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+        sportSpinner.setAdapter(adapter);
        saveBtn.setOnClickListener((view -> {
 
            String name= binding.editUserNameInputEt.getText().toString();
            String city= binding.editUserCityInputEt.getText().toString();
-           String sport= binding.editUserSportInputEt.getText().toString();
 
            Model.instance().printUser(email);
 
@@ -88,8 +107,8 @@ public class EditUserFragment extends Fragment {
          if(!name.equals(""))
             newUser.setName(name);
 
-         if(!sport.equals(""))
-            newUser.setSport(sport);
+
+         newUser.setSport(sport);
 
          Model.instance().getAllUsers().put(email,newUser);
          Model.instance().printUser(email);

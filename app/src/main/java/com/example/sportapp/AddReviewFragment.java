@@ -18,7 +18,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sportapp.databinding.FragmentAddReviewBinding;
 import com.example.sportapp.databinding.FragmentNewReviewBinding;
@@ -30,7 +34,10 @@ public class AddReviewFragment extends Fragment {
     int id=0;
     FragmentAddReviewBinding binding;
     Button saveBtn,cancelBtn;
+    Spinner sportSpinner;
+    String sport;
     String email;
+    String[] type=Model.instance().getType();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,12 +69,26 @@ public class AddReviewFragment extends Fragment {
         email = AddReviewFragmentArgs.fromBundle(getArguments()).getUserEmail();
         saveBtn = binding.getRoot().findViewById(R.id.add_Review_save_btn);
         cancelBtn = binding.getRoot().findViewById(R.id.add_Review_cancel_btn);
+        sportSpinner=binding.getRoot().findViewById(R.id.add_Review_sport_spinner);
+        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,type);
+        sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity().getApplicationContext(),type[i],Toast.LENGTH_LONG).show();
+                sport=type[i];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        sportSpinner.setAdapter(adapter);
+
 
 
         saveBtn.setOnClickListener((view -> {
 
             String city = binding.addReviewCitysInputEt.getText().toString();
-            String sport = binding.addReviewSportInputEt.getText().toString();
             String description = binding.addReviewDescriptionInputEt.getText().toString();
             id++;
 
