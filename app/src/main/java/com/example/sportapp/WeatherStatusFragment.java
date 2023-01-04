@@ -89,41 +89,147 @@ public class WeatherStatusFragment extends Fragment {
         prop3.setText("");
         prop4.setText("");
         prop5.setText("");
+        OceanWeather oceanData=OceanWeather.getWeatherDataForCity(user.getCity());
 
         switch (user.getSport()) {
-            case "swimming":
+            case "Running":
+                prop1Headline.setText("Feels like: ");
+                prop1.setText(oceanData.getFeelsLikeC() + " °C");
+                prop2Headline.setText("Humidity: ");
+                prop2.setText(oceanData.getHumidity() + " %");
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("uvIndex: ");
+                prop4.setText(oceanData.getUvIndex() + " uv");
+                prop5Headline.setText("Visibility: ");
+                prop5.setText(oceanData.getVisibility() + " %");
                 break;
-            case "running":
-                // do something for running
-                break;
-            case "skiing":
+            case "Skiing":
+                prop1Headline.setText("total snow: ");
+                prop1.setText(oceanData.getTotalSnowCM() + " cm");
+                prop2Headline.setText("Chance of snow: ");
+                prop2.setText(oceanData.getChanceOfSnow() + " %");
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("Wind Direction: ");
+                prop4.setText(data.windDirection);
+                prop5Headline.setText("cloud cover: ");
+                prop5.setText(oceanData.getCloudCover() + " %");
 
                 break;
-            case "kiting":
+            case "Kiting":
                 prop1Headline.setText("Wind Speed: ");
                 prop1.setText(data.windSpeed+" meter/sec");
                 prop2Headline.setText("Wind Direction: ");
                 prop2.setText(data.windDirection);
                 prop3Headline.setText("Weather description: ");
                 prop3.setText(data.weatherDescription);
-
-                //api call for water sport:
-                OceanWeather oceanData=OceanWeather.getWeatherDataForCity(user.getCity());
-                prop4Headline.setText("rain chance: ");
-                prop4.setText( oceanData.chanceOfRain);
-
+                prop4Headline.setText("rain chance today: ");
+                prop4.setText(oceanData.getChanceOfRain() + "%");
+                prop5Headline.setText("uvIndex: ");
+                prop5.setText(oceanData.getUvIndex() + " uv");
                 break;
-            case "surfing":
-                // do something for surfing
+            case "Abseiling":
+                prop1Headline.setText("Wind Speed: ");
+                prop1.setText(data.windSpeed+" meter/sec");
+                prop2Headline.setText("rain chance today: ");
+                prop2.setText(oceanData.getChanceOfRain() + " %");
+                prop3Headline.setText("uvIndex: ");
+                prop3.setText(oceanData.getUvIndex() + " uv");
+                prop4Headline.setText("Chance of thunder: ");
+                prop4.setText(oceanData.getChanceOfThunder() + " %");
+                prop5Headline.setText("Visibility: ");
+                prop5.setText(oceanData.getVisibility() + " %");
                 break;
-            case "tennis":
-                // do something for tennis
+            case "Basketball":
+                prop1Headline.setText("Feels like: ");
+                prop1.setText(oceanData.getFeelsLikeC() + " °C");
+                prop2Headline.setText("Humidity: ");
+                prop2.setText(oceanData.getHumidity() + " %");
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("uvIndex: ");
+                prop4.setText(oceanData.getUvIndex() + " uv");
+                prop5Headline.setText("Wind Speed: ");
+                prop5.setText(data.windSpeed+" meter/sec");
+                break;
+            case "Football":
+                prop1Headline.setText("total snow: ");
+                prop1.setText(oceanData.getTotalSnowCM() + " cm");
+                prop2Headline.setText("Humidity: ");
+                prop2.setText(oceanData.getHumidity() + " %");
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("uvIndex: ");
+                prop4.setText(oceanData.getUvIndex() + " uv");
+                prop5Headline.setText("rain chance today: ");
+                prop5.setText(oceanData.getChanceOfRain() + "%");
+                break;
+            case "Outside walking":
+                prop1Headline.setText("Feels like: ");
+                prop1.setText(oceanData.getFeelsLikeC() + " °C");
+                prop2Headline.setText("Humidity: ");
+                prop2.setText(oceanData.getHumidity() + " %");
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("uvIndex: ");
+                prop4.setText(oceanData.getUvIndex() + " uv");
+                prop5Headline.setText("Visibility: ");
+                prop5.setText(oceanData.getVisibility() + " % ");
+                break;
+
+            case "Badminton":
+                prop1Headline.setText("Wind Speed: ");
+                prop1.setText(data.windSpeed+" meter/sec");
+                prop2Headline.setText("Wind Direction: ");
+                prop2.setText(data.windDirection);
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("rain chance today: ");
+                prop4.setText(oceanData.getChanceOfRain() + "%");
+                prop5Headline.setText("Feels like: ");
+                prop5.setText(oceanData.getFeelsLikeC() + " °C");
+                break;
+
+            case "Biking":
+                prop1Headline.setText("Wind Speed: ");
+                prop1.setText(data.windSpeed+" meter/sec");
+                prop2Headline.setText("Humidity: ");
+                prop2.setText(oceanData.getHumidity() + " %");
+                prop3Headline.setText("Chance of fog: ");
+                prop3.setText(oceanData.getChanceoffog() + " %");
+                prop4Headline.setText("rain chance today: ");
+                prop4.setText(oceanData.getChanceOfRain() + "%");
+                prop5Headline.setText("Visibility: ");
+                prop5.setText(oceanData.getVisibility() + " % ");
+                break;
+            case "Yoga":
+                prop1Headline.setText("Feels like: ");
+                prop1.setText(oceanData.getFeelsLikeC() + " °C");
+                prop2Headline.setText("Humidity: ");
+                prop2.setText(oceanData.getHumidity() + " %");
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("rain chance today: ");
+                prop4.setText(oceanData.getChanceOfRain() + "%");
+                prop5Headline.setText("Wind Speed: ");
+                prop5.setText(data.windSpeed+" meter/sec");
+                break;
+            case "Tennis":
+                prop1Headline.setText("Wind Speed: ");
+                prop1.setText(data.windSpeed+" meter/sec");
+                prop2Headline.setText("Wind Direction: ");
+                prop2.setText(data.windDirection);
+                prop3Headline.setText("Weather description: ");
+                prop3.setText(data.weatherDescription);
+                prop4Headline.setText("rain chance today: ");
+                prop4.setText(oceanData.getChanceOfRain() + "%");
+                prop5Headline.setText("Feels like: ");
+                prop5.setText(oceanData.getFeelsLikeC() + " °C");
                 break;
             default:
                 // do something for any other activity
         }
-
-
     }
 
 

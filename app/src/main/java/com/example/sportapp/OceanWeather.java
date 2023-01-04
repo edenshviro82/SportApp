@@ -19,7 +19,20 @@ import okhttp3.Response;
 
 public class OceanWeather {
 
-    int chanceOfRain,chanceOfSnow,chanceOfThunder;
+    private int chanceOfRain;
+    private int chanceOfSnow;
+    private int chanceOfThunder;
+    private int cloudCover;
+    private double totalSnowCM;
+    private int feelsLikeC;
+    private int visibility;
+    private double sunHour;
+
+
+    private int uvIndex;
+
+    private int humidity;
+    private int chanceoffog;
     private double waveHeight;
     private double waterTemperature;
     private int dangerLevel;
@@ -63,6 +76,19 @@ public class OceanWeather {
                             //data.weather[0].hourly[0].chanceofrain
                             OceanWeather data = new OceanWeather();
                             data.chanceOfRain = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getJSONArray("hourly").getJSONObject(0).getInt("chanceofrain");
+                            data.chanceOfSnow = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getJSONArray("hourly").getJSONObject(0).getInt("chanceofsnow");
+                            data.chanceOfThunder = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getJSONArray("hourly").getJSONObject(0).getInt("chanceofthunder");
+                            data.cloudCover = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getJSONArray("hourly").getJSONObject(0).getInt("cloudcover");
+                            data.totalSnowCM =  json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getDouble("totalSnow_cm");
+                            data.feelsLikeC = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getJSONArray("hourly").getJSONObject(2).getInt("FeelsLikeC");
+                            data.visibility = json.getJSONObject("data").getJSONArray("current_condition").getJSONObject(0).getInt("visibility");
+                            data.humidity = json.getJSONObject("data").getJSONArray("current_condition").getJSONObject(0).getInt("humidity");
+                            data.chanceoffog = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getJSONArray("hourly").getJSONObject(0).getInt("chanceoffog");
+                            data.sunHour = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getInt("sunHour");
+                            data.uvIndex = json.getJSONObject("data").getJSONArray("weather").getJSONObject(0).getInt("uvIndex");
+
+
+                            Log.d("json", "total snow: " + data.totalSnowCM);
 
 
                             return data;
@@ -111,4 +137,95 @@ public class OceanWeather {
     public void setDangerLevel(int dangerLevel) {
         this.dangerLevel = dangerLevel;
     }
+
+    public int getChanceOfRain() {
+        return chanceOfRain;
+    }
+
+    public void setChanceOfRain(int chanceOfRain) {
+        this.chanceOfRain = chanceOfRain;
+    }
+
+    public int getChanceOfSnow() {
+        return chanceOfSnow;
+    }
+
+    public void setChanceOfSnow(int chanceOfSnow) {
+        this.chanceOfSnow = chanceOfSnow;
+    }
+
+    public int getChanceOfThunder() {
+        return chanceOfThunder;
+    }
+
+    public void setChanceOfThunder(int chanceOfThunder) {
+        this.chanceOfThunder = chanceOfThunder;
+    }
+
+    public int getCloudCover() {
+        return cloudCover;
+    }
+
+    public void setCloudCover(int cloudCover) {
+        this.cloudCover = cloudCover;
+    }
+
+    public double getTotalSnowCM() {
+        return totalSnowCM;
+    }
+
+    public void setTotalSnowCM(int totalSnowCM) {
+        this.totalSnowCM = totalSnowCM;
+    }
+
+    public int getFeelsLikeC() {
+        return feelsLikeC;
+    }
+
+    public void setFeelsLikeC(int feelsLikeC) {
+        this.feelsLikeC = feelsLikeC;
+    }
+
+
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
+
+    public int getChanceoffog() {
+        return chanceoffog;
+    }
+
+    public void setChanceoffog(int chanceoffog) {
+        this.chanceoffog = chanceoffog;
+    }
+
+    public double getSunHour() {
+        return sunHour;
+    }
+
+    public void setSunHour(double sunHour) {
+        this.sunHour = sunHour;
+    }
+
+    public int getUvIndex() {
+        return uvIndex;
+    }
+
+    public void setUvIndex(int uvIndex) {
+        this.uvIndex = uvIndex;
+    }
+
+
 }

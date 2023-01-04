@@ -24,7 +24,7 @@ public class Model {
     List<Review> allReviews = new LinkedList<>();
     HashMap<String,User> userMap = new HashMap<>();
     List<Review> myReviews=new LinkedList<>();
-    String[] type={"swimming","running","skiing","kiting","surfing","tennis"};
+    String[] type={"Running","Skiing","Kiting","Tennis","Yoga","Biking","Badminton","Outside walking","Football","Basketball","Abseiling"};
 
     public String[] getType() {
         return type;
