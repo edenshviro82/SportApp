@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     String userEmail;
     NavController navController;
     private NavDirections action;
-    private  NavDirections action2;
+    private NavDirections action2;
     Activity t;
     static String s;
 
@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.allReviewsFragment:
-                        action= AllReviewsFragmentDirections.actionGlobalAllReviewsFragment();
+                        action= AllReviewsFragmentDirections.actionGlobalAllReviewsFragment(userEmail);
                         Navigation.findNavController(t, R.id.home_navhost).navigate(action);
                         return true;
 

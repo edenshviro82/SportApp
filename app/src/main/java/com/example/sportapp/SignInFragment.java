@@ -80,9 +80,10 @@ public class SignInFragment extends Fragment {
 
             if(Model.instance().getAllUsers().containsKey(email)) {
                 if (password.equals(Model.instance().getAllUsers().get(email).getPassword())) {
-                   Intent i = new Intent(getActivity(), HomeActivity.class);
-                   i.putExtra("userEmail",email);
-                   startActivity(i);
+//                   Intent i = new Intent(getActivity(), HomeActivity.class);
+//                   i.putExtra("userEmail",email);
+//                   startActivity(i);
+
                 }
                 else {
 
