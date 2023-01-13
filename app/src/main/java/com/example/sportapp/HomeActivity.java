@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     String userEmail;
     NavController navController;
     private NavDirections action;
-    private  NavDirections action2;
+    private NavDirections action2;
     Activity t;
     static String s;
 

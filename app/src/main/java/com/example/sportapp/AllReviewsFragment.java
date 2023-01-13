@@ -1,13 +1,10 @@
 package com.example.sportapp;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,15 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
-import com.example.sportapp.model.User;
 
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -34,7 +27,8 @@ public class AllReviewsFragment extends Fragment {
     List<Review> data;
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
-    Button add;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -43,9 +37,10 @@ public class AllReviewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_all_reviews, container, false);
-        data = Model.instance().getAllReviews();
         list = view.findViewById(R.id.allReviews_recycler);
         list.setHasFixedSize(true);
+        data = Model.instance().getAllReviews();
+
 
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
         adapter = new ReviewRecyclerAdapter();
@@ -53,8 +48,6 @@ public class AllReviewsFragment extends Fragment {
 
 
         adapter.setOnItemClickListener((int pos)-> {
-
-
                     Log.d("TAG", "Row was clicked " + pos);
                     Review re = data.get(pos);
                     AllReviewsFragmentDirections.ActionAllReviewsFragmentToReviewDetailsFragment action = AllReviewsFragmentDirections.actionAllReviewsFragmentToReviewDetailsFragment(pos);
@@ -71,18 +64,17 @@ public class AllReviewsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         adapter.notifyDataSetChanged();
-        //list.setAdapter(adapter);
 
 
     }
 
     //--------------------- view holder ---------------------------
-    class StudentViewHolder extends RecyclerView.ViewHolder{
+    class AllReviewsViewHolder extends RecyclerView.ViewHolder{
         TextView cityTV;
         TextView sportTV;
         TextView descriptionTV;
 
-        public StudentViewHolder(@NonNull View itemView,OnItemClickListener listener) {
+        public AllReviewsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             cityTV = itemView.findViewById(R.id.allReviewsRow_city);
             sportTV = itemView.findViewById(R.id.allReviewsRow_sport_tv);
@@ -113,20 +105,20 @@ public class AllReviewsFragment extends Fragment {
 
 
     //---------------------Recycler adapter ---------------------------
-    class ReviewRecyclerAdapter extends RecyclerView.Adapter<StudentViewHolder>{
+    class ReviewRecyclerAdapter extends RecyclerView.Adapter<AllReviewsViewHolder>{
         OnItemClickListener listener;
         void setOnItemClickListener(OnItemClickListener listener){
             this.listener = listener;
         }
         @NonNull
         @Override
-        public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AllReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.all_reviews_row,parent,false);
-            return new StudentViewHolder(view,listener);
+            return new AllReviewsViewHolder(view,listener);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AllReviewsViewHolder holder, int position) {
             Review re = data.get(position);
             holder.bind(re,position);
         }

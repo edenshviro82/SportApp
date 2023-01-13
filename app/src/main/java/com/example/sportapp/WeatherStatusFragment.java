@@ -79,6 +79,7 @@ public class WeatherStatusFragment extends Fragment {
           city.setText(user.getCity());
           sport.setText("Chosen sport: "+user.getSport());
 
+
         prop1Headline.setText("");
         prop2Headline.setText("");
         prop3Headline.setText("");
