@@ -50,12 +50,6 @@ public class EditUserFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        Bundle bundle = getArguments();
-        if (bundle != null){
-            this.email = bundle.getString("Email");
-        }
-
-
         FragmentActivity parentActivity = getActivity();
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
@@ -92,7 +86,7 @@ public class EditUserFragment extends Fragment {
             }
         });
         sportSpinner.setAdapter(adapter);
-       saveBtn.setOnClickListener((view -> {
+        saveBtn.setOnClickListener((view -> {
 
            String name= binding.editUserNameInputEt.getText().toString();
            String city= binding.editUserCityInputEt.getText().toString();

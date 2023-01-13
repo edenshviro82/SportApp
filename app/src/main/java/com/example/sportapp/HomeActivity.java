@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.allReviewsFragment:
-                        action= AllReviewsFragmentDirections.actionGlobalAllReviewsFragment(userEmail);
+                        action= AllReviewsFragmentDirections.actionGlobalAllReviewsFragment();
                         Navigation.findNavController(t, R.id.home_navhost).navigate(action);
                         return true;
 
