@@ -35,6 +35,7 @@ public class WeatherStatusFragment extends Fragment {
 
 
 
+
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
