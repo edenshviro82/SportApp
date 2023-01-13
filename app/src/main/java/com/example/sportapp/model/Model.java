@@ -38,6 +38,7 @@ public class Model {
         Log.d("TAG","user name : "+ userMap.get(email).getName().toString() +" user email : "+ userMap.get(email).getEmail().toString()+" user password : "+ userMap.get(email).getPassword().toString()+" user city : "+ userMap.get(email).getCity().toString()+" user sport : "+ userMap.get(email).getSport().toString());
     }
 
+
     public void addReview(Review r){allReviews.add(r);}
     public List<Review> getAllReviews(){
         return allReviews;
@@ -61,6 +62,17 @@ public class Model {
         return -1;
     }
 
+    public List<Review> getReviewsOrderByCity(String city){
+        List<Review> list = new LinkedList<>();
+        for(Review r: allReviews)
+        {
+            if(r.getCity().equals(city))
+            {
+                list.add(r);
+            }
+        }
+        return list;
+    }
     public void deleteReview(int id) {
 
         allReviews.remove(getIndexByReviewId(id));

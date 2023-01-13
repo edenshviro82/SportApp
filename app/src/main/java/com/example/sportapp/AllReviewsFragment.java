@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.sportapp.model.Model;
@@ -35,6 +36,9 @@ public class AllReviewsFragment extends Fragment {
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
     Button add;
+    Switch citySwitch;
+    String email;
+    String city;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -43,9 +47,25 @@ public class AllReviewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_all_reviews, container, false);
-        data = Model.instance().getAllReviews();
         list = view.findViewById(R.id.allReviews_recycler);
         list.setHasFixedSize(true);
+        email = AllReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
+        city = Model.instance().getAllUsers().get(email).getCity();
+
+
+        citySwitch = view.findViewById(R.id.switch_city);
+        citySwitch.setOnCheckedChangeListener((listener,b)->{
+            if(citySwitch.isChecked())
+            {
+                data = Model.instance().getReviewsOrderByCity(city);
+
+            }
+            else {
+                data = Model.instance().getAllReviews();
+
+            }
+        });
+
 
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
         adapter = new ReviewRecyclerAdapter();
