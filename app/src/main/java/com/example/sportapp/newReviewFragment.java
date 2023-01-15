@@ -75,7 +75,6 @@ public class newReviewFragment extends Fragment {
 //            Review newR= new Review(id,email,description,city,sport,"");
 //            Model.instance().getAllReviews().add(newR);
 
-            Log.d("TAG","num of reviews : "+Model.instance().getAllReviews().size());
         }));
 
         cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());

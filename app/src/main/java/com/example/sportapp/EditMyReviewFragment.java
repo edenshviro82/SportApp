@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class EditMyReviewFragment extends Fragment {
@@ -27,8 +28,9 @@ public class EditMyReviewFragment extends Fragment {
     Button cancel,save,delete;
     EditText cityET, sportET, descriptionET;
     Review re;
-    List<Review> data;
-    List<Review> allReviews=Model.instance().getAllReviews();
+    List<Review> data= new LinkedList<>();
+    List<Review> allReviews=new LinkedList<>();
+
     String email;
 
     @Nullable
@@ -38,7 +40,12 @@ public class EditMyReviewFragment extends Fragment {
         pos = EditMyReviewFragmentArgs.fromBundle(getArguments()).getPos();
         email = EditMyReviewFragmentArgs.fromBundle(getArguments()).getUserEmail();
 
-        data= Model.instance().getMyReviews(email);
+        Model.instance().getAllReviews((reviewList)->{
+            allReviews=reviewList;
+            data= Model.instance().getMyReviews(allReviews,email);
+        });
+
+
         cityET = view.findViewById(R.id.editMyReview_Pt_city);
         sportET = view.findViewById(R.id.editMyReview_Pt_sport);
         descriptionET=view.findViewById(R.id.editMyReview_Pt_description);

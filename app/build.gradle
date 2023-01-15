@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'androidx.navigation.safeargs'
+//    id 'com.google.gms.google-services'
+
 }
 
 android {
@@ -56,5 +58,13 @@ dependencies {
 
     implementation 'com.loopj.android:android-async-http:1.4.11'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.squareup.picasso:picasso:2.8'
+
+
 
 }

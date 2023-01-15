@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
 
+import java.util.List;
+
 public class WeatherStatusFragment extends Fragment {
 
     // actual API key from Open Weather
@@ -29,7 +31,7 @@ public class WeatherStatusFragment extends Fragment {
     TextView prop1,prop2,prop3,prop4,prop5;
     int stateCode;
     ImageView weatherIcon;
-    User user;
+    User user=new User();
     Weather data;
 
 
@@ -63,7 +65,12 @@ public class WeatherStatusFragment extends Fragment {
 
         email = WeatherStatusFragmentArgs.fromBundle(getArguments()).getUserEmail();
         Log.d("TAG",email);
-        user=Model.instance().getAllUsers().get(email);
+       // user=Model.instance().getAllUsers().get(email);
+        Model.instance().getAllUsers((userList)->{
+            List<User> list= userList;
+            user=Model.instance().getUserByEmail(list,email);
+        });
+
         // Get the temperature for a specific city
         data=Weather.getWeatherDataForCity(user.getCity());
         updateUI(data);
@@ -238,7 +245,14 @@ public class WeatherStatusFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        user=Model.instance().getAllUsers().get(email);
+        Model.instance().getAllUsers((userList)->{
+            List<User> list= userList;
+            for(User u:list)
+            {
+                if(u.getEmail().equals(email))
+                    user=u;
+            }
+        });
         // Get the temperature for a specific city
         data=Weather.getWeatherDataForCity(user.getCity());
         updateUI(data);

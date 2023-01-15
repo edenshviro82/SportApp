@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public class ReviewDetailsFragment extends Fragment {
     TextView cityTV, sportTV, descriptionTV, emailTV;
     Button backBtn,editBtn;
     Review re;
-    List<Review> data= Model.instance().getAllReviews();
+    List<Review> data= new LinkedList<>();
 
     @Nullable
     @Override
@@ -41,8 +42,10 @@ public class ReviewDetailsFragment extends Fragment {
 
         backBtn=view.findViewById(R.id.ReviewDetailsFragment_back_btn);
 
-        re=data.get(pos);
-        this.bind(re,pos);
+        reloadData();
+
+
+
 
         backBtn.setOnClickListener(view1 ->{
             Navigation.findNavController(view1).popBackStack();
@@ -61,6 +64,15 @@ public class ReviewDetailsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        bind(re,pos);
+        reloadData();
     }
+
+    void reloadData(){
+        Model.instance().getAllReviews((allReviews)->{
+            data=allReviews;
+            re=data.get(pos);
+            this.bind(re,pos);
+        });
+    }
+
 }

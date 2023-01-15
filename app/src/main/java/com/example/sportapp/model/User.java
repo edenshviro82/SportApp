@@ -1,15 +1,23 @@
 package com.example.sportapp.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class User {
+    @PrimaryKey
+    @NonNull
+     String email="";
+     String name="";
+     String password="";
+     String city="";
+     String sport="";
+     String img="";
 
-     String name;
-     String email;
-     String password;
-     String city;
-     String sport;
-     String img;
+    public User() {
 
+    }
 
     public User(String name, String email, String password, String city, String sport, String img) {
         this.name = name;

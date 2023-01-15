@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public class MyReviewDetailsFragment extends Fragment {
     Button backBtn,editBtn;
     Review re;
     String email;
-    List<Review> data;
+    List<Review> data=new LinkedList<>();
 
     @Nullable
     @Override
@@ -40,7 +41,10 @@ public class MyReviewDetailsFragment extends Fragment {
         sportTV = view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_sport);
         descriptionTV=view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_description);
         emailTV= view.findViewById(R.id.MyReviewDetailsFragment_details_tv_edit_mail);
-        data=Model.instance().getMyReviews(email);
+        Model.instance().getAllReviews((allReviews)->{
+            data=Model.instance().getMyReviews(allReviews,email);
+        });
+
         editBtn=view.findViewById(R.id.MyReviewDetailsFragment_edit_btn);
 
         re=data.get(pos);

@@ -92,12 +92,19 @@ public class AddReviewFragment extends Fragment {
             String description = binding.addReviewDescriptionInputEt.getText().toString();
             id++;
 
-            Review newR = new Review(id, email, description, city, sport, "");
-            Model.instance().getAllReviews().add(newR);
 
-            Log.d("TAG", "num of reviews : " + Model.instance().getAllReviews().size());
-            Log.d("TAG", "review id : " + id);
-            Navigation.findNavController(view).popBackStack();
+            Model.instance().getAllReviews((allReviews)->{
+                id=allReviews.size()+1;
+            });
+            Review newR = new Review(id, email, description, city, sport, "");
+            Log.d("id","id: "+id);
+            // Model.instance().getAllReviews().add(newR);
+            Model.instance().addReview(newR,(data)->{
+                Navigation.findNavController(view).popBackStack();
+            });
+
+
+
         }));
 
         cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());

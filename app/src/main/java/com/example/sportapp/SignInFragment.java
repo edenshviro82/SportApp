@@ -27,13 +27,15 @@ import com.example.sportapp.model.User;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
-
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class SignInFragment extends Fragment {
     FragmentSignInBinding binding;
     Button SignInBtn;
     private NavDirections action;
+    User u;
 
 
     @Override
@@ -78,15 +80,19 @@ public class SignInFragment extends Fragment {
             });
             //dialog alert************
 
-            if(Model.instance().getAllUsers().containsKey(email)) {
-                if (password.equals(Model.instance().getAllUsers().get(email).getPassword())) {
+            u= new User();
+            Model.instance().getAllUsers((all)->{
+                u=Model.instance().getUserByEmail(all,email);
+            });
+
+            if(!u.getEmail().equals("")) {
+                if (password.equals(u.getPassword())) {
 //                   Intent i = new Intent(getActivity(), HomeActivity.class);
 //                   i.putExtra("userEmail",email);
 //                   startActivity(i);
 
                 }
                 else {
-
                     builder.setMessage("Incorrect password. Please try again.").setTitle("Error");
                     AlertDialog dialog = builder.create();
                     dialog.show();

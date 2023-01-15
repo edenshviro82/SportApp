@@ -1,10 +1,13 @@
 package com.example.sportapp;
 
+import static java.lang.Thread.sleep;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,21 +16,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.sportapp.databinding.FragmentAllReviewsBinding;
+import com.example.sportapp.databinding.FragmentSignUpBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class AllReviewsFragment extends Fragment {
 
 
-    List<Review> data;
+    List<Review> data=new LinkedList<>();
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
-
+    ProgressBar pb;
 
 
     @SuppressLint("MissingInflatedId")
@@ -39,11 +48,12 @@ public class AllReviewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_reviews, container, false);
         list = view.findViewById(R.id.allReviews_recycler);
         list.setHasFixedSize(true);
-        data = Model.instance().getAllReviews();
-
+//        data = Model.instance().getAllReviews();
+        pb=view.findViewById(R.id.allReviews_progressBar);
+        reloadData();
 
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
-        adapter = new ReviewRecyclerAdapter();
+        adapter = new ReviewRecyclerAdapter(getLayoutInflater(),data);
         list.setAdapter(adapter);
 
 
@@ -51,7 +61,7 @@ public class AllReviewsFragment extends Fragment {
                     Log.d("TAG", "Row was clicked " + pos);
                     Review re = data.get(pos);
                     AllReviewsFragmentDirections.ActionAllReviewsFragmentToReviewDetailsFragment action = AllReviewsFragmentDirections.actionAllReviewsFragmentToReviewDetailsFragment(pos);
-                    Navigation.findNavController(view).navigate(action);
+                    Navigation.findNavController(view).navigate((NavDirections) action);
 
                 }
         );
@@ -63,9 +73,20 @@ public class AllReviewsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.notifyDataSetChanged();
+        reloadData();
+//        adapter.notifyDataSetChanged();
+    }
 
 
+    void reloadData() {
+        Log.d("TAG","reload data");
+        pb.setVisibility(View.VISIBLE);
+       // data=Model.instance().getAllReviews();
+        Model.instance().getAllReviews((reviewList)->{
+            data=reviewList;
+            adapter.setData(reviewList);
+        });
+        pb.setVisibility(View.GONE);
     }
 
     //--------------------- view holder ---------------------------
@@ -107,6 +128,22 @@ public class AllReviewsFragment extends Fragment {
     //---------------------Recycler adapter ---------------------------
     class ReviewRecyclerAdapter extends RecyclerView.Adapter<AllReviewsViewHolder>{
         OnItemClickListener listener;
+
+
+
+        LayoutInflater inflater;
+        List<Review> data;
+
+        public void setData(List<Review> data){
+            this.data = data;
+            notifyDataSetChanged();
+        }
+        public ReviewRecyclerAdapter(LayoutInflater inflater, List<Review> data){
+            this.inflater = inflater;
+            this.data = data;
+        }
+
+
         void setOnItemClickListener(OnItemClickListener listener){
             this.listener = listener;
         }
@@ -130,3 +167,4 @@ public class AllReviewsFragment extends Fragment {
     }
 
 }
+

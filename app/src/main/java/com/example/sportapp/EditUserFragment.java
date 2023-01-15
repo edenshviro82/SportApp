@@ -42,7 +42,7 @@ public class EditUserFragment extends Fragment {
     Spinner sportSpinner;
     String sport;
     String[] type=Model.instance().getType();
-
+    User newUser;
 
 
     @Override
@@ -93,8 +93,13 @@ public class EditUserFragment extends Fragment {
 
            Model.instance().printUser(email);
 
+           newUser= new User();
 
-           User newUser= Model.instance().getAllUsers().get(email);
+          Model.instance().getAllUsers((allUsers)->{
+              newUser= Model.instance().getUserByEmail(allUsers,email);
+
+          });
+
          if(!city.equals(""))
             newUser.setCity(city);
 
@@ -104,7 +109,7 @@ public class EditUserFragment extends Fragment {
 
          newUser.setSport(sport);
 
-         Model.instance().getAllUsers().put(email,newUser);
+         Model.instance().addUser(newUser);
          Model.instance().printUser(email);
          Navigation.findNavController(view).popBackStack();
 

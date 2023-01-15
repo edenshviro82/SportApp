@@ -1,13 +1,33 @@
 package com.example.sportapp.model;
 
-public class Review {
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    int id;
-    String emailOfOwner;
-    String city;
-    String sport;
-    String img;
-    String description;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+@Entity
+public class Review {
+    @PrimaryKey
+    @NonNull
+    int id=0;
+    String emailOfOwner="";
+    String city="";
+    String sport="";
+    String img="";
+    String description="";
+
+    public Review() {
+
+    }
+
+    public Review(int id, String emailOfOwner,String description, String city, String sport, String img) {
+        this.id = id;
+        this.emailOfOwner = emailOfOwner;
+        this.city = city;
+        this.sport = sport;
+        this.img = img;
+        this.description=description;
+    }
 
     public int getId() {
         return id;
@@ -57,12 +77,5 @@ public class Review {
         this.img = img;
     }
 
-    public Review(int id, String emailOfOwner,String description, String city, String sport, String img) {
-        this.id = id;
-        this.emailOfOwner = emailOfOwner;
-        this.city = city;
-        this.sport = sport;
-        this.img = img;
-        this.description=description;
-    }
+
 }

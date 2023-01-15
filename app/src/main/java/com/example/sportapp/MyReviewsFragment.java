@@ -44,8 +44,11 @@ public class MyReviewsFragment extends Fragment {
        View view = inflater.inflate(R.layout.fragment_my_reviews, container, false);
        email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
        Log.d("TAG",email);
-       data=Model.instance().getAllReviews() ;
-        data = this.getMyReviews(email);
+
+        Model.instance().getAllReviews((allReviews)->{
+            data=Model.instance().getMyReviews(allReviews,email);
+        });
+
         list = view.findViewById(R.id.myReviews_recycler);
         list.setHasFixedSize(true);
 
@@ -69,7 +72,9 @@ public class MyReviewsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        data = this.getMyReviews(email);
+        Model.instance().getAllReviews((allReviews)->{
+            data=Model.instance().getMyReviews(allReviews,email);
+        });
         adapter.notifyDataSetChanged();
 
         //list.setAdapter(adapter);
@@ -141,17 +146,6 @@ public class MyReviewsFragment extends Fragment {
         }
    }
 
-    public List<Review> getMyReviews(String email){
 
-        List<Review> newL = new LinkedList<>();
-        for(Review r: Model.instance().getAllReviews())
-        {
-            if(r.getEmailOfOwner().equals(email))
-            {
-                newL.add(r);
-            }
-        }
-        return newL;
-    }
 
 }
