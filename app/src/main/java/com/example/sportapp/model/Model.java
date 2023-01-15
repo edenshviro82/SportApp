@@ -79,13 +79,13 @@ public class Model {
     }
 
 //**********************************************
-    public void addReview(Review r, Listener<List<Review>> callback) {
+    public void addReview(Review r, Listener2<Void> listener) {
         executor.execute(() -> {
-            List<Review> data = localDb.reviewDao().getAllReviews();
+         //   List<Review> data = localDb.reviewDao().getAllReviews();
             localDb.reviewDao().insertAll(r);
             //return to the main thread because we want the executor to do only DB missions
             mainHandler.post(() -> {
-                callback.onComplete(data);
+                listener.onComplete();
             });
 
         });

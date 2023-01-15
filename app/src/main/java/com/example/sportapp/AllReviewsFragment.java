@@ -85,8 +85,8 @@ public class AllReviewsFragment extends Fragment {
         Model.instance().getAllReviews((reviewList)->{
             data=reviewList;
             adapter.setData(reviewList);
+            pb.setVisibility(View.GONE);
         });
-        pb.setVisibility(View.GONE);
     }
 
     //--------------------- view holder ---------------------------

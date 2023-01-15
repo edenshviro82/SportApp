@@ -68,7 +68,7 @@ public class EditMyReviewFragment extends Fragment {
         });
 
         delete.setOnClickListener(view1->{
-            Model.instance().deleteReview(re.getId());
+            //Model.instance().deleteReview(re.getId());
             Navigation.findNavController(view1).popBackStack();
             Navigation.findNavController(view1).popBackStack();
 

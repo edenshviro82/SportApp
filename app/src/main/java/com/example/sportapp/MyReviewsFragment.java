@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.sportapp.databinding.FragmentMyReviewsBinding;
+import com.example.sportapp.databinding.FragmentSignInBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
@@ -32,6 +34,7 @@ public class MyReviewsFragment extends Fragment {
     MyReviewsFragment.ReviewRecyclerAdapter adapter;
     Button add;
     String email;
+    @NonNull FragmentMyReviewsBinding binding;
 
 
 
@@ -42,18 +45,19 @@ public class MyReviewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 //
        View view = inflater.inflate(R.layout.fragment_my_reviews, container, false);
-       email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
+        binding= FragmentMyReviewsBinding.inflate(inflater, container, false);
+
+        email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
        Log.d("TAG",email);
 
-        Model.instance().getAllReviews((allReviews)->{
-            data=Model.instance().getMyReviews(allReviews,email);
-        });
+        reloadData(email);
 
         list = view.findViewById(R.id.myReviews_recycler);
         list.setHasFixedSize(true);
 
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
-        adapter = new MyReviewsFragment.ReviewRecyclerAdapter();
+        adapter = new MyReviewsFragment.ReviewRecyclerAdapter(getLayoutInflater(),data);
+
         list.setAdapter(adapter);
 
 
@@ -68,13 +72,23 @@ public class MyReviewsFragment extends Fragment {
         return view;
 
     }
+    void reloadData(String email) {
+        Log.d("TAG","reload data");
+
+        binding.progressBar.setVisibility(View.VISIBLE);
+        Model.instance().getAllReviews((reviewList)->{
+            data=Model.instance().getMyReviews(reviewList,email);
+            adapter.setData(data);
+            binding.progressBar.setVisibility(View.GONE);
+        });
+        binding.progressBar.setVisibility(View.GONE);
+
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-        Model.instance().getAllReviews((allReviews)->{
-            data=Model.instance().getMyReviews(allReviews,email);
-        });
+        reloadData(email);
         adapter.notifyDataSetChanged();
 
         //list.setAdapter(adapter);
@@ -123,6 +137,19 @@ public class MyReviewsFragment extends Fragment {
     //---------------------Recycler adapter ---------------------------
     class ReviewRecyclerAdapter extends RecyclerView.Adapter<MyReviewsViewHolder>{
         OnItemClickListener listener;
+
+        LayoutInflater inflater;
+        List<Review> data;
+
+        public void setData(List<Review> data){
+            this.data = data;
+            notifyDataSetChanged();
+        }
+
+        public ReviewRecyclerAdapter(LayoutInflater inflater, List<Review> data){
+            this.inflater = inflater;
+            this.data = data;
+        }
         void setOnItemClickListener(OnItemClickListener listener){
             this.listener = listener;
         }

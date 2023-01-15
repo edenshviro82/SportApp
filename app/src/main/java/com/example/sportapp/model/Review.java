@@ -7,9 +7,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 @Entity
 public class Review {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
-    int id=0;
+    public int reviewId;
+
     String emailOfOwner="";
     String city="";
     String sport="";
@@ -20,8 +21,8 @@ public class Review {
 
     }
 
-    public Review(int id, String emailOfOwner,String description, String city, String sport, String img) {
-        this.id = id;
+    public Review( String emailOfOwner,String description, String city, String sport, String img) {
+      //  this.reviewId = reviewId;
         this.emailOfOwner = emailOfOwner;
         this.city = city;
         this.sport = sport;
@@ -30,7 +31,7 @@ public class Review {
     }
 
     public int getId() {
-        return id;
+        return reviewId;
     }
 
     public String getDescription() {
@@ -41,8 +42,8 @@ public class Review {
         this.description = description;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int reviewId) {
+        this.reviewId = reviewId;
     }
 
     public String getEmailOfOwner() {

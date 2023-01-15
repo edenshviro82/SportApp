@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase;
 import com.example.sportapp.MyApplication;
 
 //entities= tables
-@Database(entities = {User.class,Review.class}, version = 56)
+@Database(entities = {User.class,Review.class}, version = 57)
 //return the Daos
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract UserDao userDao();
