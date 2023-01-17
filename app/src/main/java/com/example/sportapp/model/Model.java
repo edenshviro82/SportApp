@@ -42,8 +42,16 @@ public class Model {
         return type;
     }
 
-    public void addUser(User u){
-        userMap.put(u.email,u);
+    public void addUser(User u, Listener2<Void> listener) {
+        executor.execute(() -> {
+            //   List<Review> data = localDb.reviewDao().getAllReviews();
+            localDb.userDao().insertAll(u);
+            //return to the main thread because we want the executor to do only DB missions
+            mainHandler.post(() -> {
+                listener.onComplete();
+            });
+
+        });
     }
 
     public interface Listener<T>{
@@ -61,8 +69,9 @@ public class Model {
 
        // return userMap;
     }
-    public void printUser(String email){
-        Log.d("TAG","user name : "+ userMap.get(email).getName().toString() +" user email : "+ userMap.get(email).getEmail().toString()+" user password : "+ userMap.get(email).getPassword().toString()+" user city : "+ userMap.get(email).getCity().toString()+" user sport : "+ userMap.get(email).getSport().toString());
+    public void printUser(User u){
+
+        Log.d("TAG","user name : "+ u.getName().toString());
     }
     public User getUserByEmail(List<User> users, String email){
       for(User u:users)
@@ -95,7 +104,7 @@ public class Model {
         executor.execute(() -> {
             List<Review> data = localDb.reviewDao().getAllReviews();
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -145,8 +154,15 @@ public class Model {
         }
         return list;
     }
-    public void deleteReview(int id) {
+    public void deleteReview(Review r, Listener2<Void> listener) {
+        executor.execute(() -> {
+            //   List<Review> data = localDb.reviewDao().getAllReviews();
+            localDb.reviewDao().delete(r);
+            //return to the main thread because we want the executor to do only DB missions
+            mainHandler.post(() -> {
+                listener.onComplete();
+            });
 
-        allReviews.remove(getIndexByReviewId(id));
+        });
     }
 }

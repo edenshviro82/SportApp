@@ -36,19 +36,16 @@ public class MyReviewDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_review_details, container, false);
         pos = MyReviewDetailsFragmentArgs.fromBundle(getArguments()).getPos();
         email = MyReviewDetailsFragmentArgs.fromBundle(getArguments()).getUserEmail();
-
         cityTV = view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_city);
         sportTV = view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_sport);
         descriptionTV=view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_description);
         emailTV= view.findViewById(R.id.MyReviewDetailsFragment_details_tv_edit_mail);
-        Model.instance().getAllReviews((allReviews)->{
-            data=Model.instance().getMyReviews(allReviews,email);
-        });
+//        reloadData(email);
 
         editBtn=view.findViewById(R.id.MyReviewDetailsFragment_edit_btn);
-
-        re=data.get(pos);
-        this.bind(re,pos);
+//        Log.d("Tag","size: " + data.size());
+//        re=data.get(pos);
+//        this.bind(re,pos);
 
         editBtn.setOnClickListener(view1 ->{
             MyReviewDetailsFragmentDirections.ActionMyReviewDetailsFragmentToEditMyReviewFragment action = MyReviewDetailsFragmentDirections.actionMyReviewDetailsFragmentToEditMyReviewFragment(pos,email);
@@ -56,6 +53,18 @@ public class MyReviewDetailsFragment extends Fragment {
         } );
         return view;
     }
+    public void reloadData(String email){
+        Log.d("Tag","before: ");
+        Model.instance().getAllReviews((reviewList)->{
+            Log.d("Tag","reviewList: " + reviewList.size());
+            data=Model.instance().getMyReviews(reviewList,email);
+            re=data.get(pos);
+            this.bind(re,pos);
+            Log.d("Tag","size: " + data.size());
+
+        });
+    }
+
 
     public void bind(Review re, int pos) {
         cityTV.setText(re.getCity());
@@ -68,7 +77,7 @@ public class MyReviewDetailsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        bind(re,pos);
+        reloadData(email);
     }
 
 }

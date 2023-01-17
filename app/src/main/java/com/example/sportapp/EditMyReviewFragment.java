@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,38 +41,38 @@ public class EditMyReviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_edit_my_review, container, false);
         pos = EditMyReviewFragmentArgs.fromBundle(getArguments()).getPos();
         email = EditMyReviewFragmentArgs.fromBundle(getArguments()).getUserEmail();
-
-        Model.instance().getAllReviews((reviewList)->{
-            allReviews=reviewList;
-            data= Model.instance().getMyReviews(allReviews,email);
-        });
-
-
         cityET = view.findViewById(R.id.editMyReview_Pt_city);
         sportET = view.findViewById(R.id.editMyReview_Pt_sport);
         descriptionET=view.findViewById(R.id.editMyReview_Pt_description);
-
-
-
-        re=data.get(pos);
-        this.bind(re,pos);
-
         save=view.findViewById(R.id.editMyReview_save_btn);
         cancel=view.findViewById(R.id.editMyReview_cancel_btn);
         delete=view.findViewById(R.id.editMyReview_delete_btn);
 
-
         save.setOnClickListener(view1 -> {
-            this.bindBack(pos);
-            Navigation.findNavController(view1).popBackStack();
+           Model.instance().getAllReviews((reviewList)->{
+            allReviews=reviewList;
+            data= Model.instance().getMyReviews(allReviews,email);
+            bindBack(pos);
+             Model.instance().addReview(data.get(pos),()->{
 
-
+                 Navigation.findNavController(view).popBackStack();
+             });
+            });
+            Log.d("TAG", data.get(pos).getDescription() + "   desc");
         });
 
         delete.setOnClickListener(view1->{
-            //Model.instance().deleteReview(re.getId());
-            Navigation.findNavController(view1).popBackStack();
-            Navigation.findNavController(view1).popBackStack();
+            Model.instance().getAllReviews((reviewList)->{
+                allReviews=reviewList;
+                data= Model.instance().getMyReviews(allReviews,email);
+                //bindBack(pos);
+                Model.instance().deleteReview(data.get(pos),()->{
+                    //Log.d("TAG", data.get(pos).getDescription() + "   desc");
+                    Navigation.findNavController(view1).popBackStack();
+                    Navigation.findNavController(view1).popBackStack();
+
+                });
+            });
 
 
         });
@@ -87,7 +89,7 @@ public class EditMyReviewFragment extends Fragment {
         cityET.setText(re.getCity());
         sportET.setText(re.getSport());
         descriptionET.setText(re.getDescription());
-         }
+    }
 
 
     private void bindBack( int pos) {
@@ -100,6 +102,18 @@ public class EditMyReviewFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        bind(re,pos);
+//        bind(re,pos);
+        reloadData(email);
+
+    }
+
+    public void reloadData(String email){
+        Model.instance().getAllReviews((reviewList)->{
+            allReviews=reviewList;
+            data=Model.instance().getMyReviews(reviewList,email);
+            re=data.get(pos);
+            this.bind(re,pos);
+
+        });
     }
 }

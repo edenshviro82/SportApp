@@ -86,32 +86,37 @@ public class EditUserFragment extends Fragment {
             }
         });
         sportSpinner.setAdapter(adapter);
+
         saveBtn.setOnClickListener((view -> {
 
            String name= binding.editUserNameInputEt.getText().toString();
            String city= binding.editUserCityInputEt.getText().toString();
 
-           Model.instance().printUser(email);
+
 
            newUser= new User();
-
+         //   Model.instance().printUser(newUser);
           Model.instance().getAllUsers((allUsers)->{
               newUser= Model.instance().getUserByEmail(allUsers,email);
+              if(!city.equals(""))
+                  newUser.setCity(city);
+
+              if(!name.equals(""))
+                  newUser.setName(name);
+
+
+              newUser.setSport(sport);
+
+              Model.instance().addUser(newUser,()->{
+                  Navigation.findNavController(view).popBackStack();
+
+              });
 
           });
 
-         if(!city.equals(""))
-            newUser.setCity(city);
-
-         if(!name.equals(""))
-            newUser.setName(name);
 
 
-         newUser.setSport(sport);
 
-         Model.instance().addUser(newUser);
-         Model.instance().printUser(email);
-         Navigation.findNavController(view).popBackStack();
 
 
        }));

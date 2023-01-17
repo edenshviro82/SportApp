@@ -27,22 +27,22 @@ public class Weather {
 
     public static Weather getWeatherDataForCity(String city) {
 
-        String apiKey="f501c3b6c235bca43062ed483367a3d9";
+            String apiKey="874e893c6aedb16c688cacfa4130b321";
 
 
-        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+            String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
-        // Create a new OkHttpClient
-        OkHttpClient client = new OkHttpClient();
+            // Create a new OkHttpClient
+            OkHttpClient client = new OkHttpClient();
 
-        // Create a new request using the GET method
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+            // Create a new request using the GET method
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
 
-        // Use an Executor to make the API call in the background
-        Executor executor = Executors.newSingleThreadExecutor();
-        Future<Weather> future = ((ExecutorService) executor).submit(new Callable<Weather>() {
+            // Use an Executor to make the API call in the background
+            Executor executor = Executors.newSingleThreadExecutor();
+            Future<Weather> future = ((ExecutorService) executor).submit(new Callable<Weather>() {
             @Override
             public Weather call() throws Exception {
                 try {
@@ -66,14 +66,16 @@ public class Weather {
 
                         Log.d("json", String.valueOf(json));
 
-
+                        Log.d("TAG", data.temperature + "");
                         return data;
                     } else {
                         // An error occurred, return null
+                        Log.d("ERROR", response.code() + "");
                         return null;
                     }
                 } catch (IOException | JSONException e) {
                     // An error occurred, return null
+                    Log.d("ERROR", e + "");
                     return null;
                 }
             }

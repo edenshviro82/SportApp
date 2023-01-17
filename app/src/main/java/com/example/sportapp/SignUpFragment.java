@@ -81,11 +81,15 @@ public class SignUpFragment extends Fragment  {
             String city= binding.SUFragCitysInputEt.getText().toString();
             if(sport.equals(null))
                 sport="not chosen";
-            Model.instance().addUser(new User(name,email,pass,city,sport,""));
 
-            Intent i = new Intent(getActivity(), HomeActivity.class);
-            i.putExtra("userEmail",email);
-            startActivity(i);
+
+            Model.instance().addUser(new User(name,email,pass,city,sport,""),()->{
+                Intent i = new Intent(getActivity(), HomeActivity.class);
+                i.putExtra("userEmail",email);
+                startActivity(i);
+            });
+
+
 
         });
 

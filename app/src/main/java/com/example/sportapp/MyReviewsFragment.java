@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,10 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sportapp.databinding.FragmentMyReviewsBinding;
-import com.example.sportapp.databinding.FragmentSignInBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
@@ -35,6 +34,7 @@ public class MyReviewsFragment extends Fragment {
     Button add;
     String email;
     @NonNull FragmentMyReviewsBinding binding;
+    ProgressBar pb;
 
 
 
@@ -49,8 +49,8 @@ public class MyReviewsFragment extends Fragment {
 
         email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
        Log.d("TAG",email);
-
-        reloadData(email);
+        pb=view.findViewById(R.id.my_reviews_progressBar);
+//        reloadData(email);
 
         list = view.findViewById(R.id.myReviews_recycler);
         list.setHasFixedSize(true);
@@ -75,13 +75,14 @@ public class MyReviewsFragment extends Fragment {
     void reloadData(String email) {
         Log.d("TAG","reload data");
 
-        binding.progressBar.setVisibility(View.VISIBLE);
+        pb.setVisibility(View.VISIBLE);
         Model.instance().getAllReviews((reviewList)->{
             data=Model.instance().getMyReviews(reviewList,email);
             adapter.setData(data);
-            binding.progressBar.setVisibility(View.GONE);
+            Log.d("TAG","progress");
+            pb.setVisibility(View.GONE);
         });
-        binding.progressBar.setVisibility(View.GONE);
+//        pb.setVisibility(View.GONE);
 
     }
 

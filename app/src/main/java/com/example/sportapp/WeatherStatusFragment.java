@@ -66,14 +66,6 @@ public class WeatherStatusFragment extends Fragment {
         email = WeatherStatusFragmentArgs.fromBundle(getArguments()).getUserEmail();
         Log.d("TAG",email);
        // user=Model.instance().getAllUsers().get(email);
-        Model.instance().getAllUsers((userList)->{
-            List<User> list= userList;
-            user=Model.instance().getUserByEmail(list,email);
-        });
-
-        // Get the temperature for a specific city
-        data=Weather.getWeatherDataForCity(user.getCity());
-        updateUI(data);
 
         return view;
     }
@@ -245,17 +237,29 @@ public class WeatherStatusFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+//        Model.instance().getAllUsers((userList)->{
+//            List<User> list= userList;
+//            for(User u:list)
+//            {
+//                if(u.getEmail().equals(email))
+//                    user=u;
+//            }
+//        });
+        reloadData(email);
+    }
+
+    public void reloadData(String email)
+    {
         Model.instance().getAllUsers((userList)->{
             List<User> list= userList;
-            for(User u:list)
-            {
-                if(u.getEmail().equals(email))
-                    user=u;
-            }
+            user=Model.instance().getUserByEmail(userList,email);
+
+            // Get the temperature for a specific city
+
+            data=Weather.getWeatherDataForCity(user.getCity());
+            updateUI(data);
         });
-        // Get the temperature for a specific city
-        data=Weather.getWeatherDataForCity(user.getCity());
-        updateUI(data);
+
     }
 
 

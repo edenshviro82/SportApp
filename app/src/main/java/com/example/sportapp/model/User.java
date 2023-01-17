@@ -1,13 +1,15 @@
 package com.example.sportapp.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 @Entity
 public class User {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
+     public int userId;
      String email="";
      String name="";
      String password="";
