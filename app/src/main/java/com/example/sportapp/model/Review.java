@@ -5,12 +5,15 @@ import androidx.room.PrimaryKey;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 @Entity
 public class Review {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     public int reviewId;
-
     String emailOfOwner="";
     String city="";
     String sport="";
@@ -22,14 +25,46 @@ public class Review {
     }
 
     public Review( String emailOfOwner,String description, String city, String sport, String img) {
-      //  this.reviewId = reviewId;
+        Random rand = new Random();
+        this.reviewId = rand.nextInt((200000 - 100000) + 1) + 100000;
         this.emailOfOwner = emailOfOwner;
         this.city = city;
         this.sport = sport;
         this.img = img;
         this.description=description;
+
     }
 
+
+    static final String REVIEWID = "reviewid";
+    static final String EMAILOFOWNER = "emailOfOwner";
+    static final String DESCRIPTION = "description";
+    static final String CITY = "city";
+    static final String SPORT = "sport";
+    static final String IMG = "img";
+    static final String COLLECTION = "reviews";
+
+    public static Review fromJson(Map<String,Object> json){
+
+        String emailOfOwner = (String)json.get(EMAILOFOWNER);
+        String city = (String)json.get(CITY);
+        String sport = (String)json.get(SPORT);
+        String img = (String)json.get(IMG);
+        String description = (String)json.get(DESCRIPTION);
+        Review r = new Review(emailOfOwner,description,city,sport,img);
+        return r;
+    }
+
+    public Map<String,Object> toJson(){
+        Map<String, Object> json = new HashMap<>();
+        json.put(REVIEWID, getId());
+        json.put(EMAILOFOWNER, getEmailOfOwner());
+        json.put(DESCRIPTION, getDescription());
+        json.put(CITY, getCity());
+        json.put(SPORT, getSport());
+        json.put(IMG, getImg());
+        return json;
+    }
     public int getId() {
         return reviewId;
     }

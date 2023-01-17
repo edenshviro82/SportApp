@@ -31,6 +31,7 @@ public class Model {
     AppLocalDbRepository localDb=AppLocalDb.getAppDb();
     Executor executor = Executors.newSingleThreadExecutor();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
+    private FirebaseModel firebaseModel = new FirebaseModel();
 
 
     List<Review> allReviews = new LinkedList<>();
@@ -43,15 +44,16 @@ public class Model {
     }
 
     public void addUser(User u, Listener2<Void> listener) {
-        executor.execute(() -> {
-            //   List<Review> data = localDb.reviewDao().getAllReviews();
-            localDb.userDao().insertAll(u);
-            //return to the main thread because we want the executor to do only DB missions
-            mainHandler.post(() -> {
-                listener.onComplete();
-            });
-
-        });
+        firebaseModel.addUser(u,listener);
+//        executor.execute(() -> {
+//            //   List<Review> data = localDb.reviewDao().getAllReviews();
+//            localDb.userDao().insertAll(u);
+//            //return to the main thread because we want the executor to do only DB missions
+//            mainHandler.post(() -> {
+//                listener.onComplete();
+//            });
+//
+//        });
     }
 
     public interface Listener<T>{
@@ -59,13 +61,14 @@ public class Model {
     }
 
     public void getAllUsers(Listener<List<User>> callback){
-            executor.execute(()->{
-                List<User> data = localDb.userDao().getAllUsers();
-                //return to the main thread because we want the executor to do only DB missions
-                mainHandler.post(()->{
-                    callback.onComplete(data);
-                });
-        });
+        firebaseModel.getAllUsers(callback);
+//            executor.execute(()->{
+//                List<User> data = localDb.userDao().getAllUsers();
+//                //return to the main thread because we want the executor to do only DB missions
+//                mainHandler.post(()->{
+//                    callback.onComplete(data);
+//                });
+//        });
 
        // return userMap;
     }
@@ -89,30 +92,32 @@ public class Model {
 
 //**********************************************
     public void addReview(Review r, Listener2<Void> listener) {
-        executor.execute(() -> {
-         //   List<Review> data = localDb.reviewDao().getAllReviews();
-            localDb.reviewDao().insertAll(r);
-            //return to the main thread because we want the executor to do only DB missions
-            mainHandler.post(() -> {
-                listener.onComplete();
-            });
-
-        });
+        firebaseModel.addReview(r,listener);
+//        executor.execute(() -> {
+//         //   List<Review> data = localDb.reviewDao().getAllReviews();
+//            localDb.reviewDao().insertAll(r);
+//            //return to the main thread because we want the executor to do only DB missions
+//            mainHandler.post(() -> {
+//                listener.onComplete();
+//            });
+//
+//        });
     }
 
     public void getAllReviews(Listener<List<Review>> callback){
-        executor.execute(() -> {
-            List<Review> data = localDb.reviewDao().getAllReviews();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //return to the main thread because we want the executor to do only DB missions
-            mainHandler.post(() -> {
-                callback.onComplete(data);
-            });
-        });
+        firebaseModel.getAllReviews(callback);
+//        executor.execute(() -> {
+//            List<Review> data = localDb.reviewDao().getAllReviews();
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            //return to the main thread because we want the executor to do only DB missions
+//            mainHandler.post(() -> {
+//                callback.onComplete(data);
+//            });
+//        });
 
     }
     public List<Review> getMyReviews(List<Review> all, String email){

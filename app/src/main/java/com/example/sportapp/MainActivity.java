@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         NavigationUI.setupActionBarWithNavController(this,navController);
 
+
+
     }
 
     int fragmentMenuId = 0;

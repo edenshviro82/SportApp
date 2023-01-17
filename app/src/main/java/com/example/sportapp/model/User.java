@@ -5,8 +5,13 @@ import androidx.room.PrimaryKey;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 public class User {
+
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
      public int userId;
@@ -30,6 +35,39 @@ public class User {
         this.img = img;
     }
 
+
+    static final String USERID = "userId";
+    static final String EMAIL = "email";
+    static final String NAME = "name";
+    static final String PASSWORD = "password";
+    static final String CITY = "city";
+    static final String SPORT = "sport";
+    static final String IMG = "img";
+    static final String COLLECTION = "users";
+
+    public static User fromJson(Map<String,Object> json){
+        int userid = (int)json.get(USERID);
+        String email = (String)json.get(EMAIL);
+        String name = (String)json.get(NAME);
+        String password = (String)json.get(PASSWORD);
+        String city = (String)json.get(CITY);
+        String sport = (String)json.get(SPORT);
+        String img = (String)json.get(IMG);
+        User u = new User(name,email,password,city,sport,img);
+        return u;
+    }
+
+    public Map<String,Object> toJson(){
+        Map<String, Object> json = new HashMap<>();
+        json.put(USERID, getUserId());
+        json.put(EMAIL, getEmail());
+        json.put(NAME, getName());
+        json.put(PASSWORD, getPassword());
+        json.put(CITY, getCity());
+        json.put(SPORT, getSport());
+        json.put(IMG, getImg());
+        return json;
+    }
 
     public String getName() {
         return name;
@@ -78,6 +116,17 @@ public class User {
     public void setImg(String img) {
         this.img = img;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
 
 
 
