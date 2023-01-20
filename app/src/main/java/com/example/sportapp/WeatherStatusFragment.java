@@ -251,12 +251,10 @@ public class WeatherStatusFragment extends Fragment {
     public void reloadData(String email)
     {
         Model.instance().getAllUsers((userList)->{
-            List<User> list= userList;
             user=Model.instance().getUserByEmail(userList,email);
-
-            // Get the temperature for a specific city
-
+            Log.d("TAG",user.getCity());
             data=Weather.getWeatherDataForCity(user.getCity());
+            Log.d("TAG",data.toString());
             updateUI(data);
         });
 

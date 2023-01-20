@@ -29,6 +29,8 @@ import com.example.sportapp.databinding.FragmentNewReviewBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
+import java.util.Random;
+
 
 public class AddReviewFragment extends Fragment {
     String id;
@@ -97,6 +99,7 @@ public class AddReviewFragment extends Fragment {
 //                id=allReviews.size()+1;
 //            });
             Review newR = new Review(email, description, city, sport, "");
+            newR.generateID();
             //Log.d("id","id: "+id);
             // Model.instance().getAllReviews().add(newR);
             Model.instance().addReview(newR,()->{

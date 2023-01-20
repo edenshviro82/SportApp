@@ -46,7 +46,6 @@ public class User {
     static final String COLLECTION = "users";
 
     public static User fromJson(Map<String,Object> json){
-        int userid = (int)json.get(USERID);
         String email = (String)json.get(EMAIL);
         String name = (String)json.get(NAME);
         String password = (String)json.get(PASSWORD);

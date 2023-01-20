@@ -20,19 +20,30 @@ public class Review {
     String img="";
     String description="";
 
-    public Review() {
+    public Review() {}
 
-    }
-
-    public Review( String emailOfOwner,String description, String city, String sport, String img) {
-        Random rand = new Random();
-        this.reviewId = rand.nextInt((200000 - 100000) + 1) + 100000;
+    public Review(String emailOfOwner,String description, String city, String sport, String img) {
         this.emailOfOwner = emailOfOwner;
         this.city = city;
         this.sport = sport;
         this.img = img;
         this.description=description;
 
+    }
+
+    public Review(String id,String emailOfOwner,String description, String city, String sport, String img) {
+        this.reviewId=Integer.parseInt(id);
+        this.emailOfOwner = emailOfOwner;
+        this.city = city;
+        this.sport = sport;
+        this.img = img;
+        this.description=description;
+
+    }
+
+    public void generateID(){
+        Random rand = new Random();
+        this.reviewId = rand.nextInt((200000 - 100000) + 1) + 100000;
     }
 
 
@@ -45,13 +56,13 @@ public class Review {
     static final String COLLECTION = "reviews";
 
     public static Review fromJson(Map<String,Object> json){
-
+        String reviewid=String.valueOf(json.get(REVIEWID));
         String emailOfOwner = (String)json.get(EMAILOFOWNER);
         String city = (String)json.get(CITY);
         String sport = (String)json.get(SPORT);
         String img = (String)json.get(IMG);
         String description = (String)json.get(DESCRIPTION);
-        Review r = new Review(emailOfOwner,description,city,sport,img);
+        Review r = new Review(reviewid,emailOfOwner,description,city,sport,img);
         return r;
     }
 

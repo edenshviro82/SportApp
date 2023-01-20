@@ -53,6 +53,7 @@ public class EditMyReviewFragment extends Fragment {
             allReviews=reviewList;
             data= Model.instance().getMyReviews(allReviews,email);
             bindBack(pos);
+            Log.d("TAG",data.get(pos).reviewId+"<- id "+data.get(pos).getCity());
              Model.instance().addReview(data.get(pos),()->{
 
                  Navigation.findNavController(view).popBackStack();
