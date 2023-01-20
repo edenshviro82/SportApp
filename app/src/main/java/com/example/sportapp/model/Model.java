@@ -1,5 +1,6 @@
 package com.example.sportapp.model;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -169,5 +170,9 @@ public class Model {
             });
 
         });
+    }
+
+    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
+        firebaseModel.uploadImage(name,bitmap,listener);
     }
 }

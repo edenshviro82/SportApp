@@ -86,14 +86,12 @@
 
     <ImageView
         android:id="@+id/edit_user_avatar_img"
-        android:layout_width="100dp"
-        android:layout_height="146dp"
-        android:scaleType="centerInside"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/edit_user_save_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_user_sport_input_layout"
-        app:srcCompat="@drawable/addpic" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/edit_user_save_btn"
@@ -120,8 +118,27 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/edit_user_save_btn" />
 
+    <ImageView
+        android:id="@+id/add_from_camera_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:layout_constraintBottom_toTopOf="@+id/edit_user_avatar_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_user_sport_spinner" />
 
-
+    <ImageView
+        android:id="@+id/add_from_gallery_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="300dp"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24"
+        app:layout_constraintBottom_toTopOf="@+id/edit_user_avatar_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_user_sport_spinner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout >

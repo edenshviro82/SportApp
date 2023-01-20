@@ -3,8 +3,14 @@ package com.example.sportapp;
 import static android.content.Intent.getIntent;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuProvider;
@@ -31,6 +37,7 @@ import com.example.sportapp.databinding.FragmentEditUserBinding;
 import com.example.sportapp.databinding.FragmentNewReviewBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
+import com.squareup.picasso.Picasso;
 
 
 public class EditUserFragment extends Fragment {
@@ -43,7 +50,9 @@ public class EditUserFragment extends Fragment {
     String sport;
     String[] type=Model.instance().getType();
     User newUser;
-
+    ActivityResultLauncher<Void> cameraLauncher;
+    ActivityResultLauncher<String> galleryLauncher;
+    Boolean isAvatarSelected = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +71,27 @@ public class EditUserFragment extends Fragment {
                 return false;
             }
         },this, Lifecycle.State.RESUMED);
+
+
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
+            @Override
+            public void onActivityResult(Bitmap result) {
+                if (result != null) {
+                    binding.editUserAvatarImg.setImageBitmap(result);
+                    isAvatarSelected = true;
+                }
+            }
+        });
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null){
+                    binding.editUserAvatarImg.setImageURI(result);
+                    isAvatarSelected = true;
+                }
+            }
+        });
+
 
     }
 
@@ -87,12 +117,26 @@ public class EditUserFragment extends Fragment {
         });
         sportSpinner.setAdapter(adapter);
 
+
+            Model.instance().getAllUsers((allUsers)-> {
+                    newUser = Model.instance().getUserByEmail(allUsers, email);
+        if(!newUser.getImg().equals("")) {
+
+            Picasso.get().load(newUser.getImg()).placeholder(R.drawable.addpic).into(binding.editUserAvatarImg);
+        }else{
+            binding.editUserAvatarImg.setImageResource(R.drawable.addpic);
+        }
+
+        });
+
+
+
+
+
         saveBtn.setOnClickListener((view -> {
 
            String name= binding.editUserNameInputEt.getText().toString();
            String city= binding.editUserCityInputEt.getText().toString();
-
-
 
            newUser= new User();
          //   Model.instance().printUser(newUser);
@@ -107,10 +151,26 @@ public class EditUserFragment extends Fragment {
 
               newUser.setSport(sport);
 
-              Model.instance().addUser(newUser,()->{
-                  Navigation.findNavController(view).popBackStack();
+              if (isAvatarSelected){
+                  binding.editUserAvatarImg.setDrawingCacheEnabled(true);
+                  binding.editUserAvatarImg.buildDrawingCache();
+                  Bitmap bitmap = ((BitmapDrawable) binding.editUserAvatarImg.getDrawable()).getBitmap();
+                  Model.instance().uploadImage(newUser.getEmail(), bitmap, url->{
+                      if (url != null){
+                          newUser.setImg(url);
+                      }
+                      Model.instance().addUser(newUser,()->{
+                          Navigation.findNavController(view).popBackStack();
 
-              });
+                      });
+                  });
+              }else {
+                  Model.instance().addUser(newUser,()->{
+                      Navigation.findNavController(view).popBackStack();
+
+                  });
+              }
+
 
           });
 
@@ -120,6 +180,15 @@ public class EditUserFragment extends Fragment {
 
 
        }));
+
+
+        binding.addFromCameraIv.setOnClickListener(view1->{
+            cameraLauncher.launch(null);
+        });
+
+        binding.addFromGalleryIv.setOnClickListener(view1->{
+            galleryLauncher.launch("media/*");
+        });
 
         cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
 

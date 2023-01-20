@@ -22,7 +22,7 @@ import java.util.List;
 
 public class FirebaseModel{
     FirebaseFirestore db;
-  //  FirebaseStorage storage;
+    FirebaseStorage storage;
 
     FirebaseModel(){
         db = FirebaseFirestore.getInstance();
@@ -30,7 +30,7 @@ public class FirebaseModel{
                 .setPersistenceEnabled(false)
                 .build();
         db.setFirestoreSettings(settings);
-     //   storage = FirebaseStorage.getInstance();
+        storage = FirebaseStorage.getInstance();
 
     }
     ///////---------------------------REVIEW------------------------------------------
@@ -101,30 +101,30 @@ public class FirebaseModel{
     }
 
 
-//    void uploadImage(String name, Bitmap bitmap, Model.Listener<String> listener){
-//        StorageReference storageRef = storage.getReference();
-//        StorageReference imagesRef = storageRef.child("images/" + name + ".jpg");
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//        byte[] data = baos.toByteArray();
-//
-//        UploadTask uploadTask = imagesRef.putBytes(data);
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                listener.onComplete(null);
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        listener.onComplete(uri.toString());
-//                    }
-//                });
-//            }
-//        });
-//
-//    }
+    void uploadImage(String name, Bitmap bitmap, Model.Listener<String> listener){
+        StorageReference storageRef = storage.getReference();
+        StorageReference imagesRef = storageRef.child("images/" + name + ".jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = imagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                listener.onComplete(null);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        listener.onComplete(uri.toString());
+                    }
+                });
+            }
+        });
+
+    }
 }
