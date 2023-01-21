@@ -1,6 +1,7 @@
 package com.example.sportapp.model;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -18,6 +19,7 @@ import java.util.Map;
 public interface UserDao {
     @Query("select * from User")
     List<User> getAllUsers();
+    //LiveData<List<User>> getAllUsers();
 
     @Query("select * from User where email = :email")
     User getUserByEmail(String email);

@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -45,22 +47,58 @@ public class Model {
     }
 
     public void addUser(User u, Listener2<Void> listener) {
-        firebaseModel.addUser(u,listener);
-//        executor.execute(() -> {
-//            //   List<Review> data = localDb.reviewDao().getAllReviews();
-//            localDb.userDao().insertAll(u);
-//            //return to the main thread because we want the executor to do only DB missions
-//            mainHandler.post(() -> {
-//                listener.onComplete();
-//            });
-//
+//        firebaseModel.addUser(u,()->{
+//            refreshAllUsers();
+//            listener.onComplete();
 //        });
+        firebaseModel.addUser(u,listener);
+
     }
 
     public interface Listener<T>{
         void onComplete(T data);
     }
+    public enum LoadingState{
+        LOADING,
+        NOT_LOADING
+    }
+    final public MutableLiveData<LoadingState> EventUsersListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
+    private LiveData<List<User>> userList;
+    public LiveData<List<User>> getAllUsers() {
+        if(userList == null){
+            //userList = localDb.userDao().getAllUsers();
+            refreshAllUsers();
+        }
+        return userList;
+    }
 
+    public void refreshAllUsers(){
+        EventUsersListLoadingState.setValue(LoadingState.LOADING);
+        // get local last update
+        Long localLastUpdate = User.getLocalLastUpdate();
+        // get all updated recorde from firebase since local last update
+        firebaseModel.getAllUsersSince(localLastUpdate,list->{
+            executor.execute(()->{
+                Log.d("TAG", " firebase return : " + list.size());
+                Long time = localLastUpdate;
+                for(User u:list){
+                    // insert new records into ROOM
+                    localDb.userDao().insertAll(u);
+                    if (time < u.getLastUpdated()){
+                        time = u.getLastUpdated();
+                    }
+                }
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // update local last update
+                User.setLocalLastUpdate(time);
+                EventUsersListLoadingState.postValue(LoadingState.NOT_LOADING);
+            });
+        });
+    }
     public void getAllUsers(Listener<List<User>> callback){
         firebaseModel.getAllUsers(callback);
 //            executor.execute(()->{

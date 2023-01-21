@@ -2,6 +2,7 @@ package com.example.sportapp;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,9 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -48,6 +52,7 @@ public class SignUpFragment extends Fragment  {
     AutoCompleteTextView sportAutoComplete;
     String[] type=Model.instance().getType();
     String sport;
+    SignUpFragmentViewModel viewModel;
 
 
 
@@ -104,8 +109,13 @@ public class SignUpFragment extends Fragment  {
 
 
         return binding.getRoot();
-
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(SignUpFragmentViewModel.class);
 
+    }
 }
+

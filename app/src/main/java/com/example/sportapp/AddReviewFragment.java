@@ -14,6 +14,8 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -35,6 +37,7 @@ import com.example.sportapp.databinding.FragmentNewReviewBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -162,3 +165,11 @@ public class AddReviewFragment extends Fragment {
         return binding.getRoot();
     }
 }
+
+//public class AddReviewFragmentViewModel extends ViewModel {
+//    private LiveData<List<Review>> data = Model.instance().getAllReviews();
+//
+//    LiveData<List<Review>> getData(){
+//        return data;
+//    }
+//}

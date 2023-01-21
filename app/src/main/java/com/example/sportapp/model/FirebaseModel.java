@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -88,6 +89,26 @@ public class FirebaseModel{
                 callback.onComplete(list);
             }
         });
+    }
+
+    public void getAllUsersSince(Long since, Model.Listener<List<User>> callback){
+        db.collection(User.COLLECTION)
+                .whereGreaterThanOrEqualTo(User.LAST_UPDATED, new Timestamp(since,0))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<User> list = new LinkedList<>();
+                        if (task.isSuccessful()){
+                            QuerySnapshot jsonsList = task.getResult();
+                            for (DocumentSnapshot json: jsonsList){
+                                User u = User.fromJson(json.getData());
+                                list.add(u);
+                            }
+                        }
+                        callback.onComplete(list);
+                    }
+                });
     }
 
     public void addUser(User u, Model.Listener2<Void> listener) {
