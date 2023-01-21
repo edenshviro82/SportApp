@@ -98,7 +98,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(oceanData.getFeelsLikeC() + " °C");
                 prop2Headline.setText("Humidity: ");
                 prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("uvIndex: ");
                 prop4.setText(oceanData.getUvIndex() + " uv");
@@ -110,7 +110,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(oceanData.getTotalSnowCM() + " cm");
                 prop2Headline.setText("Chance of snow: ");
                 prop2.setText(oceanData.getChanceOfSnow() + " %");
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("Wind Direction: ");
                 prop4.setText(data.windDirection);
@@ -123,7 +123,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(data.windSpeed+" meter/sec");
                 prop2Headline.setText("Wind Direction: ");
                 prop2.setText(data.windDirection);
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("rain chance today: ");
                 prop4.setText(oceanData.getChanceOfRain() + "%");
@@ -147,7 +147,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(oceanData.getFeelsLikeC() + " °C");
                 prop2Headline.setText("Humidity: ");
                 prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("uvIndex: ");
                 prop4.setText(oceanData.getUvIndex() + " uv");
@@ -159,7 +159,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(oceanData.getTotalSnowCM() + " cm");
                 prop2Headline.setText("Humidity: ");
                 prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("uvIndex: ");
                 prop4.setText(oceanData.getUvIndex() + " uv");
@@ -171,7 +171,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(oceanData.getFeelsLikeC() + " °C");
                 prop2Headline.setText("Humidity: ");
                 prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("uvIndex: ");
                 prop4.setText(oceanData.getUvIndex() + " uv");
@@ -184,7 +184,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(data.windSpeed+" meter/sec");
                 prop2Headline.setText("Wind Direction: ");
                 prop2.setText(data.windDirection);
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("rain chance today: ");
                 prop4.setText(oceanData.getChanceOfRain() + "%");
@@ -209,7 +209,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(oceanData.getFeelsLikeC() + " °C");
                 prop2Headline.setText("Humidity: ");
                 prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("rain chance today: ");
                 prop4.setText(oceanData.getChanceOfRain() + "%");
@@ -221,7 +221,7 @@ public class WeatherStatusFragment extends Fragment {
                 prop1.setText(data.windSpeed+" meter/sec");
                 prop2Headline.setText("Wind Direction: ");
                 prop2.setText(data.windDirection);
-                prop3Headline.setText("Weather description: ");
+                prop3Headline.setText("description: ");
                 prop3.setText(data.weatherDescription);
                 prop4Headline.setText("rain chance today: ");
                 prop4.setText(oceanData.getChanceOfRain() + "%");

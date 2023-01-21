@@ -58,6 +58,7 @@ public class Review {
     public static Review fromJson(Map<String,Object> json){
         String reviewid=String.valueOf(json.get(REVIEWID));
         String emailOfOwner = (String)json.get(EMAILOFOWNER);
+//        String reviewid = (String)json.get(REVIEWID);
         String city = (String)json.get(CITY);
         String sport = (String)json.get(SPORT);
         String img = (String)json.get(IMG);
