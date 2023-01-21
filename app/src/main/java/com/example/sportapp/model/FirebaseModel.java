@@ -35,6 +35,27 @@ public class FirebaseModel{
 
     }
     ///////---------------------------REVIEW------------------------------------------
+
+    public void getAllReviewsSince(Long since, Model.Listener<List<Review>> callback){
+        db.collection(Review.COLLECTION)
+                .whereGreaterThanOrEqualTo(Review.LAST_UPDATED, new Timestamp(since,0))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<Review> list = new LinkedList<>();
+                        if (task.isSuccessful()){
+                            QuerySnapshot jsonsList = task.getResult();
+                            for (DocumentSnapshot json: jsonsList){
+                                Review re = Review.fromJson(json.getData());
+                                list.add(re);
+                            }
+                        }
+                        callback.onComplete(list);
+                    }
+                });
+    }
+
     public void getAllReviews(Model.Listener<List<Review>> callback){
         db.collection(Review.COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

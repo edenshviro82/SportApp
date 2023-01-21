@@ -4,14 +4,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sportapp.model.Model;
+import com.example.sportapp.model.Review;
 import com.example.sportapp.model.User;
 
 import java.util.List;
 
-public class SignUpFragmentViewModel extends ViewModel {
-    private LiveData<List<User>> data = Model.instance().getAllUsers();
+public class AllReviewsFragmentViewModel extends ViewModel {
 
-    LiveData<List<User>> getData() {
+    private LiveData<List<Review>> data = Model.instance().getAllReviews();
+
+    LiveData<List<Review>> getData() {
         return data;
     }
 }

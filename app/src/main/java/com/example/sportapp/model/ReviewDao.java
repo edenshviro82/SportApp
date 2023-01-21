@@ -1,5 +1,6 @@
 package com.example.sportapp.model;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface ReviewDao {
 
     @Query("select * from Review")
-    List<Review> getAllReviews();
+    LiveData<List<Review>> getAllReviews();
 
     @Query("select * from Review where reviewId = :reviewId")
     Review getReviewById(String reviewId);

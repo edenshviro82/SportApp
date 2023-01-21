@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sportapp.model.Model;
@@ -31,6 +32,7 @@ public class WeatherStatusFragment extends Fragment {
     TextView prop1,prop2,prop3,prop4,prop5;
     int stateCode;
     ImageView weatherIcon;
+    ProgressBar pb;
     User user=new User();
     Weather data;
 
@@ -49,6 +51,7 @@ public class WeatherStatusFragment extends Fragment {
         temperature=view.findViewById(R.id.weather_degree_tv);
         weatherIcon=view.findViewById(R.id.weather_icon_iv);
         sport=view.findViewById(R.id.weather_sport_tv);
+        pb=view.findViewById(R.id.weather_progressBar);
 
         prop1Headline=view.findViewById(R.id.weather_prop1_headline_tv);
         prop2Headline=view.findViewById(R.id.weather_prop2_headline_tv);
@@ -237,6 +240,7 @@ public class WeatherStatusFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        pb.setVisibility(View.VISIBLE);
 //        Model.instance().getAllUsers((userList)->{
 //            List<User> list= userList;
 //            for(User u:list)
@@ -246,6 +250,7 @@ public class WeatherStatusFragment extends Fragment {
 //            }
 //        });
         reloadData(email);
+
     }
 
     public void reloadData(String email)
@@ -256,6 +261,8 @@ public class WeatherStatusFragment extends Fragment {
             data=Weather.getWeatherDataForCity(user.getCity());
             Log.d("TAG",data.toString());
             updateUI(data);
+            pb.setVisibility(View.GONE);
+
         });
 
     }

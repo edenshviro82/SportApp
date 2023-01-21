@@ -35,11 +35,10 @@ public class Model {
     Executor executor = Executors.newSingleThreadExecutor();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private FirebaseModel firebaseModel = new FirebaseModel();
-
+    private LiveData<List<User>> userList;
+    private LiveData<List<Review>> reviewList;
 
     List<Review> allReviews = new LinkedList<>();
-    HashMap<String,User> userMap = new HashMap<>();
-    List<Review> myReviews=new LinkedList<>();
     String[] type={"Running","Skiing","Kiting","Tennis","Yoga","Biking","Badminton","Outside walking","Football","Basketball","Abseiling"};
 
     public String[] getType() {
@@ -62,54 +61,12 @@ public class Model {
         LOADING,
         NOT_LOADING
     }
-    final public MutableLiveData<LoadingState> EventUsersListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
-    private LiveData<List<User>> userList;
-    public LiveData<List<User>> getAllUsers() {
-        if(userList == null){
-            //userList = localDb.userDao().getAllUsers();
-            refreshAllUsers();
-        }
-        return userList;
-    }
+    final public MutableLiveData<LoadingState> EventReviewsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
 
-    public void refreshAllUsers(){
-        EventUsersListLoadingState.setValue(LoadingState.LOADING);
-        // get local last update
-        Long localLastUpdate = User.getLocalLastUpdate();
-        // get all updated recorde from firebase since local last update
-        firebaseModel.getAllUsersSince(localLastUpdate,list->{
-            executor.execute(()->{
-                Log.d("TAG", " firebase return : " + list.size());
-                Long time = localLastUpdate;
-                for(User u:list){
-                    // insert new records into ROOM
-                    localDb.userDao().insertAll(u);
-                    if (time < u.getLastUpdated()){
-                        time = u.getLastUpdated();
-                    }
-                }
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                // update local last update
-                User.setLocalLastUpdate(time);
-                EventUsersListLoadingState.postValue(LoadingState.NOT_LOADING);
-            });
-        });
-    }
+
+
     public void getAllUsers(Listener<List<User>> callback){
         firebaseModel.getAllUsers(callback);
-//            executor.execute(()->{
-//                List<User> data = localDb.userDao().getAllUsers();
-//                //return to the main thread because we want the executor to do only DB missions
-//                mainHandler.post(()->{
-//                    callback.onComplete(data);
-//                });
-//        });
-
-       // return userMap;
     }
     public void printUser(User u){
 
@@ -130,35 +87,59 @@ public class Model {
     }
 
 //**********************************************
+
+
+    public LiveData<List<Review>> getAllReviews() {
+        if(reviewList == null){
+            reviewList = localDb.reviewDao().getAllReviews();
+            refreshAllReviews();
+        }
+        return reviewList;
+    }
+
+    public void refreshAllReviews(){
+        EventReviewsListLoadingState.setValue(LoadingState.LOADING);
+        // get local last update
+        Long localLastUpdate = Review.getLocalLastUpdate();
+        // get all updated recorde from firebase since local last update
+        firebaseModel.getAllReviewsSince(localLastUpdate,list->{
+            executor.execute(()->{
+                Log.d("TAG", " firebase return : " + list.size());
+                Long time = localLastUpdate;
+                for(Review st:list){
+                    // insert new records into ROOM
+                    localDb.reviewDao().insertAll(st);
+                    if (time < st.getLastUpdated()){
+                        time = st.getLastUpdated();
+                    }
+                }
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // update local last update
+                Review.setLocalLastUpdate(time);
+                Log.d("TAG", " loding");
+                EventReviewsListLoadingState.postValue(LoadingState.NOT_LOADING);
+            });
+        });
+    }
+
+
     public void addReview(Review r, Listener2<Void> listener) {
-        firebaseModel.addReview(r,listener);
-//        executor.execute(() -> {
-//         //   List<Review> data = localDb.reviewDao().getAllReviews();
-//            localDb.reviewDao().insertAll(r);
-//            //return to the main thread because we want the executor to do only DB missions
-//            mainHandler.post(() -> {
-//                listener.onComplete();
-//            });
-//
-//        });
+        //firebaseModel.addReview(r,listener);
+        firebaseModel.addReview(r,()->{
+            refreshAllReviews();
+            listener.onComplete();
+        });
     }
 
     public void getAllReviews(Listener<List<Review>> callback){
         firebaseModel.getAllReviews(callback);
-//        executor.execute(() -> {
-//            List<Review> data = localDb.reviewDao().getAllReviews();
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            //return to the main thread because we want the executor to do only DB missions
-//            mainHandler.post(() -> {
-//                callback.onComplete(data);
-//            });
-//        });
-
     }
+
+
     public List<Review> getMyReviews(List<Review> all, String email){
 
         List<Review> mine=new LinkedList<>();
@@ -171,43 +152,17 @@ public class Model {
         }
         return mine;
     }
-    public int getIndexByReviewId(int id)
-    {
-        for(int i=0; i<allReviews.size(); i++)
-            if(allReviews.get(i).getId()==id)
-                return i;
-        return -1;
-    }
 
-    public Review getReviewById(int id)
-    {
-        for(int i=0; i<allReviews.size(); i++)
-            if(allReviews.get(i).getId()==id)
-                return allReviews.get(i);
-        return null;
-    }
-
-    public List<Review> getReviewsOrderByCity(String city){
-        List<Review> list = new LinkedList<>();
-        for(Review r: allReviews)
-        {
-            if(r.getCity().equals(city))
-            {
-                list.add(r);
-            }
-        }
-        return list;
-    }
     public void deleteReview(Review r, Listener2<Void> listener) {
-        executor.execute(() -> {
-            //   List<Review> data = localDb.reviewDao().getAllReviews();
-            localDb.reviewDao().delete(r);
-            //return to the main thread because we want the executor to do only DB missions
-            mainHandler.post(() -> {
-                listener.onComplete();
-            });
-
-        });
+//        executor.execute(() -> {
+//            //   List<Review> data = localDb.reviewDao().getAllReviews();
+//            localDb.reviewDao().delete(r);
+//            //return to the main thread because we want the executor to do only DB missions
+//            mainHandler.post(() -> {
+//                listener.onComplete();
+//            });
+//
+//        });
     }
 
     public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {

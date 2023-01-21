@@ -3,14 +3,17 @@ package com.example.sportapp;
 import static java.lang.Thread.sleep;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,11 +37,10 @@ import java.util.concurrent.Executors;
 
 public class AllReviewsFragment extends Fragment {
 
-
-    List<Review> data=new LinkedList<>();
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
-    ProgressBar pb;
+    SwipeRefreshLayout sr;
+    AllReviewsFragmentViewModel viewModel;
 
 
     @SuppressLint("MissingInflatedId")
@@ -48,26 +50,35 @@ public class AllReviewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_all_reviews, container, false);
+        sr= view.findViewById(R.id.swipeRefresh);
         list = view.findViewById(R.id.allReviews_recycler);
         list.setHasFixedSize(true);
-//        data = Model.instance().getAllReviews();
-        pb=view.findViewById(R.id.allReviews_progressBar);
         reloadData();
 
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
-        adapter = new ReviewRecyclerAdapter(getLayoutInflater(),data);
+        adapter = new ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
         list.setAdapter(adapter);
 
 
         adapter.setOnItemClickListener((int pos)-> {
                     Log.d("TAG", "Row was clicked " + pos);
-                    Review re = data.get(pos);
+                    Review re = viewModel.getData().getValue().get(pos);
                     AllReviewsFragmentDirections.ActionAllReviewsFragmentToReviewDetailsFragment action = AllReviewsFragmentDirections.actionAllReviewsFragmentToReviewDetailsFragment(pos);
                     Navigation.findNavController(view).navigate((NavDirections) action);
 
                 }
         );
+        viewModel.getData().observe(getViewLifecycleOwner(),list->{
+            adapter.setData(list);
+        });
 
+        Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
+           sr.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
+        sr.setOnRefreshListener(()->{
+            reloadData();
+        });
         return view;
 
     }
@@ -76,19 +87,17 @@ public class AllReviewsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         reloadData();
-//        adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(AllReviewsFragmentViewModel.class);
+    }
 
     void reloadData() {
-        Log.d("TAG","reload data");
-        pb.setVisibility(View.VISIBLE);
-       // data=Model.instance().getAllReviews();
-        Model.instance().getAllReviews((reviewList)->{
-            data=reviewList;
-            adapter.setData(reviewList);
-            pb.setVisibility(View.GONE);
-        });
+        Model.instance().refreshAllReviews();
+
     }
 
     //--------------------- view holder ---------------------------
@@ -118,7 +127,7 @@ public class AllReviewsFragment extends Fragment {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
             descriptionTV.setText(re.getDescription());
-            if (re.getImg()  != "") {
+            if (!re.getImg().equals("")) {
                 Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
             }else{
                 avatarImg.setImageResource(R.drawable.addpic);
@@ -171,6 +180,7 @@ public class AllReviewsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+            if (data == null) return 0;
             return data.size();
         }
     }

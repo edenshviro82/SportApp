@@ -52,7 +52,6 @@ public class SignUpFragment extends Fragment  {
     AutoCompleteTextView sportAutoComplete;
     String[] type=Model.instance().getType();
     String sport;
-    SignUpFragmentViewModel viewModel;
 
 
 
@@ -87,11 +86,13 @@ public class SignUpFragment extends Fragment  {
             if(sport.equals(null))
                 sport="not chosen";
 
-
             Model.instance().addUser(new User(name,email,pass,city,sport,""),()->{
+                Log.d("tag","rgregreger");
                 Intent i = new Intent(getActivity(), HomeActivity.class);
                 i.putExtra("userEmail",email);
                 startActivity(i);
+
+
             });
 
 
@@ -103,19 +104,9 @@ public class SignUpFragment extends Fragment  {
             Navigation.findNavController(view).navigate(action);
 
         });
-        
-
-
-
 
         return binding.getRoot();
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        viewModel = new ViewModelProvider(this).get(SignUpFragmentViewModel.class);
-
-    }
 }
 
