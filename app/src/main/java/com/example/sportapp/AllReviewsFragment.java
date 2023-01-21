@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.example.sportapp.databinding.FragmentAllReviewsBinding;
 import com.example.sportapp.databinding.FragmentSignUpBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -94,12 +96,14 @@ public class AllReviewsFragment extends Fragment {
         TextView cityTV;
         TextView sportTV;
         TextView descriptionTV;
+        ImageView avatarImg;
 
         public AllReviewsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             cityTV = itemView.findViewById(R.id.allReviewsRow_city);
             sportTV = itemView.findViewById(R.id.allReviewsRow_sport_tv);
             descriptionTV = itemView.findViewById(R.id.allReviewsRow_description_tv);
+            avatarImg = itemView.findViewById(R.id.allReviewsRow_avatar_img);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,6 +118,11 @@ public class AllReviewsFragment extends Fragment {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
             descriptionTV.setText(re.getDescription());
+            if (re.getImg()  != "") {
+                Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
+            }else{
+                avatarImg.setImageResource(R.drawable.addpic);
+            }
         }
     }
 

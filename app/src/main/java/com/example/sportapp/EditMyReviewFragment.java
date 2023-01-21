@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class EditMyReviewFragment extends Fragment {
     Review re;
     List<Review> data= new LinkedList<>();
     List<Review> allReviews=new LinkedList<>();
+    ImageView avatarImg;
 
     String email;
 
@@ -47,6 +50,8 @@ public class EditMyReviewFragment extends Fragment {
         save=view.findViewById(R.id.editMyReview_save_btn);
         cancel=view.findViewById(R.id.editMyReview_cancel_btn);
         delete=view.findViewById(R.id.editMyReview_delete_btn);
+        avatarImg = view.findViewById(R.id.editMyReview_iv);
+
 
         save.setOnClickListener(view1 -> {
            Model.instance().getAllReviews((reviewList)->{
@@ -90,6 +95,11 @@ public class EditMyReviewFragment extends Fragment {
         cityET.setText(re.getCity());
         sportET.setText(re.getSport());
         descriptionET.setText(re.getDescription());
+        if (re.getImg()  != "") {
+            Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
+        }else{
+            avatarImg.setImageResource(R.drawable.addpic);
+        }
     }
 
 

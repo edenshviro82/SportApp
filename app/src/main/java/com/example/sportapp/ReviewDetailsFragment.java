@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ReviewDetailsFragment extends Fragment {
     Button backBtn,editBtn;
     Review re;
     List<Review> data= new LinkedList<>();
+    ImageView avatarImg;
 
     @Nullable
     @Override
@@ -39,6 +42,8 @@ public class ReviewDetailsFragment extends Fragment {
         sportTV = view.findViewById(R.id.ReviewDetailsFragment_tv_edit_sport);
         descriptionTV=view.findViewById(R.id.ReviewDetailsFragment_tv_edit_description);
         emailTV= view.findViewById(R.id.ReviewDetailsFragment_details_tv_edit_mail);
+        avatarImg = view.findViewById(R.id.ReviewDetailsFragment_st_imageview);
+
 
         backBtn=view.findViewById(R.id.ReviewDetailsFragment_back_btn);
 
@@ -58,6 +63,11 @@ public class ReviewDetailsFragment extends Fragment {
         sportTV.setText(re.getSport());
         descriptionTV.setText(re.getDescription());
         emailTV.setText(re.getEmailOfOwner());
+        if (re.getImg()  != "") {
+            Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
+        }else{
+            avatarImg.setImageResource(R.drawable.addpic);
+        }
     }
 
 

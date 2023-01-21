@@ -1,7 +1,13 @@
 package com.example.sportapp;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuProvider;
@@ -40,6 +46,9 @@ public class AddReviewFragment extends Fragment {
     String sport;
     String email;
     String[] type=Model.instance().getType();
+    ActivityResultLauncher<Void> cameraLauncher;
+    ActivityResultLauncher<String> galleryLauncher;
+    Boolean isAvatarSelected = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +71,25 @@ public class AddReviewFragment extends Fragment {
                 return false;
             }
         },this, Lifecycle.State.RESUMED);
+
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
+            @Override
+            public void onActivityResult(Bitmap result) {
+                if (result != null) {
+                    binding.addReviewAvatarImg.setImageBitmap(result);
+                    isAvatarSelected = true;
+                }
+            }
+        });
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null){
+                    binding.addReviewAvatarImg.setImageURI(result);
+                    isAvatarSelected = true;
+                }
+            }
+        });
 
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,23 +120,41 @@ public class AddReviewFragment extends Fragment {
 
             String city = binding.addReviewCitysInputEt.getText().toString();
             String description = binding.addReviewDescriptionInputEt.getText().toString();
-            //id++;
 
-
-//            Model.instance().getAllReviews((allReviews)->{
-//                id=allReviews.size()+1;
-//            });
             Review newR = new Review(email, description, city, sport, "");
             newR.generateID();
-            //Log.d("id","id: "+id);
-            // Model.instance().getAllReviews().add(newR);
-            Model.instance().addReview(newR,()->{
-                Navigation.findNavController(view).popBackStack();
-            });
+
+            if (isAvatarSelected){
+                binding.addReviewAvatarImg.setDrawingCacheEnabled(true);
+                binding.addReviewAvatarImg.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) binding.addReviewAvatarImg.getDrawable()).getBitmap();
+                Model.instance().uploadImage(String.valueOf(newR.reviewId), bitmap, url->{
+                    if (url != null){
+                        newR.setImg(url);
+                    }
+                    Model.instance().addReview(newR,()->{
+                        Navigation.findNavController(view).popBackStack();
+
+                    });
+                });
+            }else {
+                Model.instance().addReview(newR,()->{
+                    Navigation.findNavController(view).popBackStack();
+
+                });
+            }
 
 
 
         }));
+
+        binding.addFromCameraIv.setOnClickListener(view1->{
+            cameraLauncher.launch(null);
+        });
+
+        binding.addFromGalleryIv.setOnClickListener(view1->{
+            galleryLauncher.launch("media/*");
+        });
 
         cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
 

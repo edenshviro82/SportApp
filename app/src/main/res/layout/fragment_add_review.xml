@@ -7,6 +7,30 @@
     tools:context=".AddReviewFragment">
 
     <ImageView
+        android:id="@+id/add_from_camera_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:layout_constraintBottom_toTopOf="@+id/add_Review_avatar_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+         />
+
+    <ImageView
+        android:id="@+id/add_from_gallery_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="300dp"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24"
+        app:layout_constraintBottom_toTopOf="@+id/add_Review_avatar_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+         />
+
+
+
+    <ImageView
         android:id="@+id/add_Review_avatar_img"
         android:layout_width="0dp"
         android:layout_height="150dp"
