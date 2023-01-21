@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,10 +34,9 @@ public class MyReviewsFragment extends Fragment {
     List<Review>  data= new LinkedList<>();
     RecyclerView list;
     MyReviewsFragment.ReviewRecyclerAdapter adapter;
-    Button add;
     String email;
     @NonNull FragmentMyReviewsBinding binding;
-    ProgressBar pb;
+    SwipeRefreshLayout sw;
 
 
 
@@ -51,9 +51,7 @@ public class MyReviewsFragment extends Fragment {
 
         email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
        Log.d("TAG",email);
-        pb=view.findViewById(R.id.my_reviews_progressBar);
-//        reloadData(email);
-
+        sw=view.findViewById(R.id.my_reviews_swipeRefresh);
         list = view.findViewById(R.id.myReviews_recycler);
         list.setHasFixedSize(true);
 
@@ -62,6 +60,9 @@ public class MyReviewsFragment extends Fragment {
 
         list.setAdapter(adapter);
 
+        sw.setOnRefreshListener(()->{
+            reloadData(email);
+        });
 
         adapter.setOnItemClickListener((int pos)-> {
                     Log.d("TAG", "Row was clicked " + pos);
@@ -75,16 +76,14 @@ public class MyReviewsFragment extends Fragment {
 
     }
     void reloadData(String email) {
-        Log.d("TAG","reload data");
-
-        pb.setVisibility(View.VISIBLE);
+        sw.setRefreshing(true);
         Model.instance().getAllReviews((reviewList)->{
             data=Model.instance().getMyReviews(reviewList,email);
             adapter.setData(data);
             Log.d("TAG","progress");
-            pb.setVisibility(View.GONE);
+            sw.setRefreshing(false);
         });
-//        pb.setVisibility(View.GONE);
+     //   sw.setRefreshing(false);
 
     }
 
@@ -93,11 +92,6 @@ public class MyReviewsFragment extends Fragment {
         super.onStart();
         reloadData(email);
         adapter.notifyDataSetChanged();
-
-        //list.setAdapter(adapter);
-        Log.d("TAG", "MyReview   was clicked " + data.size());
-
-
     }
 
 

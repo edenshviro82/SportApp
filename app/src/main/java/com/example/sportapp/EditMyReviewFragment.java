@@ -71,13 +71,13 @@ public class EditMyReviewFragment extends Fragment {
             Model.instance().getAllReviews((reviewList)->{
                 allReviews=reviewList;
                 data= Model.instance().getMyReviews(allReviews,email);
-                //bindBack(pos);
                 Model.instance().deleteReview(data.get(pos),()->{
-                    //Log.d("TAG", data.get(pos).getDescription() + "   desc");
-                    Navigation.findNavController(view1).popBackStack();
-                    Navigation.findNavController(view1).popBackStack();
+                    Log.d("TAG",  "   desc");
 
                 });
+                Navigation.findNavController(view1).popBackStack();
+                Navigation.findNavController(view1).popBackStack();
+
             });
 
 

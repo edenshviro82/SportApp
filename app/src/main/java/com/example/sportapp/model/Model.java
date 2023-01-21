@@ -154,15 +154,20 @@ public class Model {
     }
 
     public void deleteReview(Review r, Listener2<Void> listener) {
-//        executor.execute(() -> {
-//            //   List<Review> data = localDb.reviewDao().getAllReviews();
-//            localDb.reviewDao().delete(r);
-//            //return to the main thread because we want the executor to do only DB missions
-//            mainHandler.post(() -> {
-//                listener.onComplete();
-//            });
-//
-//        });
+
+        firebaseModel.deleteReview(r,()->{
+            refreshAllReviews();
+            listener.onComplete();
+        });
+        executor.execute(() -> {
+            //   List<Review> data = localDb.reviewDao().getAllReviews();
+            localDb.reviewDao().delete(r);
+            //return to the main thread because we want the executor to do only DB missions
+            mainHandler.post(() -> {
+                listener.onComplete();
+            });
+
+        });
     }
 
     public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {

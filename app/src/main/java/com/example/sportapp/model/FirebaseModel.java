@@ -83,6 +83,15 @@ public class FirebaseModel{
                 });
     }
 
+    public void deleteReview(Review r, Model.Listener2<Void> listener) {
+        db.collection(Review.COLLECTION).document(Integer.toString(r.getId())).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete();
+                    }
+                });
+    }
 //    public void deleteReview(Review r, Model.Listener2<Void> listener) {
 //        db.collection(Review.COLLECTION).document(Integer.toString(r.getId()).set(r.toJson())
 //                .addOnCompleteListener(new OnCompleteListener<Void>() {
