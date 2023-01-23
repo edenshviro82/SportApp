@@ -50,6 +50,7 @@ public class AllReviewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_all_reviews, container, false);
+
         sr= view.findViewById(R.id.swipeRefresh);
         list = view.findViewById(R.id.allReviews_recycler);
         list.setHasFixedSize(true);

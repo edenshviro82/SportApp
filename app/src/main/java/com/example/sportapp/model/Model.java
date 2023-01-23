@@ -39,7 +39,7 @@ public class Model {
     private LiveData<List<Review>> reviewList;
 
     List<Review> allReviews = new LinkedList<>();
-    String[] type={"Running","Skiing","Kiting","Tennis","Yoga","Biking","Badminton","Outside walking","Football","Basketball","Abseiling"};
+    static String[] type={"Running","Skiing","Kiting","Tennis","Yoga","Biking","Badminton","Outside walking","Football","Basketball","Abseiling"};
 
     public String[] getType() {
         return type;

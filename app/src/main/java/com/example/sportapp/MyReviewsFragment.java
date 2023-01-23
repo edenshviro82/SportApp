@@ -1,10 +1,12 @@
 package com.example.sportapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,14 +33,18 @@ import java.util.List;
 public class MyReviewsFragment extends Fragment {
 
 
-    List<Review>  data= new LinkedList<>();
     RecyclerView list;
     MyReviewsFragment.ReviewRecyclerAdapter adapter;
     String email;
     @NonNull FragmentMyReviewsBinding binding;
     SwipeRefreshLayout sw;
+    MyReviewsFragmentViewModel viewModel;
 
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(MyReviewsFragmentViewModel.class);
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -56,7 +62,7 @@ public class MyReviewsFragment extends Fragment {
         list.setHasFixedSize(true);
 
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
-        adapter = new MyReviewsFragment.ReviewRecyclerAdapter(getLayoutInflater(),data);
+        adapter = new MyReviewsFragment.ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
 
         list.setAdapter(adapter);
 
@@ -66,7 +72,7 @@ public class MyReviewsFragment extends Fragment {
 
         adapter.setOnItemClickListener((int pos)-> {
                     Log.d("TAG", "Row was clicked " + pos);
-                    Review re = data.get(pos);
+                    Review re = viewModel.getData().getValue().get(pos);
                     MyReviewsFragmentDirections.ActionMyReviewsFragmentToMyReviewDetailsFragment action = MyReviewsFragmentDirections.actionMyReviewsFragmentToMyReviewDetailsFragment(pos,re.getEmailOfOwner());
                     Navigation.findNavController(view).navigate(action);
                 }
@@ -77,12 +83,10 @@ public class MyReviewsFragment extends Fragment {
     }
     void reloadData(String email) {
         sw.setRefreshing(true);
-        Model.instance().getAllReviews((reviewList)->{
-            data=Model.instance().getMyReviews(reviewList,email);
-            adapter.setData(data);
-            Log.d("TAG","progress");
-            sw.setRefreshing(false);
-        });
+        adapter.setData(viewModel.getMyData(email));
+        Log.d("TAG","progress");
+        sw.setRefreshing(false);
+
      //   sw.setRefreshing(false);
 
     }

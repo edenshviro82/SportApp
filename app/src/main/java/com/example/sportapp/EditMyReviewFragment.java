@@ -1,11 +1,13 @@
 package com.example.sportapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -32,10 +34,9 @@ public class EditMyReviewFragment extends Fragment {
     Button cancel,save,delete;
     EditText cityET, sportET, descriptionET;
     Review re;
-    //there is no viewModel because we get the info by specific email?
-    List<Review> data= new LinkedList<>();
+    //EMAIL:there is no viewModel because we get the info by specific email?
+    List<Review> myData= new LinkedList<>();
     ImageView avatarImg;
-
     String email;
 
     @Nullable
@@ -55,15 +56,15 @@ public class EditMyReviewFragment extends Fragment {
 
         save.setOnClickListener(view1 -> {
            Model.instance().getAllReviews((reviewList)->{
-            data= Model.instance().getMyReviews(reviewList,email);
+               myData= Model.instance().getMyReviews(reviewList,email);
             bindBack(pos);
-            Log.d("TAG",data.get(pos).reviewId+"<- id "+data.get(pos).getCity());
-             Model.instance().addReview(data.get(pos),()->{
+            Log.d("TAG",myData.get(pos).reviewId+"<- id "+myData.get(pos).getCity());
+             Model.instance().addReview(myData.get(pos),()->{
 
                  Navigation.findNavController(view).popBackStack();
              });
             });
-            Log.d("TAG", data.get(pos).getDescription() + "   desc");
+            Log.d("TAG", myData.get(pos).getDescription() + "   desc");
         });
 
         delete.setOnClickListener(view1->{
@@ -103,9 +104,9 @@ public class EditMyReviewFragment extends Fragment {
 
 
     private void bindBack( int pos) {
-        data.get(pos).setCity(cityET.getText().toString());
-        data.get(pos).setSport(sportET.getText().toString());
-        data.get(pos).setDescription(descriptionET.getText().toString());
+        myData.get(pos).setCity(cityET.getText().toString());
+        myData.get(pos).setSport(sportET.getText().toString());
+        myData.get(pos).setDescription(descriptionET.getText().toString());
 
     }
 
@@ -119,10 +120,12 @@ public class EditMyReviewFragment extends Fragment {
 
     public void reloadData(String email){
         Model.instance().getAllReviews((reviewList)->{
-            data=Model.instance().getMyReviews(reviewList,email);
-            re=data.get(pos);
+            myData=Model.instance().getMyReviews(reviewList,email);
+            re=myData.get(pos);
             this.bind(re,pos);
 
         });
     }
+
+
 }

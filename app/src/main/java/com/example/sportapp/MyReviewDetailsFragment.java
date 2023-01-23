@@ -44,13 +44,8 @@ public class MyReviewDetailsFragment extends Fragment {
         descriptionTV=view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_description);
         emailTV= view.findViewById(R.id.MyReviewDetailsFragment_details_tv_edit_mail);
         avatarImg = view.findViewById(R.id.MyReviewDetailsFragment_st_imageview);
-
-//        reloadData(email);
-
         editBtn=view.findViewById(R.id.MyReviewDetailsFragment_edit_btn);
-//        Log.d("Tag","size: " + data.size());
-//        re=data.get(pos);
-//        this.bind(re,pos);
+
 
         editBtn.setOnClickListener(view1 ->{
             MyReviewDetailsFragmentDirections.ActionMyReviewDetailsFragmentToEditMyReviewFragment action = MyReviewDetailsFragmentDirections.actionMyReviewDetailsFragmentToEditMyReviewFragment(pos,email);
@@ -59,14 +54,10 @@ public class MyReviewDetailsFragment extends Fragment {
         return view;
     }
     public void reloadData(String email){
-        Log.d("Tag","before: ");
         Model.instance().getAllReviews((reviewList)->{
-            Log.d("Tag","reviewList: " + reviewList.size());
             data=Model.instance().getMyReviews(reviewList,email);
             re=data.get(pos);
             this.bind(re,pos);
-            Log.d("Tag","size: " + data.size());
-
         });
     }
 

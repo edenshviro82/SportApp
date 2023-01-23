@@ -48,7 +48,7 @@ public class EditUserFragment extends Fragment {
     Button saveBtn,cancelBtn;
     Spinner sportSpinner;
     String sport;
-    String[] type=Model.instance().getType();
+    EditUserFragmentViewModel viewModel;
     User newUser;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
@@ -99,16 +99,17 @@ public class EditUserFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentEditUserBinding.inflate(inflater, container, false);
+        viewModel=new EditUserFragmentViewModel();
         saveBtn=   binding.getRoot().findViewById(R.id.edit_user_save_btn);
         cancelBtn= binding.getRoot().findViewById(R.id.edit_user_cancel_btn);
         email = EditUserFragmentArgs.fromBundle(getArguments()).getUserEmail();
-        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,type);
+        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
         sportSpinner=binding.getRoot().findViewById(R.id.edit_user_sport_spinner);
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(),type[i],Toast.LENGTH_LONG).show();
-                sport=type[i];
+                Toast.makeText(getActivity().getApplicationContext(),viewModel.getType()[i],Toast.LENGTH_LONG).show();
+                sport=viewModel.getType()[i];
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -118,15 +119,14 @@ public class EditUserFragment extends Fragment {
         sportSpinner.setAdapter(adapter);
 
 
-            Model.instance().getAllUsers((allUsers)-> {
-                    newUser = Model.instance().getUserByEmail(allUsers, email);
-        if(!newUser.getImg().equals("")) {
+        Model.instance().getAllUsers((allUsers)-> {
+            newUser = Model.instance().getUserByEmail(allUsers, email);
+            if(!newUser.getImg().equals("")) {
 
-            Picasso.get().load(newUser.getImg()).placeholder(R.drawable.addpic).into(binding.editUserAvatarImg);
-        }else{
-            binding.editUserAvatarImg.setImageResource(R.drawable.addpic);
-        }
-
+                Picasso.get().load(newUser.getImg()).placeholder(R.drawable.addpic).into(binding.editUserAvatarImg);
+            }else{
+                binding.editUserAvatarImg.setImageResource(R.drawable.addpic);
+            }
         });
 
 
@@ -139,15 +139,13 @@ public class EditUserFragment extends Fragment {
            String city= binding.editUserCityInputEt.getText().toString();
 
            newUser= new User();
-         //   Model.instance().printUser(newUser);
-          Model.instance().getAllUsers((allUsers)->{
+           Model.instance().getAllUsers((allUsers)->{
               newUser= Model.instance().getUserByEmail(allUsers,email);
               if(!city.equals(""))
                   newUser.setCity(city);
 
               if(!name.equals(""))
                   newUser.setName(name);
-
 
               newUser.setSport(sport);
 
@@ -170,14 +168,7 @@ public class EditUserFragment extends Fragment {
 
                   });
               }
-
-
           });
-
-
-
-
-
 
        }));
 

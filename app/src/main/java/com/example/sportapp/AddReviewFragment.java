@@ -1,5 +1,6 @@
 package com.example.sportapp;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -53,6 +55,7 @@ public class AddReviewFragment extends Fragment {
     Boolean isAvatarSelected = false;
     AddReviewFragmentViewModel viewModel;
 //    String[] t= viewModel.getType();
+    static String[] type;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +99,12 @@ public class AddReviewFragment extends Fragment {
         });
 
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(AddReviewFragmentViewModel.class);
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -104,13 +113,13 @@ public class AddReviewFragment extends Fragment {
         saveBtn = binding.getRoot().findViewById(R.id.add_Review_save_btn);
         cancelBtn = binding.getRoot().findViewById(R.id.add_Review_cancel_btn);
         sportSpinner=binding.getRoot().findViewById(R.id.add_Review_sport_spinner);
-        String[] type=Model.instance().getType();
-        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,type);
+
+        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(),type[i],Toast.LENGTH_LONG).show();
-                sport=type[i];
+                Toast.makeText(getActivity().getApplicationContext(),viewModel.getType()[i],Toast.LENGTH_LONG).show();
+                sport=viewModel.getType()[i];
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
