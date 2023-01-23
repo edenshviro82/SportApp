@@ -24,6 +24,11 @@ import android.widget.Button;
 import com.example.sportapp.databinding.FragmentSignInBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
@@ -36,7 +41,7 @@ public class SignInFragment extends Fragment {
     Button SignInBtn;
     private NavDirections action;
     User u;
-
+    FirebaseAuth firebaseAuth;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,49 +65,71 @@ public class SignInFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentSignInBinding.inflate(inflater, container, false);
-
+        firebaseAuth= FirebaseAuth.getInstance();
         SignInBtn = binding.getRoot().findViewById(R.id.SIfrag_SU_btn);
-
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Dismiss the dialog
+                dialog.dismiss();
+            }            });
 
         SignInBtn.setOnClickListener((view) -> {
 
             String email=binding.SIFragEmailInputEt.getText().toString();
             String password=binding.SIFragPassInputEt.getText().toString();
+            if((!(password.equals("")) && !(email.equals(""))))
+            {
+                firebaseAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Intent i = new Intent(getActivity(), HomeActivity.class);
+                        i.putExtra("userEmail",email);
+                        startActivity(i);
+                    }
 
-            //dialog alert************
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // Dismiss the dialog
-                    dialog.dismiss();
-                }
-            });
-            //dialog alert************
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        builder.setMessage(e+"").setTitle("Error");
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
 
-            u= new User();
-            Model.instance().getAllUsers((all)->{
-                u=Model.instance().getUserByEmail(all,email);
-            });
-
-            if(!u.getEmail().equals("")) {
-                if (password.equals(u.getPassword())) {
-//                   Intent i = new Intent(getActivity(), HomeActivity.class);
-//                   i.putExtra("userEmail",email);
-//                   startActivity(i);
-
-                }
-                else {
-                    builder.setMessage("Incorrect password. Please try again.").setTitle("Error");
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
             }
-            else{
-                builder.setMessage("Mail do not Exist. Please try again.").setTitle("Error");
+            else {
+                builder.setMessage("please fill all the fields").setTitle("Error");
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
+
+
+            //dialog alert************
+
+            //u= new User();
+//            Model.instance().getAllUsers((all)->{
+//                u=Model.instance().getUserByEmail(all,email);
+//            });
+//
+//            if(!u.getEmail().equals("")) {
+//                if (password.equals(u.getPassword())) {
+////                   Intent i = new Intent(getActivity(), HomeActivity.class);
+////                   i.putExtra("userEmail",email);
+////                   startActivity(i);
+//
+//                }
+//                else {
+//                    builder.setMessage("Incorrect password. Please try again.").setTitle("Error");
+//                    AlertDialog dialog = builder.create();
+//                    dialog.show();
+//                }
+//            }
+//            else{
+//                builder.setMessage("Mail do not Exist. Please try again.").setTitle("Error");
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//            }
 
         });
 

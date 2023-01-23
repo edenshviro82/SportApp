@@ -68,17 +68,17 @@ public class EditMyReviewFragment extends Fragment {
         });
 
         delete.setOnClickListener(view1->{
-            Model.instance().getAllReviews((reviewList)->{
-                allReviews=reviewList;
-                data= Model.instance().getMyReviews(allReviews,email);
-                Model.instance().deleteReview(data.get(pos),()->{
-                    Log.d("TAG",  "   desc");
-
-                });
-                Navigation.findNavController(view1).popBackStack();
-                Navigation.findNavController(view1).popBackStack();
-
-            });
+//            Model.instance().getAllReviews((reviewList)->{
+//                allReviews=reviewList;
+//                data= Model.instance().getMyReviews(allReviews,email);
+//                Model.instance().deleteReview(data.get(pos),()->{
+//                    Log.d("TAG",  "   desc");
+//
+//                });
+//                Navigation.findNavController(view1).popBackStack();
+//                Navigation.findNavController(view1).popBackStack();
+//
+//            });
 
 
         });

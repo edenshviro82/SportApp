@@ -97,7 +97,6 @@ public class AllReviewsFragment extends Fragment {
 
     void reloadData() {
         Model.instance().refreshAllReviews();
-
     }
 
     //--------------------- view holder ---------------------------
