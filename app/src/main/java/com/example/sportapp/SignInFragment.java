@@ -105,32 +105,6 @@ public class SignInFragment extends Fragment {
             }
 
 
-            //dialog alert************
-
-            //u= new User();
-//            Model.instance().getAllUsers((all)->{
-//                u=Model.instance().getUserByEmail(all,email);
-//            });
-//
-//            if(!u.getEmail().equals("")) {
-//                if (password.equals(u.getPassword())) {
-////                   Intent i = new Intent(getActivity(), HomeActivity.class);
-////                   i.putExtra("userEmail",email);
-////                   startActivity(i);
-//
-//                }
-//                else {
-//                    builder.setMessage("Incorrect password. Please try again.").setTitle("Error");
-//                    AlertDialog dialog = builder.create();
-//                    dialog.show();
-//                }
-//            }
-//            else{
-//                builder.setMessage("Mail do not Exist. Please try again.").setTitle("Error");
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-
         });
 
 

@@ -48,10 +48,11 @@ public class AddReviewFragment extends Fragment {
     Spinner sportSpinner;
     String sport;
     String email;
-    String[] type=Model.instance().getType();
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
+    AddReviewFragmentViewModel viewModel;
+//    String[] t= viewModel.getType();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +104,7 @@ public class AddReviewFragment extends Fragment {
         saveBtn = binding.getRoot().findViewById(R.id.add_Review_save_btn);
         cancelBtn = binding.getRoot().findViewById(R.id.add_Review_cancel_btn);
         sportSpinner=binding.getRoot().findViewById(R.id.add_Review_sport_spinner);
+        String[] type=Model.instance().getType();
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,type);
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -166,10 +168,3 @@ public class AddReviewFragment extends Fragment {
     }
 }
 
-//public class AddReviewFragmentViewModel extends ViewModel {
-//    private LiveData<List<Review>> data = Model.instance().getAllReviews();
-//
-//    LiveData<List<Review>> getData(){
-//        return data;
-//    }
-//}

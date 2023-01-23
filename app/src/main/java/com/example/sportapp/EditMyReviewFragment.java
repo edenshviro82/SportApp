@@ -32,8 +32,8 @@ public class EditMyReviewFragment extends Fragment {
     Button cancel,save,delete;
     EditText cityET, sportET, descriptionET;
     Review re;
+    //there is no viewModel because we get the info by specific email?
     List<Review> data= new LinkedList<>();
-    List<Review> allReviews=new LinkedList<>();
     ImageView avatarImg;
 
     String email;
@@ -55,8 +55,7 @@ public class EditMyReviewFragment extends Fragment {
 
         save.setOnClickListener(view1 -> {
            Model.instance().getAllReviews((reviewList)->{
-            allReviews=reviewList;
-            data= Model.instance().getMyReviews(allReviews,email);
+            data= Model.instance().getMyReviews(reviewList,email);
             bindBack(pos);
             Log.d("TAG",data.get(pos).reviewId+"<- id "+data.get(pos).getCity());
              Model.instance().addReview(data.get(pos),()->{
@@ -120,7 +119,6 @@ public class EditMyReviewFragment extends Fragment {
 
     public void reloadData(String email){
         Model.instance().getAllReviews((reviewList)->{
-            allReviews=reviewList;
             data=Model.instance().getMyReviews(reviewList,email);
             re=data.get(pos);
             this.bind(re,pos);
