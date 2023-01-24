@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class EditUserFragment extends Fragment {
     String sport;
     EditUserFragmentViewModel viewModel;
     User newUser;
+    ProgressBar pb;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
@@ -102,6 +104,9 @@ public class EditUserFragment extends Fragment {
         saveBtn=   binding.getRoot().findViewById(R.id.edit_user_save_btn);
         cancelBtn= binding.getRoot().findViewById(R.id.edit_user_cancel_btn);
         email = EditUserFragmentArgs.fromBundle(getArguments()).getUserEmail();
+        pb=binding.getRoot().findViewById(R.id.editUser_progressBar);
+        pb.setVisibility(View.GONE);
+
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
         sportSpinner=binding.getRoot().findViewById(R.id.edit_user_sport_spinner2);
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -133,6 +138,7 @@ public class EditUserFragment extends Fragment {
 
 
         saveBtn.setOnClickListener((view -> {
+            pb.setVisibility(View.VISIBLE);
 
            String name= binding.editUserNameInputEt.getText().toString();
            String city= binding.editUserCityInputEt.getText().toString();
@@ -157,12 +163,14 @@ public class EditUserFragment extends Fragment {
                           newUser.setImg(url);
                       }
                       Model.instance().addUser(newUser,()->{
+                          pb.setVisibility(View.GONE);
                           Navigation.findNavController(view).popBackStack();
 
                       });
                   });
               }else {
                   Model.instance().addUser(newUser,()->{
+                      pb.setVisibility(View.GONE);
                       Navigation.findNavController(view).popBackStack();
 
                   });

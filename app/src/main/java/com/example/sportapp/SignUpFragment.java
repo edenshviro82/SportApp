@@ -35,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ public class SignUpFragment extends Fragment  {
     AutoCompleteTextView sportAutoComplete;
     String[] type=Model.instance().getType();
     String sport;
+    ProgressBar pb;
 
 
 
@@ -75,6 +77,8 @@ public class SignUpFragment extends Fragment  {
         });
         firebaseAuth= FirebaseAuth.getInstance();
         logInBtn= binding.getRoot().findViewById(R.id.SUfrag_SI_btn);
+        pb=binding.getRoot().findViewById(R.id.signUp_progressBar);
+        pb.setVisibility(View.GONE);
         signUpBtn= binding.getRoot().findViewById(R.id.SUfrag_SU_btn);
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,type);
         sportSpinner=binding.getRoot().findViewById(R.id.SUFrag_sport_spinner);
@@ -92,7 +96,7 @@ public class SignUpFragment extends Fragment  {
         sportSpinner.setAdapter(adapter);
 
         signUpBtn.setOnClickListener((view)->{
-
+            pb.setVisibility(View.VISIBLE);
             String name= binding.SUFragNameInputEt.getText().toString();
             String email= binding.SUFragEmailInputEt.getText().toString();
             String pass= binding.SUFragPassInputEt.getText().toString();
@@ -106,12 +110,14 @@ public class SignUpFragment extends Fragment  {
                        public void onSuccess(AuthResult authResult) {
                            Intent i = new Intent(getActivity(), HomeActivity.class);
                            i.putExtra("userEmail",email);
+                           pb.setVisibility(View.GONE);
                            startActivity(i);
                        }
 
                    }).addOnFailureListener(new OnFailureListener() {
                        @Override
                        public void onFailure(@NonNull Exception e) {
+                           pb.setVisibility(View.GONE);
                            builder.setMessage(e+"").setTitle("Error");
                            AlertDialog dialog = builder.create();
                            dialog.show();

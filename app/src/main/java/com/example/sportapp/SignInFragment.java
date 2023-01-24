@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.widget.ProgressBar;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,9 +40,8 @@ import java.util.List;
 public class SignInFragment extends Fragment {
     FragmentSignInBinding binding;
     Button SignInBtn;
-    private NavDirections action;
-    User u;
     FirebaseAuth firebaseAuth;
+    ProgressBar pb;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +67,8 @@ public class SignInFragment extends Fragment {
         binding = FragmentSignInBinding.inflate(inflater, container, false);
         firebaseAuth= FirebaseAuth.getInstance();
         SignInBtn = binding.getRoot().findViewById(R.id.SIfrag_SU_btn);
+        pb=binding.getRoot().findViewById(R.id.signIn_progressBar);
+        pb.setVisibility(View.GONE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -75,7 +77,7 @@ public class SignInFragment extends Fragment {
             }            });
 
         SignInBtn.setOnClickListener((view) -> {
-
+            pb.setVisibility(View.VISIBLE);
             String email=binding.SIFragEmailInputEt.getText().toString();
             String password=binding.SIFragPassInputEt.getText().toString();
             if((!(password.equals("")) && !(email.equals(""))))
@@ -85,12 +87,14 @@ public class SignInFragment extends Fragment {
                     public void onSuccess(AuthResult authResult) {
                         Intent i = new Intent(getActivity(), HomeActivity.class);
                         i.putExtra("userEmail",email);
+                        pb.setVisibility(View.GONE);
                         startActivity(i);
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        pb.setVisibility(View.GONE);
                         builder.setMessage(e+"").setTitle("Error");
                         AlertDialog dialog = builder.create();
                         dialog.show();

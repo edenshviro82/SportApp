@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -55,7 +56,7 @@ public class AddReviewFragment extends Fragment {
     AddReviewFragmentViewModel viewModel;
 //    String[] t= viewModel.getType();
     static String[] type;
-
+    ProgressBar pb;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +113,8 @@ public class AddReviewFragment extends Fragment {
         saveBtn = binding.getRoot().findViewById(R.id.add_Review_save_btn);
         cancelBtn = binding.getRoot().findViewById(R.id.add_Review_cancel_btn);
         sportSpinner=binding.getRoot().findViewById(R.id.add_Review_sport_spinner);
+        pb=binding.getRoot().findViewById(R.id.add_review_progressBar);
+        pb.setVisibility(View.GONE);
 
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -130,6 +133,7 @@ public class AddReviewFragment extends Fragment {
 
 
         saveBtn.setOnClickListener((view -> {
+            pb.setVisibility(View.VISIBLE);
 
             String city = binding.addReviewCitysInputEt.getText().toString();
             String description = binding.addReviewDescriptionInputEt.getText().toString();
@@ -146,12 +150,14 @@ public class AddReviewFragment extends Fragment {
                         newR.setImg(url);
                     }
                     Model.instance().addReview(newR,()->{
+                        pb.setVisibility(View.GONE);
                         Navigation.findNavController(view).popBackStack();
 
                     });
                 });
             }else {
                 Model.instance().addReview(newR,()->{
+                    pb.setVisibility(View.GONE);
                     Navigation.findNavController(view).popBackStack();
 
                 });
