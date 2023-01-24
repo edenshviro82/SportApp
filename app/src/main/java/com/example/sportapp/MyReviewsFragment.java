@@ -66,13 +66,23 @@ public class MyReviewsFragment extends Fragment {
 
         list.setAdapter(adapter);
 
+        viewModel.getData().observe(getViewLifecycleOwner(),list->{
+            adapter.setData(viewModel.getMyData(list,email));
+        });
+
+        Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
+            sw.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
         sw.setOnRefreshListener(()->{
-            reloadData(email);
+            reloadData();
+            Log.d("TAG", "refresh");
+
         });
 
         adapter.setOnItemClickListener((int pos)-> {
                     Log.d("TAG", "Row was clicked " + pos);
-                    Review re = viewModel.getData().getValue().get(pos);
+                    Review re = viewModel.getMyData(email).get(pos);
                     MyReviewsFragmentDirections.ActionMyReviewsFragmentToMyReviewDetailsFragment action = MyReviewsFragmentDirections.actionMyReviewsFragmentToMyReviewDetailsFragment(pos,re.getEmailOfOwner());
                     Navigation.findNavController(view).navigate(action);
                 }
@@ -81,20 +91,14 @@ public class MyReviewsFragment extends Fragment {
         return view;
 
     }
-    void reloadData(String email) {
-        sw.setRefreshing(true);
-        adapter.setData(viewModel.getMyData(email));
-        Log.d("TAG","progress");
-        sw.setRefreshing(false);
-
-     //   sw.setRefreshing(false);
-
+    void reloadData() {
+        Model.instance().refreshAllReviews();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        reloadData(email);
+        reloadData();
         adapter.notifyDataSetChanged();
     }
 
@@ -126,7 +130,7 @@ public class MyReviewsFragment extends Fragment {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
             descriptionTV.setText(re.getDescription());
-            if (re.getImg()  != "") {
+            if (re.getImg()  != null && !re.getImg().isEmpty()) {
                 Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
             }else{
                 avatarImg.setImageResource(R.drawable.addpic);

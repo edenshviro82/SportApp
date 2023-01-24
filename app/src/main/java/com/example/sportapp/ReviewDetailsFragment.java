@@ -29,7 +29,6 @@ public class ReviewDetailsFragment extends Fragment {
     TextView cityTV, sportTV, descriptionTV, emailTV;
     Button backBtn,editBtn;
     Review re;
-    List<Review> data= new LinkedList<>();
     ImageView avatarImg;
 
     @Nullable
@@ -46,11 +45,7 @@ public class ReviewDetailsFragment extends Fragment {
 
 
         backBtn=view.findViewById(R.id.ReviewDetailsFragment_back_btn);
-
         reloadData();
-
-
-
 
         backBtn.setOnClickListener(view1 ->{
             Navigation.findNavController(view1).popBackStack();
@@ -79,8 +74,7 @@ public class ReviewDetailsFragment extends Fragment {
 
     void reloadData(){
         Model.instance().getAllReviews((allReviews)->{
-            data=allReviews;
-            re=data.get(pos);
+            re=allReviews.get(pos);
             this.bind(re,pos);
         });
     }

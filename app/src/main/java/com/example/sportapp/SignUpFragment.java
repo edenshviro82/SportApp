@@ -100,7 +100,7 @@ public class SignUpFragment extends Fragment  {
             if(sport.equals(null))
                 sport="not chosen";
             if(!(pass.equals("")) && !(email.equals("")) && !(name.equals("")) && !(city.equals("")) ){
-                Model.instance().addUser(new User(name,email,pass,city,sport,""),()->{
+                Model.instance().addUser(new User(name,email,city,sport,""),()->{
                    firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                        @Override
                        public void onSuccess(AuthResult authResult) {

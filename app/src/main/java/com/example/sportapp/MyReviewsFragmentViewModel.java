@@ -16,6 +16,10 @@ public class MyReviewsFragmentViewModel extends ViewModel {
     List<Review> getMyData(String email) {
         return Model.instance().getMyReviews(data.getValue(),email);
     }
+
+    List<Review> getMyData(List<Review> l, String email) {
+        return Model.instance().getMyReviews(l,email);
+    }
     LiveData<List<Review>> getData() {
         return data;
     }

@@ -24,7 +24,6 @@ public class User {
      public int userId;
      String email="";
      String name="";
-     String password="";
      String city="";
      String sport="";
      String img="";
@@ -35,10 +34,9 @@ public class User {
 
     }
 
-    public User(String name, String email, String password, String city, String sport, String img) {
+    public User(String name, String email, String city, String sport, String img) {
         this.name = name;
         this.email = email;
-        this.password = password;
         this.city = city;
         this.sport = sport;
         this.img = img;
@@ -48,7 +46,6 @@ public class User {
     static final String USERID = "userId";
     static final String EMAIL = "email";
     static final String NAME = "name";
-    static final String PASSWORD = "password";
     static final String CITY = "city";
     static final String SPORT = "sport";
     static final String IMG = "img";
@@ -71,11 +68,10 @@ public class User {
     public static User fromJson(Map<String,Object> json){
         String email = (String)json.get(EMAIL);
         String name = (String)json.get(NAME);
-        String password = (String)json.get(PASSWORD);
         String city = (String)json.get(CITY);
         String sport = (String)json.get(SPORT);
         String img = (String)json.get(IMG);
-        User u = new User(name,email,password,city,sport,img);
+        User u = new User(name,email,city,sport,img);
         try{
             Timestamp time = (Timestamp) json.get(LAST_UPDATED);
             u.setLastUpdated(time.getSeconds());
@@ -88,7 +84,6 @@ public class User {
         json.put(USERID, getUserId());
         json.put(EMAIL, getEmail());
         json.put(NAME, getName());
-        json.put(PASSWORD, getPassword());
         json.put(CITY, getCity());
         json.put(SPORT, getSport());
         json.put(IMG, getImg());
@@ -110,14 +105,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getCity() {

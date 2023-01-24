@@ -35,7 +35,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sportapp.databinding.FragmentAddReviewBinding;
-import com.example.sportapp.databinding.FragmentNewReviewBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 

@@ -34,7 +34,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sportapp.databinding.FragmentEditUserBinding;
-import com.example.sportapp.databinding.FragmentNewReviewBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
 import com.squareup.picasso.Picasso;
@@ -104,7 +103,7 @@ public class EditUserFragment extends Fragment {
         cancelBtn= binding.getRoot().findViewById(R.id.edit_user_cancel_btn);
         email = EditUserFragmentArgs.fromBundle(getArguments()).getUserEmail();
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
-        sportSpinner=binding.getRoot().findViewById(R.id.edit_user_sport_spinner);
+        sportSpinner=binding.getRoot().findViewById(R.id.edit_user_sport_spinner2);
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
