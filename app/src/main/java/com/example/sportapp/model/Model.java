@@ -26,19 +26,13 @@ public class Model {
     public static Model instance(){
         return _instance;
     }
-    private Model(){
-//        for(int i=0;i<20;i++){
-//            addUser(new User("name " + i,"id "+i,"phone "+i,"address "+i, "avatar", false));
-//        }
-    }
+
     AppLocalDbRepository localDb=AppLocalDb.getAppDb();
     Executor executor = Executors.newSingleThreadExecutor();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private FirebaseModel firebaseModel = new FirebaseModel();
-    private LiveData<List<User>> userList;
     private LiveData<List<Review>> reviewList;
 
-    List<Review> allReviews = new LinkedList<>();
     static String[] type={"Running","Skiing","Kiting","Tennis","Yoga","Biking","Badminton","Outside walking","Football","Basketball","Abseiling"};
 
     public String[] getType() {
@@ -46,12 +40,7 @@ public class Model {
     }
 
     public void addUser(User u, Listener2<Void> listener) {
-//        firebaseModel.addUser(u,()->{
-//            refreshAllUsers();
-//            listener.onComplete();
-//        });
         firebaseModel.addUser(u,listener);
-
     }
 
     public interface Listener<T>{
@@ -113,14 +102,9 @@ public class Model {
                         time = st.getLastUpdated();
                     }
                 }
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 // update local last update
                 Review.setLocalLastUpdate(time);
-                Log.d("TAG", " loding");
+                Log.d("TAG", " loading");
                 EventReviewsListLoadingState.postValue(LoadingState.NOT_LOADING);
             });
         });

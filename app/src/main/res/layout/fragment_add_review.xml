@@ -20,25 +20,36 @@
                 android:id="@+id/add_from_camera_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="30dp"
                 android:src="@drawable/ic_baseline_add_a_photo_24"
                 app:layout_constraintBottom_toTopOf="@+id/add_Review_avatar_img"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/add_from_gallery_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="100dp"
                 android:src="@drawable/ic_baseline_add_photo_alternate_24"
                 app:layout_constraintBottom_toTopOf="@+id/add_Review_avatar_img"
-                tools:layout_editor_absoluteX="44dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/add_Review_avatar_img"
-                android:layout_width="0dp"
+                android:layout_width="200dp"
                 android:layout_height="150dp"
-                android:scaleType="centerInside"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_Review_title"
                 app:srcCompat="@drawable/addpic"
-                tools:layout_editor_absoluteY="72dp"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -47,8 +58,9 @@
                 android:layout_height="wrap_content"
                 android:text="Create New review"
                 android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="107dp"
                 tools:layout_editor_absoluteY="32dp" />
 
             <Spinner
@@ -91,7 +103,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
                 android:text="SAVE"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,11 +114,11 @@
                 android:id="@+id/add_Review_cancel_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
                 android:layout_marginEnd="50dp"
+                android:layout_marginBottom="20dp"
                 android:text="CANCEL"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_Review_description_input_layout" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/add_Review_description_input_layout"

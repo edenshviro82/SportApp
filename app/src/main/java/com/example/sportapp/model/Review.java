@@ -2,6 +2,7 @@ package com.example.sportapp.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -78,7 +79,7 @@ public class Review {
             Timestamp time = (Timestamp) json.get(LAST_UPDATED);
             r.setLastUpdated(time.getSeconds());
         }catch(Exception e){
-
+            Log.d("TAG", e.toString());
         }
         return r;
     }
