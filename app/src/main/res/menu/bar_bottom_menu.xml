@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:itemIconTint="@color/purple_700"
+    app:itemTextColor="@color/black"
+    >
 
     <item
         android:id="@+id/weatherStatusFragment"
         android:icon="@drawable/ic_baseline_wb_sunny_24"
         android:src="@drawable/ic_baseline_wb_sunny_24"
+        style="@style/MenuItemStyle"
         android:title="weather" />
     <item
         android:id="@+id/allReviewsFragment"
         android:icon="@drawable/ic_baseline_comment_24"
-        android:title="All reviews" />
+        android:title="All reviews"
+        style="@style/MenuItemStyle"/>
 
 
     <item
         android:id="@+id/myReviewsFragment"
         android:icon="@drawable/ic_baseline_face_24"
-        android:title="My reviews" />
+        android:title="My reviews"
+        style="@style/MenuItemStyle"/>
 
 </menu>
