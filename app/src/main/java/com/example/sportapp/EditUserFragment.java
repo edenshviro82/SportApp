@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -37,6 +38,7 @@ import android.widget.Toast;
 import com.example.sportapp.databinding.FragmentEditUserBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 
@@ -54,6 +56,8 @@ public class EditUserFragment extends Fragment {
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
+    FirebaseAuth firebaseAuth =  FirebaseAuth.getInstance();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +102,7 @@ public class EditUserFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit Your Info");
 
         binding = FragmentEditUserBinding.inflate(inflater, container, false);
         viewModel=new EditUserFragmentViewModel();

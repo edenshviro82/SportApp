@@ -1,18 +1,14 @@
 package com.example.sportapp;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 import com.squareup.picasso.Picasso;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,10 +30,9 @@ public class EditMyReviewFragment extends Fragment {
 
     int pos;
     Button cancel,save,delete;
-    EditText cityET, sportET, descriptionET;
+    EditText cityET, descriptionET;
     Review re;
     Spinner sportSpinner;
-    //EMAIL:there is no viewModel because we get the info by specific email?
     List<Review> myData= new LinkedList<>();
     ImageView avatarImg;
     String email;
@@ -58,6 +50,7 @@ public class EditMyReviewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit Your Review");
         View view = inflater.inflate(R.layout.fragment_edit_my_review, container, false);
         pos = EditMyReviewFragmentArgs.fromBundle(getArguments()).getPos();
         email = EditMyReviewFragmentArgs.fromBundle(getArguments()).getUserEmail();
@@ -142,7 +135,6 @@ public class EditMyReviewFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        bind(re,pos);
         reloadData(email);
 
     }

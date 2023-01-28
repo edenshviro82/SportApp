@@ -21,19 +21,22 @@ import android.widget.AdapterView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
     String userEmail;
     NavController navController;
     private NavDirections action;
-    private NavDirections action2;
     Activity t;
     static String s;
+    FirebaseAuth firebaseAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth= FirebaseAuth.getInstance();
         setContentView(R.layout.activity_home);
         s=getPackageName();
         t=this;
@@ -64,6 +67,11 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.weatherStatusFragment:
                         action= WeatherStatusFragmentDirections.actionGlobalWeatherStatusFragment(userEmail);
                         Navigation.findNavController(t, R.id.home_navhost).navigate(action);
+                        return true;
+                    case R.id.signUpFragment:
+                        action= SignUpFragmentDirections.actionSignUpFragmentToSignInFragment();
+                        Navigation.findNavController(t, R.id.home_navhost).navigate(action);
+                        firebaseAuth.signOut();
                         return true;
                     default:
                         return NavigationUI.onNavDestinationSelected(item,navController);

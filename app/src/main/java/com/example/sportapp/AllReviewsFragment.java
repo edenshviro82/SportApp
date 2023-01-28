@@ -1,12 +1,10 @@
 package com.example.sportapp;
 
-import static java.lang.Thread.sleep;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -14,25 +12,16 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.example.sportapp.databinding.FragmentAllReviewsBinding;
-import com.example.sportapp.databinding.FragmentSignUpBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 import com.squareup.picasso.Picasso;
-
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
 
 
 public class AllReviewsFragment extends Fragment {
@@ -48,9 +37,8 @@ public class AllReviewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All Reviews");
         View view = inflater.inflate(R.layout.fragment_all_reviews, container, false);
-
         sr= view.findViewById(R.id.swipeRefresh);
         list = view.findViewById(R.id.allReviews_recycler);
         list.setHasFixedSize(true);
@@ -62,11 +50,8 @@ public class AllReviewsFragment extends Fragment {
 
 
         adapter.setOnItemClickListener((int pos)-> {
-                    Log.d("TAG", "Row was clicked " + pos);
-                    Review re = viewModel.getData().getValue().get(pos);
                     AllReviewsFragmentDirections.ActionAllReviewsFragmentToReviewDetailsFragment action = AllReviewsFragmentDirections.actionAllReviewsFragmentToReviewDetailsFragment(pos);
                     Navigation.findNavController(view).navigate((NavDirections) action);
-
                 }
         );
         viewModel.getData().observe(getViewLifecycleOwner(),list->{

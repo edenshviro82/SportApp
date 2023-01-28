@@ -1,10 +1,8 @@
 package com.example.sportapp;
 
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -12,7 +10,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -27,10 +24,7 @@ public class OceanWeather {
     private int feelsLikeC;
     private int visibility;
     private double sunHour;
-
-
     private int uvIndex;
-
     private int humidity;
     private int chanceoffog;
     private double waveHeight;

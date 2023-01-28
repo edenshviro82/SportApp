@@ -8,7 +8,7 @@
     tools:context=".MyReviewDetailsFragment">
 
     <ImageView
-        android:id="@+id/MyReviewDetailsFragment_st_imageview"
+        android:id="@+id/MyReviewDetailsFragment_review_imageview"
         android:layout_width="340dp"
         android:layout_height="285dp"
         android:layout_marginTop="150dp"
@@ -27,7 +27,7 @@
         android:text="City:"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MyReviewDetailsFragment_st_imageview"
+        app:layout_constraintTop_toBottomOf="@+id/MyReviewDetailsFragment_review_imageview"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -89,7 +89,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MyReviewDetailsFragment_st_imageview" />
+        app:layout_constraintTop_toBottomOf="@+id/MyReviewDetailsFragment_review_imageview" />
 
     <TextView
         android:id="@+id/MyReviewDetailsFragment_tv_edit_sport"

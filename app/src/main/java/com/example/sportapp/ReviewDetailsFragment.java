@@ -1,49 +1,42 @@
 package com.example.sportapp;
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 import com.squareup.picasso.Picasso;
 
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class ReviewDetailsFragment extends Fragment {
 
     int pos;
     TextView cityTV, sportTV, descriptionTV, emailTV;
-    Button backBtn,editBtn;
+    Button backBtn;
     Review re;
     ImageView avatarImg;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Review's details");
         View view = inflater.inflate(R.layout.fragment_review_details, container, false);
         pos = ReviewDetailsFragmentArgs.fromBundle(getArguments()).getPos();
-
         cityTV = view.findViewById(R.id.ReviewDetailsFragment_tv_edit_city);
         sportTV = view.findViewById(R.id.ReviewDetailsFragment_tv_edit_sport);
         descriptionTV=view.findViewById(R.id.ReviewDetailsFragment_tv_edit_description);
         emailTV= view.findViewById(R.id.ReviewDetailsFragment_details_tv_edit_mail);
-        avatarImg = view.findViewById(R.id.ReviewDetailsFragment_st_imageview);
-
-
+        avatarImg = view.findViewById(R.id.ReviewDetailsFragment_review_imageview);
         backBtn=view.findViewById(R.id.ReviewDetailsFragment_back_btn);
         reloadData();
 

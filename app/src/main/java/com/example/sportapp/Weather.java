@@ -1,10 +1,8 @@
 package com.example.sportapp;
 
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -12,7 +10,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -90,6 +87,7 @@ public class Weather {
         }
     }
     private static String calcWindDirection(double windDegree) {
+        //calculate the wind direction according to the wind degree
         int windDegreeInt = (int) windDegree;
         if (windDegreeInt >= 348.75 || windDegreeInt < 11.25) {
             return "North";
@@ -129,6 +127,7 @@ public class Weather {
     }
 
     public static String updateIcon(int state) {
+        //update the icon according to the state
         if (state >= 200 && state <= 232) {
             return "thunderstorm1";
         } else if (state >= 300 && state <= 321) {

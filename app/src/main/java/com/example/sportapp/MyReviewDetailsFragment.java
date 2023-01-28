@@ -4,21 +4,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 import com.squareup.picasso.Picasso;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class MyReviewDetailsFragment extends Fragment {
 
     int pos;
     TextView cityTV, sportTV, descriptionTV, emailTV;
-    Button backBtn,editBtn;
+    Button editBtn;
     Review re;
     String email;
     List<Review> data=new LinkedList<>();
@@ -36,6 +33,7 @@ public class MyReviewDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Review's info");
         View view = inflater.inflate(R.layout.fragment_my_review_details, container, false);
         pos = MyReviewDetailsFragmentArgs.fromBundle(getArguments()).getPos();
         email = MyReviewDetailsFragmentArgs.fromBundle(getArguments()).getUserEmail();
@@ -43,7 +41,7 @@ public class MyReviewDetailsFragment extends Fragment {
         sportTV = view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_sport);
         descriptionTV=view.findViewById(R.id.MyReviewDetailsFragment_tv_edit_description);
         emailTV= view.findViewById(R.id.MyReviewDetailsFragment_details_tv_edit_mail);
-        avatarImg = view.findViewById(R.id.MyReviewDetailsFragment_st_imageview);
+        avatarImg = view.findViewById(R.id.MyReviewDetailsFragment_review_imageview);
         editBtn=view.findViewById(R.id.MyReviewDetailsFragment_edit_btn);
 
 

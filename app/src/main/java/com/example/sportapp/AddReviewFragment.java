@@ -5,23 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,9 +34,6 @@ import com.example.sportapp.databinding.FragmentAddReviewBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
 
-import java.util.List;
-import java.util.Random;
-
 
 public class AddReviewFragment extends Fragment {
     String id;
@@ -54,13 +46,10 @@ public class AddReviewFragment extends Fragment {
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
     AddReviewFragmentViewModel viewModel;
-//    String[] t= viewModel.getType();
-    static String[] type;
-    ProgressBar pb;
+    ProgressBar progressBar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Bundle bundle = getArguments();
         if (bundle != null){
             this.email = bundle.getString("Email");
@@ -107,14 +96,14 @@ public class AddReviewFragment extends Fragment {
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add New Review");
         binding = FragmentAddReviewBinding.inflate(inflater, container, false);
         email = AddReviewFragmentArgs.fromBundle(getArguments()).getUserEmail();
         saveBtn = binding.getRoot().findViewById(R.id.add_Review_save_btn);
         cancelBtn = binding.getRoot().findViewById(R.id.add_Review_cancel_btn);
         sportSpinner=binding.getRoot().findViewById(R.id.add_Review_sport_spinner);
-        pb=binding.getRoot().findViewById(R.id.add_review_progressBar);
-        pb.setVisibility(View.GONE);
+        progressBar=binding.getRoot().findViewById(R.id.add_review_progressBar);
+        progressBar.setVisibility(View.GONE);
 
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -133,7 +122,7 @@ public class AddReviewFragment extends Fragment {
 
 
         saveBtn.setOnClickListener((view -> {
-            pb.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
 
             String city = binding.addReviewCitysInputEt.getText().toString();
             String description = binding.addReviewDescriptionInputEt.getText().toString();
@@ -150,14 +139,14 @@ public class AddReviewFragment extends Fragment {
                         newR.setImg(url);
                     }
                     Model.instance().addReview(newR,()->{
-                        pb.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         Navigation.findNavController(view).popBackStack();
 
                     });
                 });
             }else {
                 Model.instance().addReview(newR,()->{
-                    pb.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     Navigation.findNavController(view).popBackStack();
 
                 });

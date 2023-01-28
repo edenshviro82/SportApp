@@ -2,11 +2,10 @@ package com.example.sportapp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,23 +13,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
 
-import java.util.List;
 
 public class WeatherStatusFragment extends Fragment {
 
     // actual API key from Open Weather
-
-
-
     String email,temp,icon,type,description;;
     TextView temperature,city,sport;
     TextView prop1Headline,prop2Headline,prop3Headline,prop4Headline,prop5Headline;
     TextView prop1,prop2,prop3,prop4,prop5;
-    int stateCode;
     ImageView weatherIcon;
     ProgressBar pb;
     User user=new User();
@@ -38,13 +31,11 @@ public class WeatherStatusFragment extends Fragment {
 
 
 
-
-
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Weather Status");
         View view = inflater.inflate(R.layout.fragment_weather_status, container, false);
 
         city=view.findViewById(R.id.weather_city_tv);
@@ -67,14 +58,13 @@ public class WeatherStatusFragment extends Fragment {
 
 
         email = WeatherStatusFragmentArgs.fromBundle(getArguments()).getUserEmail();
-        Log.d("TAG",email);
        // user=Model.instance().getAllUsers().get(email);
 
         return view;
     }
 
     private void updateUI(Weather data) {
-
+      //          int roundTemp=(int)Math.round(Integer.parseInt(temperature.getText().toString()));
           int roundTemp=(int)Math.round(data.temperature);
           temperature.setText(roundTemp+" °C");
           int drawableResourceId = getResources().getIdentifier(data.icon, "drawable", getActivity().getPackageName());
@@ -95,6 +85,7 @@ public class WeatherStatusFragment extends Fragment {
         prop5.setText("");
         OceanWeather oceanData=OceanWeather.getWeatherDataForCity(user.getCity());
 
+        //changing the fields according to the sport the user choosed
         switch (user.getSport()) {
             case "Running":
                 prop1Headline.setText("Feels like: ");
@@ -241,14 +232,6 @@ public class WeatherStatusFragment extends Fragment {
     public void onResume() {
         super.onResume();
         pb.setVisibility(View.VISIBLE);
-//        Model.instance().getAllUsers((userList)->{
-//            List<User> list= userList;
-//            for(User u:list)
-//            {
-//                if(u.getEmail().equals(email))
-//                    user=u;
-//            }
-//        });
         reloadData(email);
 
     }
@@ -257,9 +240,7 @@ public class WeatherStatusFragment extends Fragment {
     {
         Model.instance().getAllUsers((userList)->{
             user=Model.instance().getUserByEmail(userList,email);
-            Log.d("TAG",user.getCity());
             data=Weather.getWeatherDataForCity(user.getCity());
-            Log.d("TAG",data.toString());
             updateUI(data);
             pb.setVisibility(View.GONE);
 

@@ -3,16 +3,12 @@ package com.example.sportapp;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,21 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.example.sportapp.databinding.FragmentSignInBinding;
-import com.example.sportapp.model.Model;
-import com.example.sportapp.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.ProgressBar;
-
-import java.util.LinkedList;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class SignInFragment extends Fragment {
@@ -63,7 +52,7 @@ public class SignInFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Sign In");
         binding = FragmentSignInBinding.inflate(inflater, container, false);
         firebaseAuth= FirebaseAuth.getInstance();
         SignInBtn = binding.getRoot().findViewById(R.id.SIfrag_SU_btn);
