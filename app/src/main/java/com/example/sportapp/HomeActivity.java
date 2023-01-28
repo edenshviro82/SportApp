@@ -68,11 +68,6 @@ public class HomeActivity extends AppCompatActivity {
                         action= WeatherStatusFragmentDirections.actionGlobalWeatherStatusFragment(userEmail);
                         Navigation.findNavController(t, R.id.home_navhost).navigate(action);
                         return true;
-                    case R.id.signUpFragment:
-                        action= SignUpFragmentDirections.actionSignUpFragmentToSignInFragment();
-                        Navigation.findNavController(t, R.id.home_navhost).navigate(action);
-                        firebaseAuth.signOut();
-                        return true;
                     default:
                         return NavigationUI.onNavDestinationSelected(item,navController);
 
@@ -98,11 +93,10 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
 
             case R.id.signUpFragment:
-                //logout
-                Intent intent = new Intent(this, MainActivity.class);
+                firebaseAuth.signOut();
+                Intent intent = new Intent(this, IntroductionActivity.class);
                 startActivity(intent);
                 return true;
-
 
             case R.id.editUserFragment:
                 action= EditUserFragmentDirections.actionGlobalEditUserFragment(userEmail);
@@ -113,11 +107,6 @@ public class HomeActivity extends AppCompatActivity {
                 action= AddReviewFragmentDirections.actionGlobalAddReviewFragment(userEmail);
                 Navigation.findNavController(this, R.id.home_navhost).navigate(action);
                 return true;
-
-//            case R.id.myReviewsFragment:
-//                action= MyReviewsFragmentDirections.actionGlobalMyReviewsFragment(userEmail);
-//                Navigation.findNavController(this, R.id.home_navhost).navigate(action);
-//                return true;
 
 
             default:
