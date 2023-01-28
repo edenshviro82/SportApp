@@ -10,7 +10,7 @@
         android:id="@+id/img_back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EFD6DE"
+        android:background="#F8EED0"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/img_back"
         app:layout_constraintVertical_bias=".1"
-        app:srcCompat="@drawable/ic_baseline_sports_handball_24" />
+        app:srcCompat="@drawable/sport_logo_white" />
 
     <TextView
         android:id="@+id/sport_tv"
@@ -38,7 +38,7 @@
         android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-condensed-light"
         android:text="SPORT"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="45sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="40dp" />
@@ -51,7 +51,7 @@
         android:layout_marginEnd="50dp"
         android:fontFamily="sans-serif-condensed-light"
         android:text="APP"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="45sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
