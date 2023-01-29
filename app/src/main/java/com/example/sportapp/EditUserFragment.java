@@ -139,9 +139,6 @@ public class EditUserFragment extends Fragment {
         });
 
 
-
-
-
         saveBtn.setOnClickListener((view -> {
             pb.setVisibility(View.VISIBLE);
 

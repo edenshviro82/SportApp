@@ -36,7 +36,8 @@ import com.example.sportapp.model.Review;
 
 
 public class AddReviewFragment extends Fragment {
-    String id;
+
+
     FragmentAddReviewBinding binding;
     Button saveBtn,cancelBtn;
     Spinner sportSpinner;
@@ -47,6 +48,7 @@ public class AddReviewFragment extends Fragment {
     Boolean isAvatarSelected = false;
     AddReviewFragmentViewModel viewModel;
     ProgressBar progressBar;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -52,9 +52,9 @@ public class ReviewDetailsFragment extends Fragment {
         descriptionTV.setText(re.getDescription());
         emailTV.setText(re.getEmailOfOwner());
         if (re.getImg()  != "") {
-            Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
+            Picasso.get().load(re.getImg()).placeholder(R.drawable.no_photo).into(avatarImg);
         }else{
-            avatarImg.setImageResource(R.drawable.addpic);
+            avatarImg.setImageResource(R.drawable.no_photo);
         }
     }
 

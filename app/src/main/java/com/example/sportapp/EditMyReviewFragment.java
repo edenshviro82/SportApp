@@ -39,7 +39,6 @@ public class EditMyReviewFragment extends Fragment {
     String sport;
     EditMyReviewFragmentViewModel viewModel;
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -77,44 +76,20 @@ public class EditMyReviewFragment extends Fragment {
         sportSpinner.setAdapter(adapter);
 
         save.setOnClickListener(view1 -> {
-           Model.instance().getAllReviews((reviewList)->{
-               myData= Model.instance().getMyReviews(reviewList,email);
             bindBack(pos);
-            Log.d("TAG",myData.get(pos).reviewId+"<- id "+myData.get(pos).getCity());
-             Model.instance().addReview(myData.get(pos),()->{
-                 Log.d("TAG", myData.get(pos).getDescription() + "   desc");
-
+             Model.instance().addReview(viewModel.getMyData(email).get(pos),()->{
+                 Navigation.findNavController(view).popBackStack();
              });
-            });
-            Navigation.findNavController(view).popBackStack();
-
         });
 
-        delete.setOnClickListener(view1->{
-//            Model.instance().getAllReviews((reviewList)->{
-//                allReviews=reviewList;
-//                data= Model.instance().getMyReviews(allReviews,email);
-//                Model.instance().deleteReview(data.get(pos),()->{
-//                    Log.d("TAG",  "   desc");
-//
-//                });
-//                Navigation.findNavController(view1).popBackStack();
-//                Navigation.findNavController(view1).popBackStack();
-//
-//            });
-
-
-        });
-        cancel.setOnClickListener(view1 ->
-        {
+        cancel.setOnClickListener(view1 -> {
             Navigation.findNavController(view1).popBackStack();
-
         });
 
 
         return view;
     }
-    public void bind(Review re, int pos) {
+    private void bind(Review re) {
         cityET.setText(re.getCity());
         descriptionET.setText(re.getDescription());
         if (re.getImg()  != "") {
@@ -124,29 +99,19 @@ public class EditMyReviewFragment extends Fragment {
         }
     }
 
-
     private void bindBack( int pos) {
         myData.get(pos).setCity(cityET.getText().toString());
         myData.get(pos).setSport(sport);
         myData.get(pos).setDescription(descriptionET.getText().toString());
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        reloadData(email);
-
+        bind(viewModel.getMyData(email).get(pos));
     }
 
-    public void reloadData(String email){
-        Model.instance().getAllReviews((reviewList)->{
-            myData=Model.instance().getMyReviews(reviewList,email);
-            re=myData.get(pos);
-            this.bind(re,pos);
 
-        });
-    }
 
 
 }

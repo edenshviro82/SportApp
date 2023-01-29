@@ -14,7 +14,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
-        app:cardBackgroundColor="#F8EED0"
+        app:cardBackgroundColor="@color/purple_700"
         app:cardCornerRadius="40dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +35,8 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="casual"
                 android:text="Description:"
-                android:fontFamily="@font/aclonica"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="text"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </ScrollView>
@@ -79,7 +79,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="35dp"
-        app:cardBackgroundColor="#F8EED0"
+        app:cardBackgroundColor="@color/purple_700"
         app:cardCornerRadius="40dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/aclonica"
+                android:fontFamily="casual"
 
                 android:text="City:"
                 android:textSize="16sp"
@@ -112,12 +112,12 @@
                 android:id="@+id/MyReviewDetailsFragment_tv_edit_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:text="text"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/MyReviewDetailsFragment_tv_city" />
+                app:layout_constraintStart_toEndOf="@+id/MyReviewDetailsFragment_tv_city"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -129,7 +129,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
-        app:cardBackgroundColor="#F8EED0"
+        app:cardBackgroundColor="@color/purple_700"
         app:cardCornerRadius="40dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -149,9 +149,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/aclonica"
-
                 android:layout_marginTop="10dp"
+
+                android:fontFamily="casual"
                 android:text="Sport:"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -162,12 +162,12 @@
                 android:id="@+id/MyReviewDetailsFragment_tv_edit_sport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:text="text"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/MyReviewDetailsFragment_tv_sport" />
+                app:layout_constraintStart_toEndOf="@+id/MyReviewDetailsFragment_tv_sport"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -189,7 +189,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/aclonica"
+        android:fontFamily="casual"
         android:text="text"
         android:textAlignment="center"
         android:textSize="14sp"

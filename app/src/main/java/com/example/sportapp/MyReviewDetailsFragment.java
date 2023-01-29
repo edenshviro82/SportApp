@@ -1,11 +1,13 @@
 package com.example.sportapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +27,17 @@ public class MyReviewDetailsFragment extends Fragment {
     int pos;
     TextView cityTV, sportTV, descriptionTV, emailTV;
     Button editBtn;
-    Review re;
     String email;
+    MyReviewDetailsFragmentViewModel viewModel;
     List<Review> data=new LinkedList<>();
     ImageView avatarImg;
 
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(MyReviewDetailsFragmentViewModel.class);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,23 +60,19 @@ public class MyReviewDetailsFragment extends Fragment {
         return view;
     }
     public void reloadData(String email){
-        Model.instance().getAllReviews((reviewList)->{
-            data=Model.instance().getMyReviews(reviewList,email);
-            re=data.get(pos);
-            this.bind(re,pos);
-        });
+        bind(viewModel.getMyData(email).get(pos));
     }
 
 
-    public void bind(Review re, int pos) {
+    public void bind(Review re) {
         cityTV.setText(re.getCity());
         sportTV.setText(re.getSport());
         descriptionTV.setText(re.getDescription());
         emailTV.setText(re.getEmailOfOwner());
-        if (re.getImg()  != "") {
-            Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
+        if (re.getImg()!= null && !re.getImg().equals("")) {
+            Picasso.get().load(re.getImg()).placeholder(R.drawable.no_photo).into(avatarImg);
         }else{
-            avatarImg.setImageResource(R.drawable.addpic);
+            avatarImg.setImageResource(R.drawable.no_photo);
         }
     }
 
@@ -79,4 +83,10 @@ public class MyReviewDetailsFragment extends Fragment {
         reloadData(email);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadData(email);
+
+    }
 }

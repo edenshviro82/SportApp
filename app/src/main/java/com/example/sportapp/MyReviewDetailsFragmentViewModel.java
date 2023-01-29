@@ -8,17 +8,14 @@ import com.example.sportapp.model.Review;
 
 import java.util.List;
 
-public class EditMyReviewFragmentViewModel extends ViewModel {
+public class MyReviewDetailsFragmentViewModel extends ViewModel {
 
-    private static String[] type = Model.instance().getType();
-    String[] getType() {
-        return type;
-    }
 
     private LiveData<List<Review>> data = Model.instance().getAllReviews();
 
     List<Review> getMyData(String email) {
         return Model.instance().getMyReviews(data.getValue(),email);
     }
+
 
 }
