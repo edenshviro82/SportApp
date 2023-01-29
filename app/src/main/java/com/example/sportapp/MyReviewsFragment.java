@@ -101,14 +101,14 @@ public class MyReviewsFragment extends Fragment {
     class MyReviewsViewHolder extends RecyclerView.ViewHolder{
         TextView cityTV;
         TextView sportTV;
-        TextView descriptionTV;
+      //  TextView descriptionTV;
         ImageView avatarImg;
 
         public MyReviewsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             cityTV = itemView.findViewById(R.id.allReviewsRow_city);
             sportTV = itemView.findViewById(R.id.allReviewsRow_sport_tv);
-            descriptionTV = itemView.findViewById(R.id.allReviewsRow_description_tv);
+        //    descriptionTV = itemView.findViewById(R.id.allReviewsRow_description_tv);
             avatarImg = itemView.findViewById(R.id.allReviewsRow_avatar_img);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class MyReviewsFragment extends Fragment {
         public void bind(Review re, int pos) {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
-            descriptionTV.setText(re.getDescription());
+        //    descriptionTV.setText(re.getDescription());
             if (re.getImg()  != null && !re.getImg().isEmpty()) {
                 Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
             }else{

@@ -96,7 +96,6 @@ public class AllReviewsFragment extends Fragment {
             super(itemView);
             cityTV = itemView.findViewById(R.id.allReviewsRow_city);
             sportTV = itemView.findViewById(R.id.allReviewsRow_sport_tv);
-            descriptionTV = itemView.findViewById(R.id.allReviewsRow_description_tv);
             avatarImg = itemView.findViewById(R.id.allReviewsRow_avatar_img);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +110,7 @@ public class AllReviewsFragment extends Fragment {
         public void bind(Review re, int pos) {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
-            descriptionTV.setText(re.getDescription());
+            //descriptionTV.setText(re.getDescription());
             if (!re.getImg().equals("")) {
                 Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
             }else{
