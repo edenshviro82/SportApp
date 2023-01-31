@@ -93,7 +93,7 @@ public class EditMyReviewFragment extends Fragment {
     private void bind(Review re) {
         cityET.setText(re.getCity());
         descriptionET.setText(re.getDescription());
-        if (re.getImg()  != "") {
+        if (re.getImg()  != null) {
             Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
         }else{
             avatarImg.setImageResource(R.drawable.addpic);

@@ -140,18 +140,10 @@ public class AddReviewFragment extends Fragment {
                     if (url != null){
                         newR.setImg(url);
                     }
-                    Model.instance().addReview(newR,()->{
-                        progressBar.setVisibility(View.GONE);
-                        Navigation.findNavController(view).popBackStack();
-
-                    });
+                    addReviewToModel(newR,view);
                 });
             }else {
-                Model.instance().addReview(newR,()->{
-                    progressBar.setVisibility(View.GONE);
-                    Navigation.findNavController(view).popBackStack();
-
-                });
+                addReviewToModel(newR,view);
             }
 
 
@@ -170,6 +162,15 @@ public class AddReviewFragment extends Fragment {
 
 
         return binding.getRoot();
+    }
+
+    public void addReviewToModel(Review newR, View view)
+    {
+        Model.instance().addReview(newR,()->{
+            progressBar.setVisibility(View.GONE);
+            Navigation.findNavController(view).popBackStack();
+
+        });
     }
 }
 
