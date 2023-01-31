@@ -9,10 +9,8 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -39,8 +37,12 @@ public class Model {
         return type;
     }
 
-    public void addUser(User u, Listener2<Void> listener) {
+    public void addUser(User u, voidListener<Void> listener) {
         firebaseModel.addUser(u,listener);
+    }
+
+    public interface voidListener<Void>{
+        void onComplete();
     }
 
     public interface Listener<T>{
@@ -52,15 +54,10 @@ public class Model {
     }
     final public MutableLiveData<LoadingState> EventReviewsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
 
-
-
     public void getAllUsers(Listener<List<User>> callback){
         firebaseModel.getAllUsers(callback);
     }
-    public void printUser(User u){
 
-        Log.d("TAG","user name : "+ u.getName().toString());
-    }
     public User getUserByEmail(List<User> users, String email){
       for(User u:users)
         {
@@ -71,12 +68,24 @@ public class Model {
 
     }
 
-    public interface Listener2<Void>{
-        void onComplete();
+
+
+//**********************************************Reviews***************************************
+
+    public int generateID(LiveData<List<Review>> l){
+        int maxID=0;
+        if(l == null){return maxID;}
+        else{
+            for(Review r: l.getValue())
+            {
+                if(r.getId()>maxID)
+                {
+                     maxID=r.getId();
+                }
+            }
+            return maxID+1;
+        }
     }
-
-//**********************************************
-
 
     public LiveData<List<Review>> getAllReviews() {
         if(reviewList == null){
@@ -111,8 +120,7 @@ public class Model {
     }
 
 
-    public void addReview(Review r, Listener2<Void> listener) {
-        //firebaseModel.addReview(r,listener);
+    public void addReview(Review r, voidListener<Void> listener) {
         firebaseModel.addReview(r,()->{
             refreshAllReviews();
             listener.onComplete();
@@ -137,22 +145,6 @@ public class Model {
         return mine;
     }
 
-    public void deleteReview(Review r, Listener2<Void> listener) {
-
-        firebaseModel.deleteReview(r,()->{
-            refreshAllReviews();
-            listener.onComplete();
-        });
-        executor.execute(() -> {
-            //   List<Review> data = localDb.reviewDao().getAllReviews();
-            localDb.reviewDao().delete(r);
-            //return to the main thread because we want the executor to do only DB missions
-            mainHandler.post(() -> {
-                listener.onComplete();
-            });
-
-        });
-    }
 
     public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
         firebaseModel.uploadImage(name,bitmap,listener);

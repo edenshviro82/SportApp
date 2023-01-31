@@ -124,7 +124,7 @@ public class MyReviewsFragment extends Fragment {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
         //    descriptionTV.setText(re.getDescription());
-            if (re.getImg()  != null && !re.getImg().isEmpty()) {
+            if (re.getImg()!= null && !re.getImg().equals("")) {
                 Picasso.get().load(re.getImg()).placeholder(R.drawable.no_photo).into(avatarImg);
             }else{
                 avatarImg.setImageResource(R.drawable.no_photo);

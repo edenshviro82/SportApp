@@ -130,7 +130,7 @@ public class EditUserFragment extends Fragment {
 
         Model.instance().getAllUsers((allUsers)-> {
             newUser = Model.instance().getUserByEmail(allUsers, email);
-            if(!newUser.getImg().equals("")) {
+            if (newUser.getImg()!= null && !newUser.getImg().equals("")) {
 
                 Picasso.get().load(newUser.getImg()).placeholder(R.drawable.addpic).into(binding.editUserAvatarImg);
             }else{

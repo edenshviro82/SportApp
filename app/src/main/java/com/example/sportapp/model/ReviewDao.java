@@ -22,8 +22,4 @@ public interface ReviewDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Review... reviews);
 
-    @Delete
-    void delete(Review review);
-
-
 }

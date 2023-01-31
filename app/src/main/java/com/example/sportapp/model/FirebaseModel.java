@@ -73,7 +73,7 @@ public class FirebaseModel{
         });
     }
 
-    public void addReview(Review r, Model.Listener2<Void> listener) {
+    public void addReview(Review r, Model.voidListener<Void> listener) {
         db.collection(Review.COLLECTION).document(Integer.toString(r.getId())).set(r.toJson())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -83,7 +83,7 @@ public class FirebaseModel{
                 });
     }
 
-    public void deleteReview(Review r, Model.Listener2<Void> listener) {
+    public void deleteReview(Review r, Model.voidListener<Void> listener) {
         db.collection(Review.COLLECTION).document(Integer.toString(r.getId())).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -92,15 +92,6 @@ public class FirebaseModel{
                     }
                 });
     }
-//    public void deleteReview(Review r, Model.Listener2<Void> listener) {
-//        db.collection(Review.COLLECTION).document(Integer.toString(r.getId()).set(r.toJson())
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        listener.onComplete();
-//                    }
-//                });
-//    }
 
 ///////---------------------------USER------------------------------------------
 
@@ -121,27 +112,9 @@ public class FirebaseModel{
         });
     }
 
-    public void getAllUsersSince(Long since, Model.Listener<List<User>> callback){
-        db.collection(User.COLLECTION)
-                .whereGreaterThanOrEqualTo(User.LAST_UPDATED, new Timestamp(since,0))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<User> list = new LinkedList<>();
-                        if (task.isSuccessful()){
-                            QuerySnapshot jsonsList = task.getResult();
-                            for (DocumentSnapshot json: jsonsList){
-                                User u = User.fromJson(json.getData());
-                                list.add(u);
-                            }
-                        }
-                        callback.onComplete(list);
-                    }
-                });
-    }
 
-    public void addUser(User u, Model.Listener2<Void> listener) {
+
+    public void addUser(User u, Model.voidListener<Void> listener) {
         db.collection(User.COLLECTION).document(u.getEmail()).set(u.toJson())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

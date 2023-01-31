@@ -107,11 +107,11 @@ public class AllReviewsFragment extends Fragment {
             });
         }
 
-        public void bind(Review re, int pos) {
+        public void bind(Review re) {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
             //descriptionTV.setText(re.getDescription());
-            if (!re.getImg().equals("")) {
+            if (re.getImg()!= null && !re.getImg().equals("")) {
                 Picasso.get().load(re.getImg()).placeholder(R.drawable.no_photo).into(avatarImg);
             }else{
                 avatarImg.setImageResource(R.drawable.no_photo);
@@ -159,7 +159,7 @@ public class AllReviewsFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull AllReviewsViewHolder holder, int position) {
             Review re = data.get(position);
-            holder.bind(re,position);
+            holder.bind(re);
         }
 
         @Override

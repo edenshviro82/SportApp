@@ -33,7 +33,6 @@ public class EditMyReviewFragment extends Fragment {
     EditText cityET, descriptionET;
     Review re;
     Spinner sportSpinner;
-    List<Review> myData= new LinkedList<>();
     ImageView avatarImg;
     String email;
     String sport;
@@ -93,7 +92,7 @@ public class EditMyReviewFragment extends Fragment {
     private void bind(Review re) {
         cityET.setText(re.getCity());
         descriptionET.setText(re.getDescription());
-        if (re.getImg()  != null) {
+        if (re.getImg()  != null && !re.getImg().equals("")) {
             Picasso.get().load(re.getImg()).placeholder(R.drawable.addpic).into(avatarImg);
         }else{
             avatarImg.setImageResource(R.drawable.addpic);
@@ -101,9 +100,9 @@ public class EditMyReviewFragment extends Fragment {
     }
 
     private void bindBack( int pos) {
-        myData.get(pos).setCity(cityET.getText().toString());
-        myData.get(pos).setSport(sport);
-        myData.get(pos).setDescription(descriptionET.getText().toString());
+        viewModel.getMyData(email).get(pos).setCity(cityET.getText().toString());
+        viewModel.getMyData(email).get(pos).setSport(sport);
+        viewModel.getMyData(email).get(pos).setDescription(descriptionET.getText().toString());
     }
 
     @Override

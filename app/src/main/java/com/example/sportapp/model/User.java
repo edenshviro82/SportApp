@@ -27,12 +27,9 @@ public class User {
      String city="";
      String sport="";
      String img="";
-    public Long lastUpdated;
 
 
-    public User() {
-
-    }
+    public User() {}
 
     public User(String name, String email, String city, String sport, String img) {
         this.name = name;
@@ -50,20 +47,7 @@ public class User {
     static final String SPORT = "sport";
     static final String IMG = "img";
     static final String COLLECTION = "users";
-    static final String LAST_UPDATED = "lastUpdated";
-    static final String LOCAL_LAST_UPDATED = "users_local_last_update";
 
-    public static Long getLocalLastUpdate() {
-        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
-        return sharedPref.getLong(LOCAL_LAST_UPDATED, 0);
-    }
-
-    public static void setLocalLastUpdate(Long time) {
-        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putLong(LOCAL_LAST_UPDATED,time);
-        editor.commit();
-    }
 
     public static User fromJson(Map<String,Object> json){
         String email = (String)json.get(EMAIL);
@@ -72,10 +56,6 @@ public class User {
         String sport = (String)json.get(SPORT);
         String img = (String)json.get(IMG);
         User u = new User(name,email,city,sport,img);
-        try{
-            Timestamp time = (Timestamp) json.get(LAST_UPDATED);
-            u.setLastUpdated(time.getSeconds());
-        }catch(Exception e){}
         return u;
     }
 
@@ -87,7 +67,6 @@ public class User {
         json.put(CITY, getCity());
         json.put(SPORT, getSport());
         json.put(IMG, getImg());
-        json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         return json;
     }
 
@@ -135,22 +114,8 @@ public class User {
         return userId;
     }
 
-
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-    public Long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(Long lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-
-
-
 
 }

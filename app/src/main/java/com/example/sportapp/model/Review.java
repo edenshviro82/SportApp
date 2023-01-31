@@ -52,8 +52,7 @@ public class Review {
     }
 
     public void generateID(){
-        Random rand = new Random();
-        this.reviewId = rand.nextInt((200000 - 100000) + 1) + 100000;
+        this.reviewId=Model.instance().generateID(Model.instance().getAllReviews());
     }
 
 

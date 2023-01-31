@@ -37,7 +37,6 @@ import com.example.sportapp.model.Review;
 
 public class AddReviewFragment extends Fragment {
 
-
     FragmentAddReviewBinding binding;
     Button saveBtn,cancelBtn;
     Spinner sportSpinner;
