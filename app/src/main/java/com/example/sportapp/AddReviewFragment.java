@@ -25,11 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.example.sportapp.databinding.FragmentAddReviewBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.Review;
@@ -38,56 +33,59 @@ import com.example.sportapp.model.Review;
 public class AddReviewFragment extends Fragment {
 
     FragmentAddReviewBinding binding;
-    Button saveBtn,cancelBtn;
-    Spinner sportSpinner;
-    String sport;
-    String email;
+    String sport,email;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
     AddReviewFragmentViewModel viewModel;
-    ProgressBar progressBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null){
-            this.email = bundle.getString("Email");
-        }
 
+        // Get the parent activity
         FragmentActivity parentActivity = getActivity();
+
+        // Add a menu provider to the parent activity
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                // Remove the "newReviewFragment" menu item
                 menu.removeItem(R.id.newReviewFragment);
             }
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                // Return false for menu item selection event
                 return false;
             }
-        },this, Lifecycle.State.RESUMED);
+        }, this, Lifecycle.State.RESUMED);
 
+        // Register for activity result for camera preview
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
             @Override
             public void onActivityResult(Bitmap result) {
                 if (result != null) {
+                    // Update the image view with the camera preview result
                     binding.addReviewAvatarImg.setImageBitmap(result);
-                    isAvatarSelected = true;
-                }
-            }
-        });
-        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri result) {
-                if (result != null){
-                    binding.addReviewAvatarImg.setImageURI(result);
+                    // Set flag indicating that an avatar is selected
                     isAvatarSelected = true;
                 }
             }
         });
 
+        // Register for activity result for gallery selection
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null){
+                    // Update the image view with the gallery selection
+                    binding.addReviewAvatarImg.setImageURI(result);
+                    // Set flag indicating that an avatar is selected
+                    isAvatarSelected = true;
+                }
+            }
+        });
     }
 
     @Override
@@ -100,17 +98,14 @@ public class AddReviewFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add New Review");
         binding = FragmentAddReviewBinding.inflate(inflater, container, false);
         email = AddReviewFragmentArgs.fromBundle(getArguments()).getUserEmail();
-        saveBtn = binding.getRoot().findViewById(R.id.add_Review_save_btn);
-        cancelBtn = binding.getRoot().findViewById(R.id.add_Review_cancel_btn);
-        sportSpinner=binding.getRoot().findViewById(R.id.add_Review_sport_spinner);
-        progressBar=binding.getRoot().findViewById(R.id.add_review_progressBar);
-        progressBar.setVisibility(View.GONE);
+        binding.addReviewProgressBar.setVisibility(View.GONE);
 
+
+        //sport spinner
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
-        sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.addReviewSportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(),viewModel.getType()[i],Toast.LENGTH_LONG).show();
                 sport=viewModel.getType()[i];
             }
             @Override
@@ -118,36 +113,51 @@ public class AddReviewFragment extends Fragment {
 
             }
         });
-        sportSpinner.setAdapter(adapter);
+        binding.addReviewSportSpinner.setAdapter(adapter);
 
+        binding.addReviewSaveBtn.setOnClickListener((view -> {
+            // Show the progress bar
+            binding.addReviewProgressBar.setVisibility(View.VISIBLE);
 
-
-        saveBtn.setOnClickListener((view -> {
-            progressBar.setVisibility(View.VISIBLE);
-
+            // Get the city and description from the input fields
             String city = binding.addReviewCitysInputEt.getText().toString();
             String description = binding.addReviewDescriptionInputEt.getText().toString();
 
+            // Create a new review object with the entered data
             Review newR = new Review(email, description, city, sport, "");
             newR.generateID();
 
             if (isAvatarSelected){
+                // Enable drawing cache for the image view
                 binding.addReviewAvatarImg.setDrawingCacheEnabled(true);
                 binding.addReviewAvatarImg.buildDrawingCache();
+                // Get the bitmap from the image view
                 Bitmap bitmap = ((BitmapDrawable) binding.addReviewAvatarImg.getDrawable()).getBitmap();
+                // Upload the image
                 Model.instance().uploadImage(String.valueOf(newR.reviewId), bitmap, url->{
                     if (url != null){
+                        // Set the image URL in the review object
                         newR.setImg(url);
                     }
-                    addReviewToModel(newR,view);
+                    // Add the review to the model
+                    Model.instance().addReview(newR,()->{
+                        // Hide the progress bar
+                        binding.addReviewProgressBar.setVisibility(View.GONE);
+                        // Pop the current fragment from the navigation stack
+                        Navigation.findNavController(view).popBackStack();
+                    });
                 });
             }else {
-                addReviewToModel(newR,view);
+                // Add the review to the model without an image
+                Model.instance().addReview(newR,()->{
+                    // Hide the progress bar
+                    binding.addReviewProgressBar.setVisibility(View.GONE);
+                    // Pop the current fragment from the navigation stack
+                    Navigation.findNavController(view).popBackStack();
+                });
             }
-
-
-
         }));
+
 
         binding.addFromCameraIv.setOnClickListener(view1->{
             cameraLauncher.launch(null);
@@ -157,19 +167,11 @@ public class AddReviewFragment extends Fragment {
             galleryLauncher.launch("media/*");
         });
 
-        cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
+        binding.addReviewCancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
 
 
         return binding.getRoot();
     }
 
-    public void addReviewToModel(Review newR, View view)
-    {
-        Model.instance().addReview(newR,()->{
-            progressBar.setVisibility(View.GONE);
-            Navigation.findNavController(view).popBackStack();
-
-        });
-    }
 }
 

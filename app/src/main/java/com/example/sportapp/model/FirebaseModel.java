@@ -83,15 +83,6 @@ public class FirebaseModel{
                 });
     }
 
-    public void deleteReview(Review r, Model.voidListener<Void> listener) {
-        db.collection(Review.COLLECTION).document(Integer.toString(r.getId())).delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onComplete();
-                    }
-                });
-    }
 
 ///////---------------------------USER------------------------------------------
 
@@ -111,7 +102,6 @@ public class FirebaseModel{
             }
         });
     }
-
 
 
     public void addUser(User u, Model.voidListener<Void> listener) {

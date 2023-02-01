@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card3"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
@@ -24,7 +24,7 @@
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="341dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="3dp"
@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/ReviewDetailsFragment_tv_description"
                 android:layout_width="127dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="casual"
@@ -46,11 +46,11 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="130dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +66,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="text"
+                        android:textAlignment="center"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -79,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
         app:cardBackgroundColor="@color/purple_700"
         app:cardCornerRadius="40dp"
@@ -179,9 +180,9 @@
 
     <ImageView
         android:id="@+id/ReviewDetailsFragment_review_imageview"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReviewDetailsFragment_details_tv_edit_mail" />
@@ -207,7 +208,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

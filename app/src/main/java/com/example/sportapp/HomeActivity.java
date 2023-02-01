@@ -2,25 +2,17 @@ package com.example.sportapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
@@ -28,8 +20,9 @@ public class HomeActivity extends AppCompatActivity {
     String userEmail;
     NavController navController;
     private NavDirections action;
-    Activity t;
+    Activity activity;
     static String s;
+    Intent thisI;
     FirebaseAuth firebaseAuth;
 
 
@@ -39,8 +32,8 @@ public class HomeActivity extends AppCompatActivity {
         firebaseAuth= FirebaseAuth.getInstance();
         setContentView(R.layout.activity_home);
         s=getPackageName();
-        t=this;
-        Intent thisI = getIntent();
+        activity=this;
+        thisI = getIntent();
         userEmail = thisI.getStringExtra("userEmail");
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.home_navhost);
@@ -56,17 +49,17 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.myReviewsFragment:
                         action= MyReviewsFragmentDirections.actionGlobalMyReviewsFragment(userEmail);
-                        Navigation.findNavController(t, R.id.home_navhost).navigate(action);
+                        Navigation.findNavController(activity, R.id.home_navhost).navigate(action);
                         return true;
 
                     case R.id.allReviewsFragment:
                         action= AllReviewsFragmentDirections.actionGlobalAllReviewsFragment();
-                        Navigation.findNavController(t, R.id.home_navhost).navigate(action);
+                        Navigation.findNavController(activity, R.id.home_navhost).navigate(action);
                         return true;
 
                     case R.id.weatherStatusFragment:
                         action= WeatherStatusFragmentDirections.actionGlobalWeatherStatusFragment(userEmail);
-                        Navigation.findNavController(t, R.id.home_navhost).navigate(action);
+                        Navigation.findNavController(activity, R.id.home_navhost).navigate(action);
                         return true;
                     default:
                         return NavigationUI.onNavDestinationSelected(item,navController);
@@ -98,8 +91,8 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.editUserFragment:
-                action= EditUserFragmentDirections.actionGlobalEditUserFragment(userEmail);
+            case R.id.userDetailsFragment:
+                action= UserDetailsFragmentDirections.actionGlobalUserDetailsFragment(userEmail);
                 Navigation.findNavController(this, R.id.home_navhost).navigate(action);
                 return true;
 

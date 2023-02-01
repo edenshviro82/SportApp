@@ -7,10 +7,9 @@ import androidx.room.RoomDatabase;
 import com.example.sportapp.MyApplication;
 
 //entities= tables
-@Database(entities = {User.class,Review.class}, version = 7)
+@Database(entities = {User.class,Review.class}, version = 11)
 //return the Daos
 abstract class AppLocalDbRepository extends RoomDatabase {
-    public abstract UserDao userDao();
     public abstract ReviewDao reviewDao();
 }
 
@@ -21,7 +20,7 @@ public class AppLocalDb{
      public static AppLocalDbRepository getAppDb() {
         return Room.databaseBuilder(MyApplication.getMyContext(),
                         AppLocalDbRepository.class,
-                        "dbFileName3.db")
+                        "sportAppDB.db")
                 .fallbackToDestructiveMigration()
                 .build();
     }

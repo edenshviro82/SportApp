@@ -9,7 +9,7 @@
         android:title="Add post"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/editUserFragment"
+        android:id="@+id/userDetailsFragment"
         android:icon="@drawable/ic_baseline_manage_accounts_24"
         android:title="edit user"
         app:showAsAction="ifRoom" />

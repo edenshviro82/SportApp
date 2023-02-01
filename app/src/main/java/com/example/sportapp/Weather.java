@@ -26,7 +26,6 @@ public class Weather {
 
             String apiKey="874e893c6aedb16c688cacfa4130b321";
 
-
             String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
             // Create a new OkHttpClient

@@ -1,11 +1,13 @@
 package com.example.sportapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
@@ -13,10 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.Toast;
 import com.example.sportapp.databinding.FragmentSignUpBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
@@ -31,19 +29,27 @@ public class SignUpFragment extends Fragment  {
 
     FirebaseAuth firebaseAuth;
     FragmentSignUpBinding binding;
-    Button logInBtn,signUpBtn;
-    Spinner sportSpinner;
     private NavDirections action;
-    String[] type=Model.instance().getType();
+    SignUpFragmentViewModel viewModel;
     String sport;
-    ProgressBar pb;
+    User user;
 
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(SignUpFragmentViewModel.class);
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Setting the title of the AppCompatActivity to "Sign Up"
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Sign Up");
         binding = FragmentSignUpBinding.inflate(inflater, container, false);
+        firebaseAuth= FirebaseAuth.getInstance();
+        // Hiding progress bar initially
+        binding.signUpProgressBar.setVisibility(View.GONE);
+
+        // Creating an AlertDialog with a positive button that dismisses the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -51,69 +57,72 @@ public class SignUpFragment extends Fragment  {
                 dialog.dismiss();
             }
         });
-        firebaseAuth= FirebaseAuth.getInstance();
-        logInBtn= binding.getRoot().findViewById(R.id.SUfrag_SI_btn);
-        pb=binding.getRoot().findViewById(R.id.signUp_progressBar);
-        pb.setVisibility(View.GONE);
-        signUpBtn= binding.getRoot().findViewById(R.id.SUfrag_SU_btn);
-        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,type);
-        sportSpinner=binding.getRoot().findViewById(R.id.SUFrag_sport_spinner);
-        sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        // Creating an ArrayAdapter for the spinner using type array
+        ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
+        // Setting the onItemSelectedListener for the spinner to update sport string
+        binding.SUFragSportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(),type[i],Toast.LENGTH_LONG).show();
-                sport=type[i];
+                sport=viewModel.getType()[i];
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-        sportSpinner.setAdapter(adapter);
+        // Setting the adapter for the spinner
+        binding.SUFragSportSpinner.setAdapter(adapter);
 
-        signUpBtn.setOnClickListener((view)->{
-            pb.setVisibility(View.VISIBLE);
+        // Setting the onClickListener for the sign up button
+        binding.SUfragSUBtn.setOnClickListener((view)->{
+            // Showing the progress bar
+            binding.signUpProgressBar.setVisibility(View.VISIBLE);
+            // Getting the values from the EditTexts
             String name= binding.SUFragNameInputEt.getText().toString();
             String email= binding.SUFragEmailInputEt.getText().toString();
             String pass= binding.SUFragPassInputEt.getText().toString();
             String city= binding.SUFragCitysInputEt.getText().toString();
+            // If sport string is not set, setting it to "not chosen"
             if(sport.equals(null))
                 sport="not chosen";
+            // Checking if all the fields are filled
             if(!(pass.equals("")) && !(email.equals("")) && !(name.equals("")) && !(city.equals("")) ){
-                Model.instance().addUser(new User(name,email,city,sport,""),()->{
+                // Adding the user to the Model
+
                    firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                        @Override
                        public void onSuccess(AuthResult authResult) {
-                           Intent i = new Intent(getActivity(), HomeActivity.class);
-                           i.putExtra("userEmail",email);
-                           pb.setVisibility(View.GONE);
-                           startActivity(i);
+                           user=new User(name,email,city,sport,"");
+                           Model.instance().addUser(user,()->{
+                               Intent i = new Intent(getActivity(), HomeActivity.class);
+                               i.putExtra("userEmail",email);
+                               binding.signUpProgressBar.setVisibility(View.GONE);
+                               startActivity(i);
+                           });
                        }
 
                    }).addOnFailureListener(new OnFailureListener() {
                        @Override
                        public void onFailure(@NonNull Exception e) {
-                           pb.setVisibility(View.GONE);
-                           builder.setMessage(e+"").setTitle("Error");
+                           binding.signUpProgressBar.setVisibility(View.GONE);
+                           builder.setMessage(e.getMessage()).setTitle("Error");
                            AlertDialog dialog = builder.create();
                            dialog.show();
                        }
                    });
 
-                });
+
             }else{
                 builder.setMessage("please fill all the fields").setTitle("Error");
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-
-
         });
 
-        logInBtn.setOnClickListener((view)->{
+        binding.SUfragSIBtn.setOnClickListener((view)->{
             action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment();
             Navigation.findNavController(view).navigate(action);
-
         });
 
         return binding.getRoot();

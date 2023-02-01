@@ -1,75 +1,65 @@
 package com.example.sportapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.example.sportapp.model.Model;
+import com.example.sportapp.databinding.FragmentReviewDetailsBinding;
 import com.example.sportapp.model.Review;
 import com.squareup.picasso.Picasso;
-
 
 
 public class ReviewDetailsFragment extends Fragment {
 
     int pos;
-    TextView cityTV, sportTV, descriptionTV, emailTV;
-    Button backBtn;
-    Review re;
-    ImageView avatarImg;
+    ReviewDetailsFragmentViewModel viewModel;
+    @NonNull FragmentReviewDetailsBinding binding;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(ReviewDetailsFragmentViewModel.class);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Review's details");
-        View view = inflater.inflate(R.layout.fragment_review_details, container, false);
+        binding = FragmentReviewDetailsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
         pos = ReviewDetailsFragmentArgs.fromBundle(getArguments()).getPos();
-        cityTV = view.findViewById(R.id.ReviewDetailsFragment_tv_edit_city);
-        sportTV = view.findViewById(R.id.ReviewDetailsFragment_tv_edit_sport);
-        descriptionTV=view.findViewById(R.id.ReviewDetailsFragment_tv_edit_description);
-        emailTV= view.findViewById(R.id.ReviewDetailsFragment_details_tv_edit_mail);
-        avatarImg = view.findViewById(R.id.ReviewDetailsFragment_review_imageview);
-        backBtn=view.findViewById(R.id.ReviewDetailsFragment_back_btn);
-        reloadData();
+        bind(viewModel.getData().getValue().get(pos));
 
-        backBtn.setOnClickListener(view1 ->{
+        binding.ReviewDetailsFragmentBackBtn.setOnClickListener(view1 ->{
             Navigation.findNavController(view1).popBackStack();
         } );
         return view;
     }
 
-    public void bind(Review re, int pos) {
-        cityTV.setText(re.getCity());
-        sportTV.setText(re.getSport());
-        descriptionTV.setText(re.getDescription());
-        emailTV.setText(re.getEmailOfOwner());
+    public void bind(Review re) {
+        binding.ReviewDetailsFragmentTvEditCity.setText(re.getCity());
+        binding.ReviewDetailsFragmentTvEditSport.setText(re.getSport());
+        binding.ReviewDetailsFragmentTvEditDescription.setText(re.getDescription());
+        binding.ReviewDetailsFragmentDetailsTvEditMail.setText(re.getEmailOfOwner());
         if (re.getImg()!= null && !re.getImg().equals("")) {
-            Picasso.get().load(re.getImg()).placeholder(R.drawable.no_photo).into(avatarImg);
+            Picasso.get().load(re.getImg()).placeholder(R.drawable.no_photo).into(binding.ReviewDetailsFragmentReviewImageview);
         }else{
-            avatarImg.setImageResource(R.drawable.no_photo);
+            binding.ReviewDetailsFragmentReviewImageview.setImageResource(R.drawable.no_photo);
         }
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
-        reloadData();
-    }
-
-    void reloadData(){
-        Model.instance().getAllReviews((allReviews)->{
-            re=allReviews.get(pos);
-            this.bind(re,pos);
-        });
+        bind(viewModel.getData().getValue().get(pos));
     }
 
 }

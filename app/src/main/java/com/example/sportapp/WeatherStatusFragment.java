@@ -13,6 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.sportapp.databinding.FragmentMyReviewDetailsBinding;
+import com.example.sportapp.databinding.FragmentWeatherStatusBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
 
@@ -20,12 +24,8 @@ import com.example.sportapp.model.User;
 public class WeatherStatusFragment extends Fragment {
 
     // actual API key from Open Weather
-    String email,temp,icon,type,description;;
-    TextView temperature,city,sport;
-    TextView prop1Headline,prop2Headline,prop3Headline,prop4Headline,prop5Headline;
-    TextView prop1,prop2,prop3,prop4,prop5;
-    ImageView weatherIcon;
-    ProgressBar pb;
+    String email;
+    @NonNull FragmentWeatherStatusBinding binding;
     User user=new User();
     Weather data;
 
@@ -36,191 +36,174 @@ public class WeatherStatusFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Weather Status");
-        View view = inflater.inflate(R.layout.fragment_weather_status, container, false);
-
-        city=view.findViewById(R.id.weather_city_tv);
-        temperature=view.findViewById(R.id.weather_degree_tv);
-        weatherIcon=view.findViewById(R.id.weather_icon_iv);
-        sport=view.findViewById(R.id.weather_sport_tv);
-        pb=view.findViewById(R.id.weather_progressBar);
-
-        prop1Headline=view.findViewById(R.id.weather_prop1_headline_tv);
-        prop2Headline=view.findViewById(R.id.weather_prop2_headline_tv);
-        prop3Headline=view.findViewById(R.id.weather_prop3_headline_tv);
-        prop4Headline=view.findViewById(R.id.weather_prop4_headline_tv);
-        prop5Headline=view.findViewById(R.id.weather_prop5_headline_tv);
-        prop1=view.findViewById(R.id.weather_prop1_tv);
-        prop2=view.findViewById(R.id.weather_prop2_tv);
-        prop3=view.findViewById(R.id.weather_prop3_tv);
-        prop4=view.findViewById(R.id.weather_prop4_tv);
-        prop5=view.findViewById(R.id.weather_prop5_tv);
-
-
-
+        binding = FragmentWeatherStatusBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
         email = WeatherStatusFragmentArgs.fromBundle(getArguments()).getUserEmail();
-       // user=Model.instance().getAllUsers().get(email);
 
         return view;
     }
 
     private void updateUI(Weather data) {
-      //          int roundTemp=(int)Math.round(Integer.parseInt(temperature.getText().toString()));
+
           int roundTemp=(int)Math.round(data.temperature);
-          temperature.setText(roundTemp+" °C");
+          binding.weatherDegreeTv.setText(roundTemp+" °C"); // Displaying the rounded temperature with degree symbol
           int drawableResourceId = getResources().getIdentifier(data.icon, "drawable", getActivity().getPackageName());
-          weatherIcon.setImageResource(drawableResourceId);
-          city.setText(user.getCity());
-          sport.setText("Chosen sport: "+user.getSport());
+          binding.weatherIconIv.setImageResource(drawableResourceId); // Setting the image resource based on the weather icon name
+          binding.weatherCityTv.setText(user.getCity());
+          binding.weatherSportTv.setText("Chosen sport: "+user.getSport()); // Displaying the chosen sport
 
-
-        prop1Headline.setText("");
-        prop2Headline.setText("");
-        prop3Headline.setText("");
-        prop4Headline.setText("");
-        prop5Headline.setText("");
-        prop1.setText("");
-        prop2.setText("");
-        prop3.setText("");
-        prop4.setText("");
-        prop5.setText("");
+        // Clearing any existing text in the TextView
+        binding.weatherProp1HeadlineTv.setText("");
+        binding.weatherProp2HeadlineTv.setText("");
+        binding.weatherProp3HeadlineTv.setText("");
+        binding.weatherProp4HeadlineTv.setText("");
+        binding.weatherProp5HeadlineTv.setText("");
+        binding.weatherProp1Tv.setText("");
+        binding.weatherProp2Tv.setText("");
+        binding.weatherProp3Tv.setText("");
+        binding.weatherProp4Tv.setText("");
+        binding.weatherProp5Tv.setText("");
         OceanWeather oceanData=OceanWeather.getWeatherDataForCity(user.getCity());
+
+        if(oceanData == null)
+            Toast.makeText(getActivity().getApplicationContext(), "Invalid city ", Toast.LENGTH_LONG).show();
 
         //changing the fields according to the sport the user choosed
         switch (user.getSport()) {
             case "Running":
-                prop1Headline.setText("Feels like: ");
-                prop1.setText(oceanData.getFeelsLikeC() + " °C");
-                prop2Headline.setText("Humidity: ");
-                prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("uvIndex: ");
-                prop4.setText(oceanData.getUvIndex() + " uv");
-                prop5Headline.setText("Visibility: ");
-                prop5.setText(oceanData.getVisibility() + " %");
+                binding.weatherProp1HeadlineTv.setText("Feels like: ");
+                binding.weatherProp1Tv.setText(oceanData.getFeelsLikeC() + " °C");
+                binding.weatherProp2HeadlineTv.setText("Humidity: ");
+                binding.weatherProp2Tv.setText(oceanData.getHumidity() + " %");
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("uvIndex: ");
+                binding.weatherProp4Tv.setText(oceanData.getUvIndex() + " uv");
+                binding.weatherProp5HeadlineTv.setText("Visibility: ");
+                binding.weatherProp5Tv.setText(oceanData.getVisibility() + " %");
                 break;
             case "Skiing":
-                prop1Headline.setText("total snow: ");
-                prop1.setText(oceanData.getTotalSnowCM() + " cm");
-                prop2Headline.setText("Chance of snow: ");
-                prop2.setText(oceanData.getChanceOfSnow() + " %");
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("Wind Direction: ");
-                prop4.setText(data.windDirection);
-                prop5Headline.setText("cloud cover: ");
-                prop5.setText(oceanData.getCloudCover() + " %");
+                binding.weatherProp1HeadlineTv.setText("total snow: ");
+                binding.weatherProp1Tv.setText(oceanData.getTotalSnowCM() + " cm");
+                binding.weatherProp2HeadlineTv.setText("Chance of snow: ");
+                binding.weatherProp2Tv.setText(oceanData.getChanceOfSnow() + " %");
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("Wind Direction: ");
+                binding.weatherProp4Tv.setText(data.windDirection);
+                binding.weatherProp5HeadlineTv.setText("cloud cover: ");
+                binding.weatherProp5Tv.setText(oceanData.getCloudCover() + " %");
 
                 break;
             case "Kiting":
-                prop1Headline.setText("Wind Speed: ");
-                prop1.setText(data.windSpeed+" meter/sec");
-                prop2Headline.setText("Wind Direction: ");
-                prop2.setText(data.windDirection);
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("rain chance today: ");
-                prop4.setText(oceanData.getChanceOfRain() + "%");
-                prop5Headline.setText("uvIndex: ");
-                prop5.setText(oceanData.getUvIndex() + " uv");
+                binding.weatherProp1HeadlineTv.setText("Wind Speed: ");
+                binding.weatherProp1Tv.setText(data.windSpeed+" meter/sec");
+                binding.weatherProp2HeadlineTv.setText("Wind Direction: ");
+                binding.weatherProp2Tv.setText(data.windDirection);
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("rain chance today: ");
+                binding.weatherProp4Tv.setText(oceanData.getChanceOfRain() + "%");
+                binding.weatherProp5HeadlineTv.setText("uvIndex: ");
+                binding.weatherProp5Tv.setText(oceanData.getUvIndex() + " uv");
                 break;
             case "Abseiling":
-                prop1Headline.setText("Wind Speed: ");
-                prop1.setText(data.windSpeed+" meter/sec");
-                prop2Headline.setText("rain chance today: ");
-                prop2.setText(oceanData.getChanceOfRain() + " %");
-                prop3Headline.setText("uvIndex: ");
-                prop3.setText(oceanData.getUvIndex() + " uv");
-                prop4Headline.setText("Chance of thunder: ");
-                prop4.setText(oceanData.getChanceOfThunder() + " %");
-                prop5Headline.setText("Visibility: ");
-                prop5.setText(oceanData.getVisibility() + " %");
+                binding.weatherProp1HeadlineTv.setText("Wind Speed: ");
+                binding.weatherProp1Tv.setText(data.windSpeed+" meter/sec");
+                binding.weatherProp2HeadlineTv.setText("rain chance today: ");
+                binding.weatherProp2Tv.setText(oceanData.getChanceOfRain() + " %");
+                binding.weatherProp3HeadlineTv.setText("uvIndex: ");
+                binding.weatherProp3Tv.setText(oceanData.getUvIndex() + " uv");
+                binding.weatherProp4HeadlineTv.setText("Chance of thunder: ");
+                binding.weatherProp4Tv.setText(oceanData.getChanceOfThunder() + " %");
+                binding.weatherProp5HeadlineTv.setText("Visibility: ");
+                binding.weatherProp5Tv.setText(oceanData.getVisibility() + " %");
                 break;
             case "Basketball":
-                prop1Headline.setText("Feels like: ");
-                prop1.setText(oceanData.getFeelsLikeC() + " °C");
-                prop2Headline.setText("Humidity: ");
-                prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("uvIndex: ");
-                prop4.setText(oceanData.getUvIndex() + " uv");
-                prop5Headline.setText("Wind Speed: ");
-                prop5.setText(data.windSpeed+" meter/sec");
+                binding.weatherProp1HeadlineTv.setText("Feels like: ");
+                binding.weatherProp1Tv.setText(oceanData.getFeelsLikeC() + " °C");
+                binding.weatherProp2HeadlineTv.setText("Humidity: ");
+                binding.weatherProp2Tv.setText(oceanData.getHumidity() + " %");
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("uvIndex: ");
+                binding.weatherProp4Tv.setText(oceanData.getUvIndex() + " uv");
+                binding.weatherProp5HeadlineTv.setText("Wind Speed: ");
+                binding.weatherProp5Tv.setText(data.windSpeed+" meter/sec");
                 break;
             case "Football":
-                prop1Headline.setText("total snow: ");
-                prop1.setText(oceanData.getTotalSnowCM() + " cm");
-                prop2Headline.setText("Humidity: ");
-                prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("uvIndex: ");
-                prop4.setText(oceanData.getUvIndex() + " uv");
-                prop5Headline.setText("rain chance today: ");
-                prop5.setText(oceanData.getChanceOfRain() + "%");
+                binding.weatherProp1HeadlineTv.setText("total snow: ");
+                binding.weatherProp1Tv.setText(oceanData.getTotalSnowCM() + " cm");
+                binding.weatherProp2HeadlineTv.setText("Humidity: ");
+                binding.weatherProp2Tv.setText(oceanData.getHumidity() + " %");
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("uvIndex: ");
+                binding.weatherProp4Tv.setText(oceanData.getUvIndex() + " uv");
+                binding.weatherProp5HeadlineTv.setText("rain chance today: ");
+                binding.weatherProp5Tv.setText(oceanData.getChanceOfRain() + "%");
                 break;
             case "Outside walking":
-                prop1Headline.setText("Feels like: ");
-                prop1.setText(oceanData.getFeelsLikeC() + " °C");
-                prop2Headline.setText("Humidity: ");
-                prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("uvIndex: ");
-                prop4.setText(oceanData.getUvIndex() + " uv");
-                prop5Headline.setText("Visibility: ");
-                prop5.setText(oceanData.getVisibility() + " % ");
+                binding.weatherProp1HeadlineTv.setText("Feels like: ");
+                binding.weatherProp1Tv.setText(oceanData.getFeelsLikeC() + " °C");
+                binding.weatherProp2HeadlineTv.setText("Humidity: ");
+                binding.weatherProp2Tv.setText(oceanData.getHumidity() + " %");
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("uvIndex: ");
+                binding.weatherProp4Tv.setText(oceanData.getUvIndex() + " uv");
+                binding.weatherProp5HeadlineTv.setText("Visibility: ");
+                binding.weatherProp5Tv.setText(oceanData.getVisibility() + " % ");
                 break;
 
             case "Badminton":
-                prop1Headline.setText("Wind Speed: ");
-                prop1.setText(data.windSpeed+" meter/sec");
-                prop2Headline.setText("Wind Direction: ");
-                prop2.setText(data.windDirection);
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("rain chance today: ");
-                prop4.setText(oceanData.getChanceOfRain() + "%");
-                prop5Headline.setText("Feels like: ");
-                prop5.setText(oceanData.getFeelsLikeC() + " °C");
+                binding.weatherProp1HeadlineTv.setText("Wind Speed: ");
+                binding.weatherProp1Tv.setText(data.windSpeed+" meter/sec");
+                binding.weatherProp2HeadlineTv.setText("Wind Direction: ");
+                binding.weatherProp2Tv.setText(data.windDirection);
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("rain chance today: ");
+                binding.weatherProp4Tv.setText(oceanData.getChanceOfRain() + "%");
+                binding.weatherProp5HeadlineTv.setText("Feels like: ");
+                binding.weatherProp5Tv.setText(oceanData.getFeelsLikeC() + " °C");
                 break;
 
             case "Biking":
-                prop1Headline.setText("Wind Speed: ");
-                prop1.setText(data.windSpeed+" meter/sec");
-                prop2Headline.setText("Humidity: ");
-                prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("Chance of fog: ");
-                prop3.setText(oceanData.getChanceoffog() + " %");
-                prop4Headline.setText("rain chance today: ");
-                prop4.setText(oceanData.getChanceOfRain() + "%");
-                prop5Headline.setText("Visibility: ");
-                prop5.setText(oceanData.getVisibility() + " % ");
+                binding.weatherProp1HeadlineTv.setText("Wind Speed: ");
+                binding.weatherProp1Tv.setText(data.windSpeed+" meter/sec");
+                binding.weatherProp2HeadlineTv.setText("Humidity: ");
+                binding.weatherProp2Tv.setText(oceanData.getHumidity() + " %");
+                binding.weatherProp3HeadlineTv.setText("Chance of fog: ");
+                binding.weatherProp3Tv.setText(oceanData.getChanceoffog() + " %");
+                binding.weatherProp4HeadlineTv.setText("rain chance today: ");
+                binding.weatherProp4Tv.setText(oceanData.getChanceOfRain() + "%");
+                binding.weatherProp5HeadlineTv.setText("Visibility: ");
+                binding.weatherProp5Tv.setText(oceanData.getVisibility() + " % ");
                 break;
             case "Yoga":
-                prop1Headline.setText("Feels like: ");
-                prop1.setText(oceanData.getFeelsLikeC() + " °C");
-                prop2Headline.setText("Humidity: ");
-                prop2.setText(oceanData.getHumidity() + " %");
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("rain chance today: ");
-                prop4.setText(oceanData.getChanceOfRain() + "%");
-                prop5Headline.setText("Wind Speed: ");
-                prop5.setText(data.windSpeed+" meter/sec");
+                binding.weatherProp1HeadlineTv.setText("Feels like: ");
+                binding.weatherProp1Tv.setText(oceanData.getFeelsLikeC() + " °C");
+                binding.weatherProp2HeadlineTv.setText("Humidity: ");
+                binding.weatherProp2Tv.setText(oceanData.getHumidity() + " %");
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("rain chance today: ");
+                binding.weatherProp4Tv.setText(oceanData.getChanceOfRain() + "%");
+                binding.weatherProp5HeadlineTv.setText("Wind Speed: ");
+                binding.weatherProp5Tv.setText(data.windSpeed+" meter/sec");
                 break;
             case "Tennis":
-                prop1Headline.setText("Wind Speed: ");
-                prop1.setText(data.windSpeed+" meter/sec");
-                prop2Headline.setText("Wind Direction: ");
-                prop2.setText(data.windDirection);
-                prop3Headline.setText("description: ");
-                prop3.setText(data.weatherDescription);
-                prop4Headline.setText("rain chance today: ");
-                prop4.setText(oceanData.getChanceOfRain() + "%");
-                prop5Headline.setText("Feels like: ");
-                prop5.setText(oceanData.getFeelsLikeC() + " °C");
+                binding.weatherProp1HeadlineTv.setText("Wind Speed: ");
+                binding.weatherProp1Tv.setText(data.windSpeed+" meter/sec");
+                binding.weatherProp2HeadlineTv.setText("Wind Direction: ");
+                binding.weatherProp2Tv.setText(data.windDirection);
+                binding.weatherProp3HeadlineTv.setText("description: ");
+                binding.weatherProp3Tv.setText(data.weatherDescription);
+                binding.weatherProp4HeadlineTv.setText("rain chance today: ");
+                binding.weatherProp4Tv.setText(oceanData.getChanceOfRain() + "%");
+                binding.weatherProp5HeadlineTv.setText("Feels like: ");
+                binding.weatherProp5Tv.setText(oceanData.getFeelsLikeC() + " °C");
                 break;
             default:
                 // do something for any other activity
@@ -231,7 +214,7 @@ public class WeatherStatusFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        pb.setVisibility(View.VISIBLE);
+        binding.weatherProgressBar.setVisibility(View.VISIBLE);
         reloadData(email);
 
     }
@@ -241,8 +224,16 @@ public class WeatherStatusFragment extends Fragment {
         Model.instance().getAllUsers((userList)->{
             user=Model.instance().getUserByEmail(userList,email);
             data=Weather.getWeatherDataForCity(user.getCity());
-            updateUI(data);
-            pb.setVisibility(View.GONE);
+            if(data!=null){
+                // If weather data is found, update the UI
+                updateUI(data);
+            }
+            else{
+                // If weather data is not found, show a Toast message
+                Toast.makeText(getActivity().getApplicationContext(), "Invalid city ", Toast.LENGTH_LONG).show();
+            }
+            // Hide the progress bar after data has been loaded
+            binding.weatherProgressBar.setVisibility(View.GONE);
 
         });
 

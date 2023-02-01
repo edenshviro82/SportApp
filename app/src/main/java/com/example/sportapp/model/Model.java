@@ -58,6 +58,7 @@ public class Model {
         firebaseModel.getAllUsers(callback);
     }
 
+
     public User getUserByEmail(List<User> users, String email){
       for(User u:users)
         {

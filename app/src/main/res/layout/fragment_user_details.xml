@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".MyReviewDetailsFragment">
+    tools:context=".UserDetailsFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card3"
@@ -24,53 +23,36 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="12dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="1dp">
 
+
             <TextView
-                android:id="@+id/MyReviewDetailsFragment_tv_description"
-                android:layout_width="127dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/UserDetailsFragment_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="casual"
-                android:text="Description:"
+                android:text="Name:"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="8dp"
-                android:textAlignment="center"
+            <TextView
+                android:id="@+id/UserDetailsFragment_tv_edit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/MyReviewDetailsFragment_tv_description">
+                app:layout_constraintStart_toEndOf="@+id/UserDetailsFragment_tv_name"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/MyReviewDetailsFragment_tv_edit_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="text"
-                        android:textAlignment="center"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-            </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -87,7 +69,7 @@
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MyReviewDetailsFragment_review_imageview"
+        app:layout_constraintTop_toBottomOf="@+id/UserDetailsFragment_review_imageview"
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,7 +80,7 @@
             android:layout_marginBottom="1dp">
 
             <TextView
-                android:id="@+id/MyReviewDetailsFragment_tv_city"
+                android:id="@+id/UserDetailsFragment_tv_city"
                 android:layout_width="70dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -113,14 +95,14 @@
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/MyReviewDetailsFragment_tv_edit_city"
+                android:id="@+id/UserDetailsFragment_tv_edit_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="text"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/MyReviewDetailsFragment_tv_city"
+                app:layout_constraintStart_toEndOf="@+id/UserDetailsFragment_tv_city"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -149,7 +131,7 @@
             android:layout_marginBottom="1dp">
 
             <TextView
-                android:id="@+id/MyReviewDetailsFragment_tv_sport"
+                android:id="@+id/UserDetailsFragment_tv_sport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -164,16 +146,14 @@
 
 
             <TextView
-                android:id="@+id/MyReviewDetailsFragment_tv_edit_sport"
+                android:id="@+id/UserDetailsFragment_tv_edit_sport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:text="text"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/MyReviewDetailsFragment_tv_sport"
+                app:layout_constraintStart_toEndOf="@+id/UserDetailsFragment_tv_sport"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -181,17 +161,17 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/MyReviewDetailsFragment_review_imageview"
+        android:id="@+id/UserDetailsFragment_review_imageview"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MyReviewDetailsFragment_details_tv_edit_mail" />
+        app:layout_constraintTop_toBottomOf="@+id/UserDetailsFragment_details_tv_edit_mail" />
 
 
     <TextView
-        android:id="@+id/MyReviewDetailsFragment_details_tv_edit_mail"
+        android:id="@+id/UserDetailsFragment_details_tv_edit_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -205,18 +185,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/MyReviewDetailsFragment_edit_btn"
+        android:id="@+id/UserDetailsFragment_edit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:text="Edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.354"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card3" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

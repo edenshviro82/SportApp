@@ -2,17 +2,12 @@ package com.example.sportapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
-
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+import android.os.Bundle;;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -21,7 +16,6 @@ public class IntroductionActivity extends AppCompatActivity {
     ImageView logo, splash;
     LottieAnimationView lottieAnimationView;
     TextView sport, app;
-    NavController navController;
     FirebaseAuth firebaseAuth;
     Intent i;
 

@@ -1,13 +1,9 @@
 package com.example.sportapp;
 
-import static android.content.Intent.getIntent;
-
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -18,10 +14,7 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,34 +23,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.sportapp.databinding.FragmentEditUserBinding;
 import com.example.sportapp.model.Model;
 import com.example.sportapp.model.User;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 
 public class EditUserFragment extends Fragment {
     FragmentEditUserBinding binding;
-    Button SignInBtn;
-    private NavDirections action;
-    String email;
-    Button saveBtn,cancelBtn;
-    Spinner sportSpinner;
-    String sport;
+    String email, sport;
     EditUserFragmentViewModel viewModel;
     User newUser;
-    ProgressBar pb;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
-    FirebaseAuth firebaseAuth =  FirebaseAuth.getInstance();
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +48,7 @@ public class EditUserFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menu.removeItem(R.id.editUserFragment);
+                menu.removeItem(R.id.userDetailsFragment);
             }
 
             @Override
@@ -106,18 +86,13 @@ public class EditUserFragment extends Fragment {
 
         binding = FragmentEditUserBinding.inflate(inflater, container, false);
         viewModel=new EditUserFragmentViewModel();
-        saveBtn=   binding.getRoot().findViewById(R.id.edit_user_save_btn);
-        cancelBtn= binding.getRoot().findViewById(R.id.edit_user_cancel_btn);
         email = EditUserFragmentArgs.fromBundle(getArguments()).getUserEmail();
-        pb=binding.getRoot().findViewById(R.id.editUser_progressBar);
-        pb.setVisibility(View.GONE);
+        binding.editUserProgressBar.setVisibility(View.GONE);
 
         ArrayAdapter adapter=new ArrayAdapter(getActivity().getApplicationContext(),R.layout.drop_down_item,viewModel.getType());
-        sportSpinner=binding.getRoot().findViewById(R.id.edit_user_sport_spinner2);
-        sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.editUserSportSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(),viewModel.getType()[i],Toast.LENGTH_LONG).show();
                 sport=viewModel.getType()[i];
             }
             @Override
@@ -125,11 +100,11 @@ public class EditUserFragment extends Fragment {
 
             }
         });
-        sportSpinner.setAdapter(adapter);
+        binding.editUserSportSpinner2.setAdapter(adapter);
 
 
         Model.instance().getAllUsers((allUsers)-> {
-            newUser = Model.instance().getUserByEmail(allUsers, email);
+            User newUser = Model.instance().getUserByEmail(allUsers, email);
             if (newUser.getImg()!= null && !newUser.getImg().equals("")) {
 
                 Picasso.get().load(newUser.getImg()).placeholder(R.drawable.addpic).into(binding.editUserAvatarImg);
@@ -139,13 +114,13 @@ public class EditUserFragment extends Fragment {
         });
 
 
-        saveBtn.setOnClickListener((view -> {
-            pb.setVisibility(View.VISIBLE);
+        binding.editUserSaveBtn.setOnClickListener((view -> {
+            binding.editUserProgressBar.setVisibility(View.VISIBLE);
 
            String name= binding.editUserNameInputEt.getText().toString();
            String city= binding.editUserCityInputEt.getText().toString();
 
-           newUser= new User();
+
            Model.instance().getAllUsers((allUsers)->{
               newUser= Model.instance().getUserByEmail(allUsers,email);
               if(!city.equals(""))
@@ -165,14 +140,14 @@ public class EditUserFragment extends Fragment {
                           newUser.setImg(url);
                       }
                       Model.instance().addUser(newUser,()->{
-                          pb.setVisibility(View.GONE);
+                          binding.editUserProgressBar.setVisibility(View.GONE);
                           Navigation.findNavController(view).popBackStack();
 
                       });
                   });
               }else {
                   Model.instance().addUser(newUser,()->{
-                      pb.setVisibility(View.GONE);
+                      binding.editUserProgressBar.setVisibility(View.GONE);
                       Navigation.findNavController(view).popBackStack();
 
                   });
@@ -190,7 +165,7 @@ public class EditUserFragment extends Fragment {
             galleryLauncher.launch("media/*");
         });
 
-        cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
+        binding.editUserCancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
 
 
 

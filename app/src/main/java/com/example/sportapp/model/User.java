@@ -21,12 +21,12 @@ public class User {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-     public int userId;
-     String email="";
-     String name="";
-     String city="";
-     String sport="";
-     String img="";
+    public int userId;
+    String email="";
+    String name="";
+    String city="";
+    String sport="";
+    String img="";
 
 
     public User() {}

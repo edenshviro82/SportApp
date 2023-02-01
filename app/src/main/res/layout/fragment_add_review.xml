@@ -70,7 +70,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
-                android:hint="City"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"
                 tools:ignore="MissingConstraints"></Spinner>

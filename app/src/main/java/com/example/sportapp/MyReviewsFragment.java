@@ -10,8 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +25,9 @@ import java.util.List;
 public class MyReviewsFragment extends Fragment {
 
 
-    RecyclerView list;
     MyReviewsFragment.ReviewRecyclerAdapter adapter;
     String email;
     @NonNull FragmentMyReviewsBinding binding;
-    SwipeRefreshLayout sw;
     MyReviewsFragmentViewModel viewModel;
 
     @Override
@@ -46,42 +42,35 @@ public class MyReviewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Your Reviews");
-        View view = inflater.inflate(R.layout.fragment_my_reviews, container, false);
         binding= FragmentMyReviewsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
 
         email = MyReviewsFragmentArgs.fromBundle(getArguments()).getUserEmail();
-       Log.d("TAG",email);
-        sw=view.findViewById(R.id.my_reviews_swipeRefresh);
-        list = view.findViewById(R.id.myReviews_recycler);
-        list.setHasFixedSize(true);
 
-        list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
+        binding.myReviewsRecycler.setHasFixedSize(true);
+        binding.myReviewsRecycler.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
         adapter = new MyReviewsFragment.ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
-
-        list.setAdapter(adapter);
+        binding.myReviewsRecycler.setAdapter(adapter);
 
         viewModel.getData().observe(getViewLifecycleOwner(),list->{
             adapter.setData(viewModel.getMyData(list,email));
         });
 
         Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
-            sw.setRefreshing(status == Model.LoadingState.LOADING);
+            binding.myReviewsSwipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
         });
 
-        sw.setOnRefreshListener(()->{
+        binding.myReviewsSwipeRefresh.setOnRefreshListener(()->{
             reloadData();
-            Log.d("TAG", "refresh");
-
         });
 
         adapter.setOnItemClickListener((int pos)-> {
-                    Log.d("TAG", "Row was clicked " + pos);
                     Review re = viewModel.getMyData(email).get(pos);
                     MyReviewsFragmentDirections.ActionMyReviewsFragmentToMyReviewDetailsFragment action = MyReviewsFragmentDirections.actionMyReviewsFragmentToMyReviewDetailsFragment(pos,re.getEmailOfOwner());
                     Navigation.findNavController(view).navigate(action);
                 }
         );
-
         return view;
 
     }
@@ -101,14 +90,12 @@ public class MyReviewsFragment extends Fragment {
     class MyReviewsViewHolder extends RecyclerView.ViewHolder{
         TextView cityTV;
         TextView sportTV;
-      //  TextView descriptionTV;
         ImageView avatarImg;
 
         public MyReviewsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             cityTV = itemView.findViewById(R.id.allReviewsRow_city);
             sportTV = itemView.findViewById(R.id.allReviewsRow_sport_tv);
-        //    descriptionTV = itemView.findViewById(R.id.allReviewsRow_description_tv);
             avatarImg = itemView.findViewById(R.id.allReviewsRow_avatar_img);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +110,6 @@ public class MyReviewsFragment extends Fragment {
         public void bind(Review re, int pos) {
             cityTV.setText(re.getCity());
             sportTV.setText(re.getSport());
-        //    descriptionTV.setText(re.getDescription());
             if (re.getImg()!= null && !re.getImg().equals("")) {
                 Picasso.get().load(re.getImg()).placeholder(R.drawable.no_photo).into(avatarImg);
             }else{
