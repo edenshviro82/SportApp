@@ -105,11 +105,11 @@ public class Model {
             executor.execute(()->{
                 Log.d("TAG", " firebase return : " + list.size());
                 Long time = localLastUpdate;
-                for(Review st:list){
+                for(Review re:list){
                     // insert new records into ROOM
-                    localDb.reviewDao().insertAll(st);
-                    if (time < st.getLastUpdated()){
-                        time = st.getLastUpdated();
+                    localDb.reviewDao().insertAll(re);
+                    if (time < re.getLastUpdated()){
+                        time = re.getLastUpdated();
                     }
                 }
                 // update local last update
